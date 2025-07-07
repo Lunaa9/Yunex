@@ -1,0 +1,35 @@
+<!-- authorization form -->
+<div class="modal fade" id="modalauth" data-bs-backdrop="static"  aria-hidden="true" aria-labelledby="modalauthLabel" tabindex="-1">
+    <form  (ngSubmit)="handleSubmit()" id="form">
+      <div class="modal-dialog modal-dialog-centered ">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="modalauthLabel">Aprobar</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="close()"></button>
+          </div>
+          <div class="modal-body">
+            <div class="form-group mb-3">
+                <label for="exampleSelect2" class="form-label"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> Aprobar</font></font></label>
+                <select 
+                    type="boolean"
+                    id="approved" 
+                    name="approved" 
+                    class="form-select" 
+                    required
+                    [(ngModel)]="incidenceToShow.approved" 
+                    >
+                    <option value=true><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">aprobado</font></font></option>
+                    <option value=false><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">no aprobardo</font></font></option>    
+                </select>
+            </div>
+        </div>
+        <div class="modal-footer">
+          <div class="d-grid" style=" justify-content: end; ">
+            <button class="btn" style="background-color: #00E676; border: none; " type="submit">aceptar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+

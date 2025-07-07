@@ -1,0 +1,139 @@
+<div *ngIf="selectedSecurity === 'security1'">
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="container mt-4">
+  
+    <div class="row mb-3">
+      <div class="col-md-3">
+        <label for="brakingSystem" class="form-label">Sistema de frenado</label>
+        <select id="brakingSystem" formControlName="brakingSystem" class="form-select form-select-lg">
+          <option *ngFor="let option of options" [value]="option.value">{{option.label}}</option>
+        </select>
+      </div>
+  
+      <div class="col-md-3">
+        <label for="steeringSystem" class="form-label">Sistema de dirección</label>
+        <select id="steeringSystem" formControlName="steeringSystem" class="form-select form-select-lg">
+          <option *ngFor="let option of options" [value]="option.value">{{option.label}}</option>
+        </select>
+      </div>
+  
+      <div class="col-md-3">
+        <label for="suspensionSystem" class="form-label">Sistema de suspención</label>
+        <select id="suspensionSystem" formControlName="suspensionSystem" class="form-select form-select-lg">
+          <option *ngFor="let option of options" [value]="option.value">{{option.label}}</option>
+        </select>
+      </div>
+  
+      <div class="col-md-3">
+        <label for="tires" class="form-label">Neumaticos</label>
+        <select id="tires" formControlName="tires" class="form-select form-select-lg">
+          <option *ngFor="let option of options" [value]="option.value">{{option.label}}</option>
+        </select>
+      </div>
+    </div>
+  
+    <div class="row mb-3">
+      <div class="col-md-3">
+        <label for="lightning" class="form-label">Iluminación</label>
+        <select id="lightning" formControlName="lightning" class="form-select form-select-lg">
+          <option *ngFor="let option of options" [value]="option.value">{{option.label}}</option>
+        </select>
+      </div>
+  
+      <div class="col-md-3">
+        <label for="electricSystem" class="form-label">Sistema Eléctrico</label>
+        <select id="electricSystem" formControlName="electricSystem" class="form-select form-select-lg">
+          <option *ngFor="let option of options" [value]="option.value">{{option.label}}</option>
+        </select>
+      </div>
+  
+      <div class="col-md-3">
+        <label for="airConditioning" class="form-label">Climatización</label>
+        <select id="airConditioning" formControlName="airConditioning" class="form-select form-select-lg">
+          <option *ngFor="let option of options" [value]="option.value">{{option.label}}</option>
+        </select>
+      </div>
+  
+      <div class="col-md-3">
+        <label for="mirrors" class="form-label">Espejos</label>
+        <select id="mirrors" formControlName="mirrors" class="form-select form-select-lg">
+          <option *ngFor="let option of options" [value]="option.value">{{option.label}}</option>
+        </select>
+      </div>
+    </div>
+  
+    <div class="row mb-3">
+      <div class="col-md-3">
+        <label for="stabilityControlSystem" class="form-label">Sistema control estabilidad</label>
+        <select id="stabilityControlSystem" formControlName="stabilityControlSystem" class="form-select form-select-lg">
+          <option *ngFor="let option of options" [value]="option.value">{{option.label}}</option>
+        </select>
+      </div>
+    </div>
+  
+    <div class="row">
+      <div class="col-md-12 text-center">
+        <button type="submit" class="btn btn-primary btn-lg">Enviar</button>
+      </div>
+    </div>
+  </form>
+</div>
+
+
+  <!-- seguridad pasiva -->
+  <div *ngIf="selectedSecurity === 'security2'">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="container mt-3">
+    <div class="row mb-3">
+      <div class="col-md-3">
+        <label for="seatBelts" class="form-label">Cinturones de seguridad</label>
+        <select id="seatBelts" formControlName="seatBelts" class="form-select form-select-lg">
+          <option *ngFor="let option of options" [value]="option.value">{{option.label}}</option>
+        </select>
+      </div>
+  
+      <div class="col-md-3">
+        <label for="airBags" class="form-label">Airbags</label>
+        <select id="airBags" formControlName="airBags" class="form-select form-select-lg">
+          <option *ngFor="let option of options" [value]="option.value">{{option.label}}</option>
+        </select>
+      </div>
+  
+      <div class="col-md-3">
+        <label for="chassisAndBody" class="form-label">Chasis y carrocería</label>
+        <select id="chassisAndBody" formControlName="chassisAndBody" class="form-select form-select-lg">
+          <option *ngFor="let option of options" [value]="option.value">{{option.label}}</option>
+        </select>
+      </div>
+    </div>
+  
+    <div class="row mb-3">
+      <div class="col-md-3">
+        <label for="windshieldGlass" class="form-label">Cristales parabrisas</label>
+        <select id="windshieldGlass" formControlName="windshieldGlass" class="form-select form-select-lg">
+          <option *ngFor="let option of options" [value]="option.value">{{option.label}}</option>
+        </select>
+      </div>
+  
+      <div class="col-md-3">
+        <label for="headrest" class="form-label">Reposacabezas</label>
+        <select id="headrest" formControlName="headrest" class="form-select form-select-lg">
+          <option *ngFor="let option of options" [value]="option.value">{{option.label}}</option>
+        </select>
+      </div>
+  
+      <div class="col-md-3">
+        <label for="roadKit" class="form-label">Kit de carretera</label>
+        <select id="roadKit" formControlName="roadKit" class="form-select form-select-lg">
+          <option *ngFor="let option of options" [value]="option.value">{{option.label}}</option>
+        </select>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12 text-center">
+        <button type="submit" class="btn btn-primary btn-lg">Enviar</button>
+      </div>
+    </div>
+  </form>
+  </div>
+  
+  
+  

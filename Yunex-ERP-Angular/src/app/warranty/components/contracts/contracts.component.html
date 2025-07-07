@@ -1,0 +1,51 @@
+<!-- The void component -->
+<app-void *ngIf="void"></app-void>
+<!-- The card info of each contract -->
+<div class="container" *ngIf="contractList.length > 0">
+  <ul class="list-group p-2">
+    <li
+      class="list-group-item mb-4 shadow-sm"
+      *ngFor="let contract of contractList"
+    >
+      <div
+        class="row d-flex justify-content-between align-items-center"
+        (click)="getOneContract(contract)"
+      >
+        <div
+          class="col-5 d-flex p-2 m-4 bg-light align-items-center p-3 rounded-2"
+          style="flex-wrap: wrap"
+        >
+          <h1 class="me-5 pl-2 text-primary">{{ contract.clientName }}</h1>
+          <h5 class="justify-item-end">{{ contract.contractName }}</h5>
+        </div>
+        <div
+          class="col border border-primary rounded-4 flex-column align-items-center p-1 me-4"
+          style="background-color: #e2edf3"
+        >
+          <p>Fecha inicio de garantía</p>
+          <h5>{{ contract.initWarranty }}</h5>
+        </div>
+        <div
+          class="col border rounded-4 flex-column align-items-center p-1"
+          [ngClass]="{
+            'border-danger': contract.activeWarranty === false,
+            'border-success': contract.activeWarranty === true,
+            'bg-success-subtle': contract.activeWarranty === true,
+            'bg-danger-subtle': contract.activeWarranty === false
+          }"
+        >
+          <p>Fecha fin de garantía</p>
+          <h5>{{ contract.endWarranty }}</h5>
+        </div>
+      </div>
+      <span
+        class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+        *ngIf="contract.activeWarranty"
+        (click)="deactivateWarranty(contract)"
+      >
+        --
+      </span>
+    </li>
+  </ul>
+  <br />
+</div>

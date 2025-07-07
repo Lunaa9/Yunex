@@ -1,0 +1,31 @@
+import { Module } from "./module.interface";
+
+export interface LabIncidence {
+    showFullProcedure?: boolean;
+    ticket: string,
+    admissionDate: string,
+    module: Module,
+    equipment: string,
+    sticker:string,
+    status: string,
+    approved:false,
+    city: string,
+    comments: string,
+    contractNumber: string,
+    client: string,
+    sender: string,
+    warranty: string,
+    expectedOutDate: string,
+    repairCenterResponsable: string,
+    servicesResponsable: string,
+    realOutDate: string,
+    outDateCompliance: boolean,
+    estimatedRepairTime: number,
+    realRepairTime: number,
+    repairTimeCompliance: boolean,
+    year: number,
+    failure: string,
+    repairProcedure: string,
+    repairTechnician: string,
+    activity:string
+}

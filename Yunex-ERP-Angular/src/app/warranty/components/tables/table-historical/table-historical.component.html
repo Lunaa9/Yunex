@@ -1,0 +1,52 @@
+<!-- historical component -->
+<app-ticket-historical *ngIf="historical"></app-ticket-historical>
+<div class="bg-light rounded-3 p-3">
+  <!-- table controllers -->
+  <div class="row py-2 align-items-center d-flex">
+      <h4 class="col-6 fw-bold" style="color: #00e676;">HISTORIAL DE TICKETS</h4>
+      <form class="col d-flex justify-content-end container-lg">
+          <input class="rounded-3 p-2 custBorder" 
+              type="search" 
+              placeholder="Buscar"
+              [(ngModel)]="filterTable"
+              (ngModelChange)="page=0" 
+              name="filterTable"
+              style="max-width: 170px;border-color: #afb9be;" >
+      </form>
+      <ul class="pagination col justify-content-end m-0" style="max-width: 100px;">
+          <li class="me-1">
+              <button class="btn btn-outline-primary" (click)="page=page-4" [disabled]="(page-4)<0">&laquo;</button>
+          </li>
+          <li class="me-1">
+              <button class="btn btn-outline-primary" (click)="page=page+4" [disabled]="(tickets.length-(page+4))<=0">&raquo;</button>
+          </li>
+      </ul>
+  </div>
+  <!-- historical table -->
+  <div class="d-flex resTable">
+      <table class="table m-3 pb-3 bg-white align-middle text-center">
+          <thead>
+              <tr class="table-light">
+                  <th scope="col" class="headTable">Ticket</th>
+                  <th scope="col" class="headTable">Módulo</th>
+                  <th scope="col" class="headTable">Fecha de petición</th>
+                  <th scope="col" class="headTable">Fin del proceso</th>
+                  <th scope="col" class="headTable">Archivos</th>
+              </tr>
+          </thead>
+          <tbody>
+              <tr *ngFor="let ticket of tickets | historical:filterTable:page">
+                  <td>{{ticket.ticket}}</td>
+                  <td>{{ticket.module.serial}}</td>
+                  <td>{{ticket.startRequestDate}}</td>
+                  <td>{{ticket.realEndDate}}<h6 *ngIf="!ticket.realEndDate">En proceso</h6></td>
+                  <td class="text-center">
+                    <button class="btn" (click)="openHistorical(ticket.ticket)">
+                        <img src="../../../../assets/img/folder.png" alt="Archivos" height="25px">
+                    </button>
+                  </td>
+              </tr>
+          </tbody>
+      </table>
+  </div>
+</div>

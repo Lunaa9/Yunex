@@ -1,0 +1,200 @@
+<div class="modal-content">
+  <form [formGroup]="vehicleForm" (ngSubmit)="onSubmit()">
+    <div class="form-grid">
+      <!-- Campo Placa -->
+      <div class="form-group">
+        <label for="placa">Placa</label>
+        <input type="text" id="placa" class="form-control" formControlName="licensePlate" />
+        <div *ngIf="vehicleForm.get('licensePlate')?.touched && vehicleForm.get('licensePlate')?.invalid" class="text-danger">
+          <small *ngIf="vehicleForm.get('licensePlate')?.errors?.['required']">La placa es requerida.</small>
+          <small *ngIf="vehicleForm.get('licensePlate')?.errors?.['pattern']">La placa debe tener 3 letras seguidas de 3 números.</small>
+        </div>
+      </div>
+      
+      <!-- Campo Propietario -->
+      <div class="form-group">
+        <label for="propietario">Propietario</label>
+        <input type="text" id="propietario" class="form-control" formControlName="owner" />
+        <div *ngIf="vehicleForm.get('owner')?.touched && vehicleForm.get('owner')?.invalid" class="text-danger">
+          <small *ngIf="vehicleForm.get('owner')?.errors?.['required']">El propietario es requerido.</small>
+        </div>
+      </div>
+      
+      <!-- Campo Licencia de Transporte -->
+      <div class="form-group">
+        <label for="licenciaTransito">Licencia de Transporte</label>
+        <input type="text" id="licenciaTransito" class="form-control" formControlName="transitLicense" />
+        <div *ngIf="vehicleForm.get('transitLicense')?.touched && vehicleForm.get('transitLicense')?.invalid" class="text-danger">
+          <small *ngIf="vehicleForm.get('transitLicense')?.errors?.['required']">La licencia de transporte es requerida.</small>
+        </div>
+      </div>
+      
+      <!-- Campo Marca -->
+      <div class="form-group">
+        <label for="marca">Marca</label>
+        <select id="marca" class="form-control" formControlName="brand">
+          <option *ngFor="let brand of brands" [value]="brand">{{ brand }}</option>
+        </select>
+        <div *ngIf="vehicleForm.get('brand')?.touched && vehicleForm.get('brand')?.invalid">
+          <small *ngIf="vehicleForm.get('brand')?.errors?.['required']">La marca es obligatoria.</small>
+        </div>
+      </div>
+      
+      <!-- Campo Línea de Modelo -->
+      <div class="form-group">
+        <label for="linea">Línea de Modelo</label>
+        <input type="text" id="linea" class="form-control" formControlName="modelLine" />
+        <div *ngIf="vehicleForm.get('modelLine')?.touched && vehicleForm.get('modelLine')?.invalid" class="text-danger">
+          <small *ngIf="vehicleForm.get('modelLine')?.errors?.['required']">La línea de modelo es requerida.</small>
+        </div>
+      </div>
+      
+      <!-- Campo Clase de Vehículo -->
+      <div class="form-group">
+        <label for="claseVehiculo">Clase de Vehículo</label>
+        <select id="claseVehiculo" class="form-control" formControlName="vehicleClass">
+          <option *ngFor="let vehicleClass of vehicleClasses" [value]="vehicleClass">{{ vehicleClass }}</option>
+        </select>
+        <div *ngIf="vehicleForm.get('vehicleClass')?.touched && vehicleForm.get('vehicleClass')?.invalid">
+          <small *ngIf="vehicleForm.get('vehicleClass')?.errors?.['required']">La clase de vehículo es obligatoria.</small>
+        </div>
+      </div>
+      
+      <!-- Campo Año del Modelo -->
+      <div class="form-group">
+        <label for="modelo">Año del Modelo</label>
+        <input type="number" id="modelo" class="form-control" formControlName="yearModel" />
+        <div *ngIf="vehicleForm.get('yearModel')?.touched && vehicleForm.get('yearModel')?.invalid">
+          <small *ngIf="vehicleForm.get('yearModel')?.errors?.['required']">El año del modelo es obligatorio.</small>
+          <small *ngIf="vehicleForm.get('yearModel')?.errors?.['min']">El año del modelo no puede ser menor a 1900.</small>
+          <small *ngIf="vehicleForm.get('yearModel')?.errors?.['max']">El año del modelo no puede ser mayor al año actual.</small>
+        </div>
+      </div>
+      <!-- Campo Número de VIN -->
+      <div class="form-group">
+        <label for="numeroVin">Número de VIN</label>
+        <input type="text" id="numeroVin" class="form-control" formControlName="vinNumber" />
+        <div *ngIf="vehicleForm.get('vinNumber')?.touched && vehicleForm.get('vinNumber')?.invalid">
+          <small *ngIf="vehicleForm.get('vinNumber')?.errors?.['required']">El número de VIN es obligatorio.</small>
+          <small *ngIf="vehicleForm.get('vinNumber')?.errors?.['minlength']">El número de VIN debe tener al menos 17 caracteres.</small>
+          <small *ngIf="vehicleForm.get('vinNumber')?.errors?.['maxlength']">El número de VIN no puede tener más de 17 caracteres.</small>
+        </div>
+      </div>
+
+      
+      <!-- Campo Número de Motor -->
+      <div class="form-group">
+        <label for="numeroMotor">Número de Motor</label>
+        <input type="text" id="numeroMotor" class="form-control" formControlName="engineNumber" />
+        <div *ngIf="vehicleForm.get('engineNumber')?.touched && vehicleForm.get('engineNumber')?.invalid" class="text-danger">
+          <small *ngIf="vehicleForm.get('engineNumber')?.errors?.['required']">El número de motor es requerido.</small>
+        </div>
+      </div>
+      
+      <!-- Campo Kilometraje -->
+      <div class="form-group">
+        <label for="kilometraje">Kilometraje</label>
+        <input type="number" id="kilometraje" class="form-control" formControlName="mileage" />
+        <div *ngIf="vehicleForm.get('mileage')?.touched && vehicleForm.get('mileage')?.invalid" class="text-danger">
+          <small *ngIf="vehicleForm.get('mileage')?.errors?.['required']">El kilometraje es requerido.</small>
+        </div>
+      </div>
+      
+      <!-- Campo Tipo de Combustible -->
+      <div class="form-group">
+        <label for="tipoCombustible">Tipo de Combustible</label>
+        <select id="tipoCombustible" class="form-control" formControlName="fuelType">
+          <option *ngFor="let fuelType of fuelTypes" [value]="fuelType">{{ fuelType }}</option>
+        </select>
+        <div *ngIf="vehicleForm.get('fuelType')?.touched && vehicleForm.get('fuelType')?.invalid" class="text-danger">
+          <small *ngIf="vehicleForm.get('fuelType')?.errors?.['required']">El tipo de combustible es requerido.</small>
+        </div>
+      </div>
+
+      
+      <!-- Campo Organismo de Tránsito -->
+      <div class="form-group">
+        <label for="organismoTransito">Organismo de Tránsito</label>
+        <input type="text" id="organismoTransito" class="form-control" formControlName="transitAuthority" />
+        <div *ngIf="vehicleForm.get('transitAuthority')?.touched && vehicleForm.get('transitAuthority')?.invalid" class="text-danger">
+          <small *ngIf="vehicleForm.get('transitAuthority')?.errors?.['required']">El organismo de tránsito es requerido.</small>
+        </div>
+      </div>
+
+      <!-- Seguro Obligatorio -->
+      <div class="form-group mt-2" formGroupName="mandatoryInsurance">
+        <div class="recuadro-titulo">
+          <h6>Seguro Obligatorio</h6>
+        </div>
+        <div class="recuadro">
+          <label for="mandatoryInsuranceNumber">Número</label>
+          <input id="mandatoryInsuranceNumber" type="text" class="form-control mt-2" required formControlName="number" />
+          <label for="mandatoryInsuranceIssuanceDate">Fecha de Emisión</label>
+          <input id="mandatoryInsuranceIssuanceDate" type="date" class="form-control" formControlName="issuanceDate" />
+          <label for="mandatoryInsuranceExpirationDate">Fecha de Vencimiento</label>
+          <input id="mandatoryInsuranceExpirationDate" type="date" class="form-control" formControlName="expirationDate" />
+          <div *ngIf="vehicleForm.get('mandatoryInsurance')?.hasError('dateRangeInvalid')" class="text-danger">
+            La fecha de emisión no puede ser mayor a la fecha de vencimiento.
+          </div>
+        </div>
+      </div>
+      
+      <!-- Añadir mensajes de error para fechas inválidas en comprehensiveInsurance -->
+      <div class="form-group mt-2" formGroupName="comprehensiveInsurance">
+        <div class="recuadro-titulo">
+          <h6>Poliza todo riesgo</h6>
+        </div>
+        <div class="recuadro">
+          <label for="comprehensiveInsuranceNumber">Número</label>
+          <input id="comprehensiveInsuranceNumber" type="text" class="form-control mt-2" required formControlName="number" />
+          <label for="comprehensiveInsuranceIssuanceDate">Fecha de Emisión</label>
+          <input id="comprehensiveInsuranceIssuanceDate" type="date" class="form-control" formControlName="issuanceDate" />
+          <label for="comprehensiveInsuranceExpirationDate">Fecha de Vencimiento</label>
+          <input id="comprehensiveInsuranceExpirationDate" type="date" class="form-control" formControlName="expirationDate" />
+          <div *ngIf="vehicleForm.get('comprehensiveInsurance')?.hasError('dateRangeInvalid')" class="text-danger">
+            La fecha de emisión no puede ser mayor a la fecha de vencimiento.
+          </div>
+        </div>
+      </div>
+      
+      <!-- Añadir mensajes de error para fechas inválidas en mechanicalReview -->
+      <div class="form-group mt-2" formGroupName="mechanicalReview">
+        <div class="recuadro-titulo">
+          <h6>Revisión Tecnomecánica</h6>
+        </div>
+        <div class="recuadro">
+          <label for="mechanicalReviewNumber">Número</label>
+          <input id="mechanicalReviewNumber" type="text" class="form-control mt-2" required formControlName="number" />
+          <label for="mechanicalReviewIssuanceDate">Fecha de Emisión</label>
+          <input id="mechanicalReviewIssuanceDate" type="date" class="form-control" formControlName="issuanceDate" />
+          <label for="mechanicalReviewExpirationDate">Fecha de Vencimiento</label>
+          <input id="mechanicalReviewExpirationDate" type="date" class="form-control" formControlName="expirationDate" />
+          <div *ngIf="vehicleForm.get('mechanicalReview')?.hasError('dateRangeInvalid')" class="text-danger">
+            La fecha de emisión no puede ser mayor a la fecha de vencimiento.
+          </div>
+        </div>
+      </div>
+      
+      <!-- Añadir mensajes de error para fechas inválidas en articulatedBoomReview -->
+      <div class="form-group mt-2" formGroupName="articulatedBoomReview">
+        <div class="recuadro-titulo">
+          <h6>Revisión de Pluma</h6>
+        </div>
+        <div class="recuadro">
+          <label for="articulatedBoomReviewNumber">Número</label>
+          <input id="articulatedBoomReviewNumber" type="text" class="form-control mt-2" required formControlName="number" />
+          <label for="articulatedBoomReviewIssuanceDate">Fecha de Emisión</label>
+          <input id="articulatedBoomReviewIssuanceDate" type="date" class="form-control" formControlName="issuanceDate" />
+          <label for="articulatedBoomReviewExpirationDate">Fecha de Vencimiento</label>
+          <input id="articulatedBoomReviewExpirationDate" type="date" class="form-control" formControlName="expirationDate" />
+          <div *ngIf="vehicleForm.get('articulatedBoomReview')?.hasError('dateRangeInvalid')" class="text-danger">
+            La fecha de emisión no puede ser mayor a la fecha de vencimiento.
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">Crear</button>
+      </div>
+    </div>
+  </form>
+</div>

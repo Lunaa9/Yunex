@@ -1,0 +1,20 @@
+<app-layout>
+    <div class="container">
+      <div class="card">
+        <div class="card-header row">
+          <div class=" col d-flex "><h1>Usuarios</h1></div>
+          <div  class=" col d-flex justify-content-end mt-2 ">
+            <app-add-user class="me-3"></app-add-user>
+            <div>      
+              <button class="btn btn-primary"  data-bs-target="#modaledituser3" data-bs-toggle="modal">
+                <img class="" src="../../../../assets/img/pencil-square.svg">
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="card-body" style="padding: 4%;">
+          <app-table-users></app-table-users>
+        </div>
+      </div>
+    </div>
+</app-layout>

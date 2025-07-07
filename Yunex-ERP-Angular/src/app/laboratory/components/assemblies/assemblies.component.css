@@ -1,0 +1,25 @@
+
+    .resTable{
+        overflow-x: scroll;
+    }
+    .resTable::-webkit-scrollbar{
+        height: 10px;
+    }
+    .resTable::-webkit-scrollbar-thumb{
+        display:none;
+    }
+    .resTable::-webkit-scrollbar-track{
+        background-color: rgba(200, 226, 230, 0.891);
+        height: 10px;
+    }
+
+
+.up-arrow{
+    transform: rotate(-90deg);
+    height: 15px;
+}
+
+.down-arrow{
+    transform: rotate(90deg);
+    height: 15px;
+}

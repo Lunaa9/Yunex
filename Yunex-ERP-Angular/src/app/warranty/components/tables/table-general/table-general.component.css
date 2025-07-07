@@ -1,0 +1,19 @@
+.circle{
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+}
+@media (max-width:991px ){
+    .resTable{
+        overflow-y: scroll;
+    }
+    .resTable::-webkit-scrollbar{
+        width: 5px;
+    }
+    .resTable::-webkit-scrollbar-thumb{
+        display:none;
+    }
+    .resTable::-webkit-scrollbar-track{
+        background-color: rgba(255, 255, 255, 0.5);
+    }
+}

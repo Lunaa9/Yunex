@@ -1,0 +1,115 @@
+<!-- void component -->
+<app-void *ngIf="void"></app-void>
+<!-- crud modules component -->
+<app-crud-modules *ngIf="showCrud"></app-crud-modules>
+
+<div class="container m-2" *ngIf="!void">
+  <div class="row justify-content-between mt-2">
+    <!-- table controls-->
+    <nav class="col-sm-3 col" aria-label="Page navigation example col">
+      <ul class="pagination justify-content-start">
+        <li class="page-item me-4">
+          <button
+            class="btn btn-outline-primary"
+            (click)="page = page - 5"
+            [disabled]="page - 5 < 0"
+          >
+            &laquo;
+          </button>
+        </li>
+        <li class="page-item">
+          <button
+            class="btn btn-outline-primary"
+            (click)="page = page + 5"
+            [disabled]="serials.length - (page + 5) <= 0"
+          >
+            &raquo;
+          </button>
+        </li>
+      </ul>
+    </nav>
+    <form class="col-sm-3 col d-flex mb-5" role="search">
+      <input
+        class="form-control me-2"
+        type="search"
+        placeholder="Search"
+        aria-label="Search"
+        name="filterTable"
+        [(ngModel)]="filterTable"
+        (ngModelChange)="page = 0"
+      />
+    </form>
+  </div>
+  <!-- modules table -->
+  <div class="d-flex resTable">
+    <table class="table table-bordered border-primary">
+      <thead class="table-primary">
+        <tr>
+          <th scope="col">Serial</th>
+          <th scope="col">Nombre</th>
+          <th scope="col">Ubicacion</th>
+          <th scope="col">Fin Garantía</th>
+          <th scope="col">Fin Garantía Proveedor</th>
+          <th scope="col">Estatus</th>
+          <th scope="col">Historial</th>
+          <th scope="col">Opciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of serials | filter : filterTable : page">
+          <td>{{ item.serial }}</td>
+          <td>{{ item.name }}</td>
+          <td>{{ item.ubication }}</td>
+          <td>{{ item.endDate }}</td>
+          <td>{{ item.endDateSupp }}</td>
+          <td>{{ item.status }}</td>
+          <td class="d-flex justify-content-center align-items-center">
+            <button class="btn p-0 m-0" (click)="crud(item, 'historical')">
+              <img src="../../../../assets/img/folder.png" height="41px" />
+            </button>
+          </td>
+          <td style="min-width: 50px">
+            <button
+              class="btn m-1 p-0"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              <img
+                class=""
+                src="../../../../assets/img/3points.png"
+                height="25px"
+              />
+            </button>
+            <ul class="dropdown-menu p-0 m-0">
+              <li
+                class="btn dropdown-item text-success"
+                (click)="crud(item, 'view')"
+              >
+                Ver
+              </li>
+              <li
+                class="btn dropdown-item text-warning"
+                (click)="crud(item, 'edit')"
+              >
+                Editar
+              </li>
+              <li
+                class="btn dropdown-item text-danger"
+                (click)="crud(item, 'delete')"
+              >
+                Eliminar
+              </li>
+            </ul>
+            <button
+              class="btn btn-primary p-1 m-1"
+              (click)="crud(item, 'warranty')"
+              *ngIf="noWarranty(item.endDate)"
+            >
+              <img src="../../../../assets//img/play.png" height="25px" />
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

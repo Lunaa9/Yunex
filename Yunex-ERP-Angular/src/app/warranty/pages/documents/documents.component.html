@@ -1,0 +1,31 @@
+<app-layout-gab>
+    <!-- documents card -->
+    <div class="container" style="margin: 2%;">
+        <div class="card">
+            <!-- spinner component -->
+            <app-spinner></app-spinner>
+            <div class="card-header d-flex flex-row align-items-center border-0" style="background-color: #ded7d7;">
+                <h1 class="col">Documentos</h1>
+            </div>
+            <!-- document body -->
+            <div class="card-body" style="background-color: #e6e7e7;">
+                <div class="row py-2 align-items-center">
+                    <h4 class="col fw-bold" style="color: rgb(0, 115, 255);">CARPETAS</h4>
+                </div>
+                <div class="row py-3 justify-content-center d-flex">
+                    <button class="col rounded-3 mx-3 my-1 custBorder d-flex align-items-center" 
+                        [ngClass]="actualFolder===folder?'activeFolder':'bg-light'"
+                        (click)="filesRequest(folder)" 
+                        *ngFor="let folder of folders" 
+                        style="max-width: 250px; height: 50px;">
+                        <img src="../../../../assets/img/folder.png" height="30px">
+                        <h6 class="ms-3 my-0 p-0 fw-bold">{{folder}}</h6>
+                    </button>
+                </div>
+                <app-table-formats *ngIf="actualFolder==='Formatos'"></app-table-formats>
+                <app-table-procedures *ngIf="actualFolder==='Procesos'"></app-table-procedures>
+                <app-table-historical *ngIf="actualFolder==='Historial Módulos'"></app-table-historical>
+            </div>
+        </div>
+    </div>
+</app-layout-gab>

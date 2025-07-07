@@ -1,0 +1,198 @@
+<div class="modal fade" id="modaledit" data-bs-backdrop="static" aria-hidden="true" aria-labelledby="modaleditLabel" tabindex="-1">
+  <form (ngSubmit)="handleSubmit()" #Form="ngForm">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="modaleditLabel">Editar</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="close()"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control" readonly name="ticket" [value]="incidenceToShow.ticket" required disabled>
+                <label>Ticket</label>
+              </div>
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control" readonly name="admissionDate" [(ngModel)]="incidenceToShow.admissionDate" required disabled>
+                <label>Fecha ingreso</label>
+              </div>
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control" name="name" [(ngModel)]="incidenceToShow.module.name" required disabled>
+                <label>Módulo</label>
+              </div>
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control" name="serial" [(ngModel)]="incidenceToShow.module.serial" required disabled>
+                <label>Serial</label>
+              </div>
+              <div class="form-floating mb-3">
+                <select class="form-select" required name="status" [(ngModel)]="incidenceToShow.status" #status="ngModel">
+                  <option value="" disabled selected>Seleccionar estado</option>
+                  <option value="repairing">Reparando</option>
+                  <option value="repaired">Reparado</option>
+                  <option value="to repair">Para reparación</option>
+                  <option value="irreparable">Irreparable</option>
+                </select>
+                <label>Estado</label>
+                <div *ngIf="Form.submitted && status.invalid" class="text-danger">El estado es requerido.</div>
+              </div>
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control" name="city" [(ngModel)]="incidenceToShow.city" required #city="ngModel">
+                <label>Ciudad</label>
+                <div *ngIf="Form.submitted && city.invalid" class="text-danger">La ciudad es requerida.</div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control" name="sticker" [(ngModel)]="incidenceToShow.sticker" required disabled>
+                <label>Sticker</label>
+              </div>
+              <div class="form-floating mb-3">
+                <select class="form-select" required name="approved" [(ngModel)]="incidenceToShow.approved" #approved="ngModel">
+                  <option value="" disabled selected>Seleccionar</option>
+                  <option value="true">Verdadero</option>
+                  <option value="false">Falso</option>
+                </select>
+                <label>Aprobar</label>
+                <div *ngIf="Form.submitted && approved.invalid" class="text-danger">La aprobación es requerida.</div>
+              </div>
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control" name="contractNumber" [(ngModel)]="incidenceToShow.contractNumber" required #contractNumber="ngModel">
+                <label>Contrato</label>
+                <div *ngIf="Form.submitted && contractNumber.invalid" class="text-danger">El número de contrato es requerido.</div>
+              </div>
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control" name="client" [(ngModel)]="incidenceToShow.client" required #client="ngModel">
+                <label>Cliente</label>
+                <div *ngIf="Form.submitted && client.invalid" class="text-danger">El cliente es requerido.</div>
+              </div>
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control" name="sender" [(ngModel)]="incidenceToShow.sender" required #sender="ngModel">
+                <label>Quien envía</label>
+                <div *ngIf="Form.submitted && sender.invalid" class="text-danger">El nombre del remitente es requerido.</div>
+              </div>
+              <div class="form-floating mb-3">
+                <select class="form-select" required name="warranty" [(ngModel)]="incidenceToShow.warranty" #warranty="ngModel">
+                  <option value="" disabled selected>Seleccionar</option>
+                  <option value="true">En Garantía</option>
+                  <option value="false">Fuera de Garantía</option>
+                </select>
+                <label>Garantía</label>
+                <div *ngIf="Form.submitted && warranty.invalid" class="text-danger">La garantía es requerida.</div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control" name="equipment" [(ngModel)]="incidenceToShow.equipment" required disabled>
+                <label>Equipo</label>
+              </div>
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control" name="instalationDate" [(ngModel)]="incidenceToShow.module.instalationDate" required disabled>
+                <label>Fecha de instalación</label>
+              </div>
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control" name="warrantyTime" [(ngModel)]="incidenceToShow.module.warrantyTime" required #warrantyTime="ngModel">
+                <label>Tiempo de Garantía</label>
+                <div *ngIf="Form.submitted && warrantyTime.invalid" class="text-danger">El tiempo de garantía es requerido.</div>
+              </div>
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control mt-3" name="estimatedRepairTime" [(ngModel)]="incidenceToShow.module.estimatedRepairTime" required #estimatedRepairTime="ngModel">
+                <label>Tiempo de reparación estimado</label>
+                <div *ngIf="Form.submitted && estimatedRepairTime.invalid" class="text-danger">El tiempo de reparación estimado es requerido.</div>
+              </div>
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control mt-1" name="estimatedOutTime" [(ngModel)]="incidenceToShow.module.estimatedOutTime" required #estimatedOutTime="ngModel">
+                <label>Tiempo estimado de salida</label>
+                <div *ngIf="Form.submitted && estimatedOutTime.invalid" class="text-danger">El tiempo estimado de salida es requerido.</div>
+              </div>
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control mt-1" name="expectedOutDate" [(ngModel)]="incidenceToShow.expectedOutDate" required disabled>
+                <label>Fecha estimada de salida</label>
+              </div>         
+            </div>
+            <div class="col-md-6">
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control" name="repairCenterResponsable" [(ngModel)]="incidenceToShow.repairCenterResponsable" required #repairCenterResponsable="ngModel">
+                <label>Responsable de Reparaciones</label>
+                <div *ngIf="Form.submitted && repairCenterResponsable.invalid" class="text-danger">El responsable de reparaciones es requerido.</div>
+              </div> 
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control" name="servicesResponsable" [(ngModel)]="incidenceToShow.servicesResponsable" required #servicesResponsable="ngModel">
+                <label>Responsable de servicios</label>
+                <div *ngIf="Form.submitted && servicesResponsable.invalid" class="text-danger">El responsable de servicios es requerido.</div>
+              </div>
+              <div class="form-floating mb-3">
+                <input type="date" class="form-control" name="realOutDate" [(ngModel)]="incidenceToShow.realOutDate" required #realOutDate="ngModel">
+                <label>Fecha real de salida</label>
+                <div *ngIf="Form.submitted && realOutDate.invalid" class="text-danger">La fecha real de salida es requerida.</div>
+              </div>
+              <div class="form-floating mb-3">
+                <select class="form-select" required name="outDateCompliance" [(ngModel)]="incidenceToShow.outDateCompliance" #outDateCompliance="ngModel">
+                  <option value="" disabled selected>Seleccionar</option>
+                  <option value="true">Verdadero</option>
+                  <option value="false">Falso</option>
+                </select>
+                <label>Fecha de salida lograda</label>
+                <div *ngIf="Form.submitted && outDateCompliance.invalid" class="text-danger">La fecha de salida lograda es requerida.</div>
+              </div>
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control" name="realRepairTime" [(ngModel)]="incidenceToShow.realRepairTime" required #realRepairTime="ngModel">
+                <label>Tiempo real de reparación</label>
+                <div *ngIf="Form.submitted && realRepairTime.invalid" class="text-danger">El tiempo real de reparación es requerido.</div>
+              </div>
+              <div class="form-floating mb-3">
+                <select class="form-select" required name="repairTimeCompliance" [(ngModel)]="incidenceToShow.repairTimeCompliance" #repairTimeCompliance="ngModel">
+                  <option value="" disabled selected>Seleccionar</option>
+                  <option value="true">Verdadero</option>
+                  <option value="false">Falso</option>
+                </select>
+                <label>Tiempo de reparación logrado</label>
+                <div *ngIf="Form.submitted && repairTimeCompliance.invalid" class="text-danger">El tiempo de reparación logrado es requerido.</div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control" name="year" [(ngModel)]="incidenceToShow.year" required #year="ngModel">
+                <label>Año</label>
+                <div *ngIf="Form.submitted && year.invalid" class="text-danger">El año es requerido.</div>
+              </div>
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control" name="failure" [(ngModel)]="incidenceToShow.failure" required #failure="ngModel">
+                <label>Falla</label>
+                <div *ngIf="Form.submitted && failure.invalid" class="text-danger">La falla es requerida.</div>
+              </div>
+              <div class="form-floating mb-3">
+                <input class="form-control" name="repairProcedure" [(ngModel)]="incidenceToShow.repairProcedure" required #repairProcedure="ngModel">
+                <label>Procedimiento de reparación</label>
+                <div *ngIf="Form.submitted && repairProcedure.invalid" class="text-danger">El procedimiento de reparación es requerido.</div>
+              </div>
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control" name="repairTechnician" [(ngModel)]="incidenceToShow.repairTechnician" required #repairTechnician="ngModel">
+                <label>Técnico encargado</label>
+                <div *ngIf="Form.submitted && repairTechnician.invalid" class="text-danger">El técnico encargado es requerido.</div>
+              </div>
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control" name="comments" [(ngModel)]="incidenceToShow.comments" required #comments="ngModel">
+                <label>Comentarios</label>
+                <div *ngIf="Form.submitted && comments.invalid" class="text-danger">Los comentarios son requeridos.</div>
+              </div>
+              <div class="form-group mb-3">
+                <label for="activity" class="form-label">Actividad a realizar</label>
+                <select id="activity" name="activity" class="form-select p-1" required [(ngModel)]="incidenceToShow.activity" #activity="ngModel">
+                  <option value="repair">Reparar</option>
+                  <option value="diagnostic">Diagnóstico</option>
+                </select>
+                <div *ngIf="Form.submitted && activity.invalid" class="text-danger">La actividad a realizar es requerida.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <div class="d-grid" style="justify-content: end;">
+            <button class="btn btn-success" type="submit" [disabled]="Form.invalid">Aceptar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

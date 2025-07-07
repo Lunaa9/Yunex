@@ -1,0 +1,22 @@
+li {
+    background-color: #D9D9D9 ;
+    cursor:pointer;
+}
+
+#contrat{
+    background-color: white;
+    align-content: center;
+}
+
+.col{
+    display: flex;
+    justify-content: center;
+}
+
+.bg-success {
+    background-color: #C5F3CF;
+}
+
+.bg-danger {
+    background-color: #F3C5C5;
+}

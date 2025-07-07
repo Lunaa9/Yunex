@@ -1,0 +1,23 @@
+input,select,option{
+    height: 40px;
+    width: 100px;
+    border: black 2px solid;
+    font-weight: 700;
+    text-align: center;
+    background-color:#00e676;
+}
+
+select::-webkit-scrollbar{
+    width: 5px;
+}
+select::-webkit-scrollbar-thumb{
+    background-color: #00e676;
+    border-radius: 8px;
+}
+select::-webkit-scrollbar-track{
+    background-color: #00e676;
+}
+
+.cardNumber{
+    background-color: rgb(233, 225, 225);
+}

@@ -1,0 +1,33 @@
+<!-- The warranty procedure modal -->
+<div class="position-fixed alert">
+    <div class="bg-light position-absolute min-alert card" style="min-width: 40%;">
+      <div class="card-header flex-row d-flex align-items-center">
+        <h5 class="card-title col-5 col-md-2">Serial del Modulo<br><h6 class="p-1">{{serial}}</h6></h5>
+        <div class="col-5 col-md-2 d-flex align-items-end">
+          <!-- progress bar -->
+            <div class="progress" style="height: 25px;width: 150px;background-color: rgb(202, 197, 197);" *ngIf="status!==''">
+                <div class="progress-bar" [ngClass]="{'started':status==='started',
+                'accepted':status==='accepted',  
+                'waiting':status==='waiting',         
+                'storage':status==='storage',
+                'sending-supplier':status==='sendingSupplier',
+                'supplier':status==='supplier', 
+                'laboratory':status==='laboratory',
+                'new-module':status==='newModule',
+                'solved':status==='solved' || status === 'finished'              
+               }"></div>
+            </div>
+        </div>
+        <div class="col-2 col-md d-flex justify-content-end">
+            <button class="btn-close me-3" (click)="close()"></button>
+        </div>
+      </div>
+      <div class="card-body" style="height: 80vh;">
+        <div class="m-2">
+            <!-- process component -->
+            <app-process *ngIf="action!=='newModule' && action!=='denied'"></app-process>
+            <!-- new module component -->
+            <app-new-module *ngIf="action==='newModule'"></app-new-module>
+      </div>
+    </div>
+</div>

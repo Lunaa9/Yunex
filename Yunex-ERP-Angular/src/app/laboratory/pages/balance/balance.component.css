@@ -1,0 +1,7 @@
+input,select,option{
+    height: 40px;
+    border: black 2px solid;
+    font-weight: 700;
+    text-align: center;
+    background-color:#00e676;
+}

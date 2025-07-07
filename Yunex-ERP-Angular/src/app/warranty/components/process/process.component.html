@@ -1,0 +1,144 @@
+<!-- warranty starter -->
+<div class="row mb-2" *ngIf="nextStatus === 'started'">
+  <div class="col-md-3 col" *ngIf="nextStatus === 'started'">
+    <h3>INICIO</h3>
+    <div class="justify-content-center align-items-center d-flex file-square">
+      <div class="text-center">
+        <form id="startForm" (ngSubmit)="upload($event)">
+          <input
+            #uploadFile
+            type="file"
+            id="startFile"
+            name="startFile"
+            (change)="activeUploadButton($event)"
+            hidden
+            required
+          />
+          <label class="btn" for="startFile">
+            <img src="../../../../../assets/img/upload.png" height="50px" />
+          </label>
+        </form>
+        <div *ngIf="uploadName !== ''">
+          {{ uploadName }}
+          <button class="btn mx-1 p-0" (click)="deleteFile(inputFile)">
+            X
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- warranty process -->
+<div *ngIf="nextStatus !== 'started'">
+  <div class="row mb-2" *ngFor="let x of values | warrProcess : keys">
+    <div class="col-md-3 col" *ngFor="let y of x">
+      <h3>{{ y.phase }}</h3>
+      <div class="justify-content-center align-items-center d-flex file-square">
+        <div
+          class="text-center justify-content-center"
+          *ngIf="y.name === '' && nextStatus !== ''"
+        >
+          <form id="updateTicket" (ngSubmit)="upload($event)">
+            <input
+              #uploadFile
+              type="file"
+              id="acceptFile"
+              name="acceptFile"
+              (change)="activeUploadButton($event)"
+              hidden
+              required
+            />
+            <label class="btn" for="acceptFile">
+              <img src="../../../../../assets/img/upload.png" height="50px" />
+            </label>
+          </form>
+          <div *ngIf="uploadName !== ''">
+            {{ uploadName }}
+            <button class="btn mx-1 p-0" (click)="deleteFile(inputFile)">
+              X
+            </button>
+          </div>
+        </div>
+        <div class="text-center" *ngIf="y.name !== '' && nextStatus !== ''">
+          <img src="../../../../../assets/img/file.png" height="50px" />
+          <h6 class="text-center">{{ y.name }}</h6>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- buttons -->
+<div class="row m-4 d-flex justify-content-end fixed-bottom">
+  <div class="col col-md-5 d-flex justify-content-end align-items-center">
+    <div class="form-check col-4 me-2" *ngIf="nextStatus === 'waiting'">
+      <input
+        class="form-check-input border border-dark"
+        type="checkbox"
+        id="inStorage"
+        [(ngModel)]="inStorage"
+        [disabled]="uploadName !== ''"
+      />
+      <label class="form-check-label" for="inStorage"> Almacen </label>
+    </div>
+    <div class="form-check col-4 me-2" *ngIf="nextStatus === 'finished'">
+      <input
+        class="form-check-input border border-dark"
+        type="checkbox"
+        id="finished"
+        [(ngModel)]="quality"
+      />
+      <label class="form-check-label" for="inStorage"> Reprosesos </label>
+    </div>
+    <button
+      class="btn btn-secondary me-2 col-4 px-0"
+      *ngIf="nextStatus === 'solved' && files.newModule.name === 'denied'"
+      (click)="newModule()"
+    >
+      NUEVO MODULO
+    </button>
+    <button
+      class="btn btn-primary me-2 col-4 px-0"
+      *ngIf="nextStatus === 'warrantyDenied'"
+      (click)="ngOnInit()"
+    >
+      CANCELAR
+    </button>
+    <button
+      class="btn btn-danger me-2 col-4 px-0"
+      *ngIf="
+        (nextStatus === 'solved' && files.newModule.name === 'denied') ||
+        nextStatus === 'accepted'
+      "
+      (click)="denyWarranty()"
+    >
+      RECHAZAR
+    </button>
+    <button
+      class="btn btn-primary me-2 col-4 px-0"
+      *ngIf="nextStatus !== 'started' && !inStorage"
+      form="updateTicket"
+      [ngClass]="{
+        'finish btn-danger': nextStatus === 'finished',
+        'deny btn-danger': nextStatus === 'warrantyDenied'
+      }"
+      [disabled]="disabledButton"
+    >
+      <span>SIGUIENTE</span>
+    </button>
+    <button
+      class="btn btn-primary me-2 col-4 px-0"
+      *ngIf="inStorage"
+      (click)="moduleInStorage()"
+    >
+      SIGUIENTE
+    </button>
+    <button
+      class="btn btn-success me-2 col-4 px-0"
+      *ngIf="nextStatus === 'started'"
+      form="startForm"
+      [disabled]="disabledButton"
+    >
+      CREAR
+    </button>
+  </div>
+</div>

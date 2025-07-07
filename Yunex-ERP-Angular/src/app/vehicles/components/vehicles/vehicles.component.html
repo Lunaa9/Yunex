@@ -1,0 +1,405 @@
+<div class="row justify-content-between mt-2">
+  <!-- table controls-->
+  <form class="col-sm-4 col d-flex mb-5 " role="search">
+    <input 
+      class="form-control me-2 " 
+      type="search" 
+      placeholder="Buscar por placa" 
+      aria-label="Search"
+      [(ngModel)]="searchText"
+      name="filterTable">
+  </form>
+  <app-add-vehicle class="col-sm-4 col justify-content-end"></app-add-vehicle>
+
+  <nav class="col-sm-4 col">
+    <ul class="pagination justify-content-end">
+      <li class="page-item me-4">
+        <button 
+          class="btn btn-outline-primary" 
+          (click)="page = page - 5" 
+          [disabled]="page - 5 < 0">&laquo;
+        </button>
+      </li>
+      <li class="page-item">
+        <button 
+          class="btn btn-outline-primary" 
+          (click)="page = page + 5" 
+          [disabled]="vehicles.length - (page + 5) <= 0">&raquo;
+        </button>
+      </li>
+    </ul>
+  </nav>
+  <div class="status-indicators">
+    <div class="status">
+      <span class="dot red"></span> VENCIDO
+    </div>
+    <div class="status">
+      <span class="dot yellow"></span> POR VENCER
+    </div>
+    <div class="status">
+      <span class="dot green"></span> AL DÍA
+    </div>
+  </div>
+</div>
+
+<app-tabs [tabs]="tabs" (tabSelected)="onTabSelected($event)"></app-tabs>
+
+<div *ngIf="selectedTab === 'GENERAL'">
+  <!-- Contenido de la pestaña GENERAL -->
+  <div class="resTable">
+    <table class="table table-bordered table-row-thick">
+      <!-- table header -->
+      <thead class="table-secondary">
+        <tr>
+          <th scope="col"><p class="mx-0 mb-2">Placa</p></th>
+          <th scope="col"><p class="mx-0 mb-2">Organismo de tránsito</p></th>
+          <th scope="col"><p class="mx-0 mb-2" style="white-space: nowrap;">Licencia de <br>transito</p></th>
+          <th scope="col"><p class="mx-0 mb-2" style="white-space: nowrap;">Tipo de <br>combustible</p></th>
+          <th scope="col"><p class="mx-0 mb-2" style="white-space: nowrap;">Clase de <br>vehículo</p></th>
+          <th scope="col"><p class="mx-0 mb-2" style="white-space: nowrap;">Número de <br>motor</p></th>
+          <th scope="col"><p class="mx-0 mb-2">Número de VIN</p></th>
+          <th scope="col"><p class="mx-0 mb-2">Kilometraje</p></th>
+          <th scope="col">Riesgo</th>
+          <th scope="col"><p class="mx-0 mb-2">Estados</p></th>
+          <th scope="col"><p class="mx-0 mb-2">Opciones</p></th>
+        </tr>
+      </thead>
+      <!-- table body -->
+      <div *ngIf=""></div>
+      <tbody *ngFor="let vehicle of vehicles | vehicleFilter:searchText:page">
+        <tr>
+          <td>{{ vehicle.licensePlate }}</td>
+          <td>{{ vehicle.transitAuthority }}</td>
+          <td>{{ vehicle.transitLicense }}</td>
+          <td>{{ vehicle.fuelType }}</td>
+          <td>{{ vehicle.vehicleClass }}</td>
+          <td>{{ vehicle.engineNumber }}</td>
+          <td>{{ vehicle.vinNumber }}</td>
+          <td>{{ vehicle.mileage }}</td>
+          <td style="padding: 5;">
+            <div [ngStyle]="{ 'background-color': getRowClass(vehicle.mandatoryInsurance.expirationDate),'height':'20px','width':'100%'}"></div>
+            <div [ngStyle]="{ 'background-color': getRowClass(vehicle.mechanicalReview.expirationDate),'height':'20px','width':'100%','margin-top': '2px'}"></div>
+            <div [ngStyle]="{ 'background-color': getRowClass(vehicle.comprehensiveInsurance.expirationDate),'height':'20px','width':'100%','margin-top': '2px' }"></div>
+            <div [ngStyle]="{ 'background-color': getRowClass(vehicle.articulatedBoomReview.expirationDate),'height':'30px' ,'width':'100%','margin-top': '2px','maring-bottom':'0px' }"></div>
+          </td>
+          <td>
+            <p style="margin:0;padding: 0;">Seguro</p>
+            <p style="margin:0;padding: 0;">Tecnomecanica</p>
+            <p style="margin:0;padding: 0;">Poliza</p>
+            <p style="margin: 0;margin-bottom: 0; padding: 0;">Pluma articulada</p>
+          </td>
+          <td>
+            <div class="container-fluid d-flex">
+              <!-- more info button -->
+              <div>
+                <button
+                  type="button"
+                  class="btn btn-primary me-1 p-0 ps-1 pe-1"
+                  (click)="view(vehicle)"
+                >
+                  <img class="" src="../../../../assets/img/eye.svg">
+                </button>
+              </div>
+              <div>
+                <!-- edit button -->
+                <button
+                 (click)="edit(vehicle)"
+                  type="button"
+                  class="btn btn-warning me-1 p-0 ps-1 pe-1"
+                >
+                  <img class="" src="../../../../assets/img/pencil-square.svg">
+                </button>
+              </div>
+              <div>
+                <!-- delete button -->
+                <button
+                (click)="deleteVehicle(vehicle.licensePlate)"
+                  type="button"
+                  class="btn btn-danger p-0 ps-1 pe-1 me-1"
+                >
+                  <img class="" src="../../../../assets/img/bag-x.svg">
+                </button>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>  
+</div>
+<div *ngIf="selectedTab === 'SEGURO OBLIGATORIO'">
+  <!-- Contenido de la pestaña SEGURO OBLIGATORIO -->
+  <div class="resTable">
+    <table class="table table-bordered table-row-thick">
+      <!-- table header -->
+      <thead class="table-secondary">
+        <tr>
+          <th scope="col"><p class="mx-0 mb-2">Placa</p></th>
+          <th scope="col"><p class="mx-0 mb-2" style="white-space: nowrap;">Clase de <br>vehículo</p></th>
+          <th scope="col"><p class="mx-0 mb-2" style="white-space: nowrap;">Numero</th>
+          <th scope="col"><p class="mx-0 mb-2" style="white-space: nowrap;">Fecha <br>expedición</p></th>
+          <th scope="col"><p class="mx-0 mb-2" style="white-space: nowrap;">Fecha <br>vencimiento</p></th>
+          <th scope="col"><p class="mx-0 mb-2">Dias faltantes</p></th>
+          <th scope="col"><p class="mx-0 mb-2">Riesgo</p>
+          <th scope="col"><p class="mx-0 mb-2">Opciones</p></th>
+        </tr>
+      </thead>
+      <!-- table body -->
+      <div ></div>
+      <tbody *ngFor="let vehicle of vehicles | vehicleFilter:searchText:page">
+        <tr>
+          <td>{{ vehicle.licensePlate }}</td>
+          <td>{{ vehicle.vehicleClass }}</td>
+          <td>{{ vehicle.mandatoryInsurance.number }}</td>
+          <td>{{ vehicle.mandatoryInsurance.issuanceDate | addOneDay | date:'dd/MM/yyyy' }}</td>
+          <td>{{ vehicle.mandatoryInsurance.expirationDate | addOneDay | date:'dd/MM/yyyy' }}</td>
+          <td>{{ getDaysRemaining(vehicle.mandatoryInsurance.expirationDate) }}</td>
+          <td [ngStyle]="{ 'background-color': getRowClass(vehicle.mandatoryInsurance.expirationDate) }"></td>
+          <td>
+            <div class="container-fluid d-flex">
+              <!-- more info button -->
+              <div>
+                <button
+                  type="button"
+                  class="btn btn-primary me-1 p-0 ps-1 pe-1"
+                  (click)="view(vehicle)"
+                >
+                  <img class="" src="../../../../assets/img/eye.svg">
+                </button>
+              </div>
+              <div>
+                <!-- edit button -->
+                <button
+                  type="button"
+                  class="btn btn-warning me-1 p-0 ps-1 pe-1"
+                  (click)="edit(vehicle)"
+                >
+                  <img class="" src="../../../../assets/img/pencil-square.svg">
+                </button>
+              </div>
+              <div>
+                <!-- delete button -->
+                <button
+                (click)="deleteVehicle(vehicle.licensePlate)"
+                  type="button"
+                  class="btn btn-danger p-0 ps-1 pe-1 me-1"
+                >
+                  <img class="" src="../../../../assets/img/bag-x.svg">
+                </button>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>  
+</div>
+<div *ngIf="selectedTab === 'POLIZA TODO RIESGO'">
+  <!-- Contenido de la pestaña POLIZA TODO RIESGO -->
+  <div class="resTable">
+    <table class="table table-bordered table-row-thick">
+      <!-- table header -->
+      <thead class="table-secondary">
+        <tr>
+          <th scope="col"><p class="mx-0 mb-2">Placa</p></th>
+          <th scope="col"><p class="mx-0 mb-2" style="white-space: nowrap;">Clase de <br>vehículo</p></th>
+          <th scope="col"><p class="mx-0 mb-2" style="white-space: nowrap;">Numero</th>
+          <th scope="col"><p class="mx-0 mb-2" style="white-space: nowrap;">Fecha <br>expedición</p></th>
+          <th scope="col"><p class="mx-0 mb-2" style="white-space: nowrap;">Fecha <br>vencimiento</p></th>
+          <th scope="col"><p class="mx-0 mb-2">Dias faltantes</p></th>
+          <th scope="col"><p class="mx-0 mb-2">Riesgo</p>
+          <th scope="col"><p class="mx-0 mb-2">Opciones</p></th>
+        </tr>
+      </thead>
+      <!-- table body -->
+      <div ></div>
+      <tbody *ngFor="let vehicle of vehicles | vehicleFilter:searchText:page">
+        <tr>
+          <td>{{ vehicle.licensePlate }}</td>
+          <td>{{ vehicle.vehicleClass }}</td>
+          <td>{{ vehicle.comprehensiveInsurance.number }}</td>
+          <td>{{ vehicle.comprehensiveInsurance.issuanceDate | addOneDay | date:'dd/MM/yyyy' }}</td>
+          <td>{{ vehicle.comprehensiveInsurance.expirationDate | addOneDay | date:'dd/MM/yyyy' }}</td>
+          <td>{{ getDaysRemaining(vehicle.comprehensiveInsurance.expirationDate) }}</td>
+          <td [ngStyle]="{ 'background-color': getRowClass(vehicle.comprehensiveInsurance.expirationDate) }"></td>
+          <td>
+            <div class="container-fluid d-flex">
+              <!-- more info button -->
+              <div>
+                <button
+                  type="button"
+                  class="btn btn-primary me-1 p-0 ps-1 pe-1"
+                  (click)="view(vehicle)"
+                >
+                  <img class="" src="../../../../assets/img/eye.svg">
+                </button>
+              </div>
+              <div>
+                <!-- edit button -->
+                <button
+                  type="button"
+                  class="btn btn-warning me-1 p-0 ps-1 pe-1"
+                  (click)="edit(vehicle)"
+                >
+                  <img class="" src="../../../../assets/img/pencil-square.svg">
+                </button>
+              </div>
+              <div>
+                <!-- delete button -->
+                <button
+                (click)="deleteVehicle(vehicle.licensePlate)"
+                  type="button"
+                  class="btn btn-danger p-0 ps-1 pe-1 me-1"
+                >
+                  <img class="" src="../../../../assets/img/bag-x.svg">
+                </button>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>  
+</div>
+<div *ngIf="selectedTab === 'REVISIÓN TECNOMECÁNICA'">
+  <!-- Contenido de la pestaña REVISIÓN TECNOMECÁNICA -->
+  <div class="resTable">
+    <table class="table table-bordered table-row-thick">
+      <!-- table header -->
+      <thead class="table-secondary">
+        <tr>
+          <th scope="col"><p class="mx-0 mb-2">Placa</p></th>
+          <th scope="col"><p class="mx-0 mb-2" style="white-space: nowrap;">Clase de <br>vehículo</p></th>
+          <th scope="col"><p class="mx-0 mb-2" style="white-space: nowrap;">Numero</th>
+          <th scope="col"><p class="mx-0 mb-2" style="white-space: nowrap;">Fecha <br>expedición</p></th>
+          <th scope="col"><p class="mx-0 mb-2" style="white-space: nowrap;">Fecha <br>vencimiento</p></th>
+          <th scope="col"><p class="mx-0 mb-2">Dias faltantes</p></th>
+          <th scope="col"><p class="mx-0 mb-2">Riesgo</p>
+          <th scope="col"><p class="mx-0 mb-2">Opciones</p></th>
+        </tr>
+      </thead>
+      <!-- table body -->
+      <div ></div>
+      <tbody *ngFor="let vehicle of vehicles | vehicleFilter:searchText:page">
+        <tr>
+          <td>{{ vehicle.licensePlate }}</td>
+          <td>{{ vehicle.vehicleClass }}</td>
+          <td>{{ vehicle.mechanicalReview.number }}</td>
+          <td>{{ vehicle.mechanicalReview.issuanceDate | addOneDay | date:'dd/MM/yyyy' }}</td>
+          <td>{{ vehicle.mechanicalReview.expirationDate | addOneDay | date:'dd/MM/yyyy' }}</td>
+          <td>{{ getDaysRemaining(vehicle.mechanicalReview.expirationDate) }}</td>
+          <td [ngStyle]="{ 'background-color': getRowClass(vehicle.mechanicalReview.expirationDate)}"></td>
+          <td>
+            <div class="container-fluid d-flex">
+              <!-- more info button -->
+              <div>
+                <button
+                  type="button"
+                  class="btn btn-primary me-1 p-0 ps-1 pe-1"
+                  (click)="view(vehicle)"
+                >
+                  <img class="" src="../../../../assets/img/eye.svg">
+                </button>
+              </div>
+              <div>
+                <!-- edit button -->
+                <button
+                  type="button"
+                  class="btn btn-warning me-1 p-0 ps-1 pe-1"
+                  (click)="edit(vehicle)"
+                >
+                  <img class="" src="../../../../assets/img/pencil-square.svg">
+                </button>
+              </div>
+              <div>
+                <!-- delete button -->
+                <button
+                (click)="deleteVehicle(vehicle.licensePlate)"
+                  type="button"
+                  class="btn btn-danger p-0 ps-1 pe-1 me-1"
+                >
+                  <img class="" src="../../../../assets/img/bag-x.svg">
+                </button>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>  
+</div>
+<div *ngIf="selectedTab === 'REVISIÓN PLUMA ARTICULADA'">
+  <!-- Contenido de la pestaña REVISIÓN PLUMA ARTICULADA -->
+  <div class="resTable">
+    <table class="table table-bordered table-row-thick">
+      <!-- table header -->
+      <thead class="table-secondary">
+        <tr>
+          <th scope="col"><p class="mx-0 mb-2">Placa</p></th>
+          <th scope="col"><p class="mx-0 mb-2" style="white-space: nowrap;">Clase de <br>vehículo</p></th>
+          <th scope="col"><p class="mx-0 mb-2" style="white-space: nowrap;">Numero</th>
+          <th scope="col"><p class="mx-0 mb-2" style="white-space: nowrap;">Fecha <br>expedición</p></th>
+          <th scope="col"><p class="mx-0 mb-2" style="white-space: nowrap;">Fecha <br>vencimiento</p></th>
+          <th scope="col"><p class="mx-0 mb-2">Dias faltantes</p></th>
+          <th scope="col"><p class="mx-0 mb-2">Riesgo</p>
+          <th scope="col"><p class="mx-0 mb-2">Opciones</p></th>
+        </tr>
+      </thead>
+      <!-- table body -->
+      <div ></div>
+      <tbody *ngFor="let vehicle of vehicles | vehicleFilter:searchText:page">
+        <tr>
+          <td>{{ vehicle.licensePlate }}</td>
+          <td>{{ vehicle.vehicleClass }}</td>
+          <td>{{ vehicle.articulatedBoomReview.number }}</td>
+          <td>{{ vehicle.articulatedBoomReview.issuanceDate | addOneDay | date:'dd/MM/yyyy' }}</td>
+          <td>{{ vehicle.articulatedBoomReview.expirationDate | addOneDay | date:'dd/MM/yyyy' }}</td>
+          <td>{{ getDaysRemaining(vehicle.articulatedBoomReview.expirationDate) }}</td>
+          <td [ngStyle]="{ 'background-color': getRowClass(vehicle.articulatedBoomReview.expirationDate) }"></td>
+          <td>
+            <div class="container-fluid d-flex">
+              <!-- more info button -->
+              <div>
+                <button
+                  type="button"
+                  class="btn btn-primary me-1 p-0 ps-1 pe-1"
+                  (click)="view(vehicle)"
+                >
+                  <img class="" src="../../../../assets/img/eye.svg">
+                </button>
+              </div>
+              <div>
+                <!-- edit button -->
+                <button
+                
+                  type="button"
+                  class="btn btn-warning me-1 p-0 ps-1 pe-1"
+                  (click)="edit(vehicle)"
+                >
+                  <img class="" src="../../../../assets/img/pencil-square.svg">
+                </button>
+              </div>
+              <div>
+                <!-- delete button -->
+                <button
+                  (click)="deleteVehicle(vehicle.licensePlate)"
+                  type="button"
+                  class="btn btn-danger p-0 ps-1 pe-1 me-1"
+                >
+                  <img class="" src="../../../../assets/img/bag-x.svg">
+                </button>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table> 
+  </div>  
+</div>
+<app-edit-view-vehicle
+  [selectedTab]="selectedTab"
+  *ngIf="selectedVehicle && action"
+  [vehicle]="selectedVehicle"
+  [action]="action"
+  (close)="closeModal()"
+></app-edit-view-vehicle>

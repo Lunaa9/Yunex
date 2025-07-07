@@ -1,0 +1,17 @@
+.iframe{
+    height: 100vh;
+    flex-grow:1;
+    overflow-y: scroll;
+}
+.iframe::-webkit-scrollbar{
+    width: 5px;
+}
+.iframe::-webkit-scrollbar-thumb{
+    background-color: rgb(194, 182, 182);
+    border-radius: 8px;
+}
+.iframe::-webkit-scrollbar-track{
+    background-color: rgba(255, 255, 255, 0.5);
+}app-aside{
+    z-index: 2;
+}

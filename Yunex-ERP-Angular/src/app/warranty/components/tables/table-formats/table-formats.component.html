@@ -1,0 +1,63 @@
+<!-- format header -->
+<div class="bg-light rounded-3 p-3">
+  <div class="row py-2 align-items-center d-flex">
+      <h4 class="col-6 fw-bold" style="color: #00e676;">ARCHIVOS-FORMATOS</h4>
+      <form class="col d-flex justify-content-end my-2" (ngSubmit)="send($event)" >
+          <input type="submit" class="mx-1 btn btn-success" *ngIf="sendButton" value="Subir">
+          <label for="uploadFile" class="label m-0" style="max-width: 250px;">{{fileNameSend}}</label>
+          <input id="uploadFile" #uploadFile name="file" type="file" (change)="activeSendButton($event)" hidden required>
+          <input type="button" class="mx-1 btn btn-danger" *ngIf="sendButton" value="X" (click)="deleteFile(fileInput)">
+      </form>
+      <form class="col d-flex justify-content-end container-lg">
+          <input class="rounded-3 p-2 custBorder" 
+              type="search" 
+              placeholder="Buscar"
+              [(ngModel)]="filterTable"
+              (ngModelChange)="page=0" 
+              name="filterTable"
+              style="max-width: 170px;border-color: #afb9be;" >
+      </form>
+      <ul class="pagination col justify-content-end m-0" style="max-width: 100px;">
+          <li class="pagination-item">
+              <button class="btn btn-outline-primary me-1" (click)="page=page-4" [disabled]="(page-4)<0">&laquo;</button>
+          </li>
+          <li class="pagination-item">
+              <button class="btn btn-outline-primary me-1" (click)="page=page+4" [disabled]="(files.length-(page+4))<=0">&raquo;</button>
+          </li>
+      </ul>
+  </div>
+  <!-- format table -->
+  <div class="d-flex resTable">
+      <table class="table m-3 pb-3 bg-white align-middle text-center">
+          <thead>
+              <tr class="table-light">
+                  <th scope="col" class="headTable">ARCHIVO</th>
+                  <th scope="col" class="headTable">FORMATO</th>
+                  <th scope="col" class="headTable">FECHA</th>
+                  <th scope="col" class="headTable">TAMAÑO</th>
+                  <th scope="col" class="headTable">OPCIONES</th>
+              </tr>
+          </thead>
+          <tbody>
+              <tr *ngFor="let file of files | filesFilter:filterTable:page">
+                  <td>{{file.name}}</td>
+                  <td>{{file.fileType}}</td>
+                  <td>{{file.date}}</td>
+                  <td>{{file.size}} MB</td>
+                  <td class="text-center">
+                    <button class="btn m-1 btn-primary" (click)="download(file.name,file.mimetype)">
+                      <img src="../../../../../assets/img/download.png" alt="Descargar" height="20px" width="17px">
+                    </button>
+                    <button class="btn m-1 btn-danger" (click)="delete(file.name)">
+                      <img src="../../../../../assets/img/delete.png" alt="Eliminar" height="20px" width="17px">
+                    </button>
+                    <button class="btn m-1 btn-warning" (click)="preview(file.name,file.mimetype)" 
+                    *ngIf="file.fileType==='jpg' || file.fileType==='pdf'">
+                      <img src="../../../../../assets/img/eye.svg" alt="Ver" height="25px" width="17px">
+                    </button>
+                </td>
+              </tr>
+          </tbody>
+      </table>
+  </div>
+</div>

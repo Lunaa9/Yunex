@@ -1,0 +1,101 @@
+<nav
+  class="navbar navbar-expand-lg bg-body-tertiary ps-5 pe-5"
+  style="background-color: #e2edf3; border: none"
+>
+  <div class="container-fluid">
+    <a routerLink="home" class="navbar-brand">
+      <img src="../../../../assets/img/logo.png" height="50" alt="" />
+    </a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#Collapse01"
+      aria-controls="Collapse01"
+      [attr.aria-expanded]="isCollapseExpanded ? 'true': 'false'"
+      (click)="toggleCollapse()"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <!-- navbar options according the user role -->
+    <div  class="navbar-collapse collapse" [ngClass]="{'show': isCollapseExpanded}" id="#Collapse01">
+      <ul 
+        *ngIf="user.rol === 'EMPLOYEE' 
+        || user.rol === 'LAB TECHINICIAN' 
+        || user.rol === 'LAB MANAGER' 
+        || user.rol === 'ADMIN'
+        || user.rol === 'EHS'
+        || user.rol === 'STORE'" 
+        class="navbar-nav me-auto" >
+        <li class="nav-item" >
+          <a class="nav-link active" href="home"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Inicio</font></font></a>
+        </li>
+        <li class="nav-item" >
+          <a class="nav-link active" href="home/reporthours"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Reporte de horas</font></font></a>
+        </li>
+      </ul>
+      <ul *ngIf="user.rol === 'LAB TECHINICIAN' || user.rol === 'LAB MANAGER' || user.rol === 'ADMIN'" class="navbar-nav me-auto" >
+        <li class="nav-item" >
+          <a class="nav-link active" href="laboratory/modules"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Laboratorio</font></font></a>
+        </li>
+      </ul>
+      <ul *ngIf="user.rol === 'EHS' || user.rol === 'ADMIN'" class="navbar-nav me-auto" >
+        <li class="nav-item" >
+          <a class="nav-link active" href="ehs/doc-ehs"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">EHS</font></font></a>
+        </li>
+      </ul>
+      <ul *ngIf="user.rol === 'STORE' || user.rol === 'ADMIN'" class="navbar-nav me-auto" >
+        <li class="nav-item" >
+          <a class="nav-link active" href="store/balance"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Almacen</font></font></a>
+        </li>
+      </ul>
+      <ul *ngIf="user.rol === 'ADMIN'" class="navbar-nav me-auto" >
+        <li class="nav-item" >
+          <a class="nav-link active" href="vehiculos/soat"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Vehiculos</font></font></a>
+        </li>
+      </ul>
+      <ul *ngIf="user.rol === 'ADMIN'" class="navbar-nav me-auto" >
+        <li class="nav-item" >
+          <a class="nav-link active" href="garantias/garantias"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Garantias</font></font></a>
+        </li>
+      </ul>
+      <ul *ngIf="user.rol === 'ADMIN'" class="navbar-nav me-auto" >
+        <li class="nav-item" >
+          <a class="nav-link active" href="admin/LabAdmin"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Administrador</font></font></a>
+        </li>
+      </ul>
+      <div class="navbar-collapse justify-content-end ">
+        <ul class="navbar-nav ">
+          <!-- navbar options if the user was authorized -->
+          <li *ngIf="user.email !== ''" class="nav-item">
+            <div class="row">
+              <div class="col">
+                <span style="padding: 2%">{{ user.email }}</span>
+              </div>
+              <div class="col">
+                <button class="btn btn-danger" (click)="LogoutClick()">Log out</button>
+              </div>
+            </div>
+          </li>
+          <!-- navbar options if the user was'nt authorized -->
+          <li *ngIf="user.email === ''" class="nav-item d-grid gap-3 ">
+            <button [routerLink]="'/auth/login'" *ngIf="isActiveRouter('/auth/register')" class="btn" style="background-color: #00e676; border: none">
+              Login
+            </button>
+
+            <button [routerLink]="'/auth/register'" *ngIf="isActiveRouter('/auth/login')" class="btn" style="background-color: #00e676; border: none">
+              Sign up
+            </button>
+
+            <button [routerLink]="'/auth/login'" *ngIf="isActiveRouter('/auth/forgot')" class="btn" style="background-color: #00e676; border: none">
+              Login
+            </button>
+          </li>
+        </ul>
+    </div>
+  </div>
+  </div>
+    <!-- notification component -->
+  <app-notification class="dropstart position-absolute end-0" *ngIf="user.rol==='LAB MANAGER' || user.rol==='ADMIN'"></app-notification>
+</nav>

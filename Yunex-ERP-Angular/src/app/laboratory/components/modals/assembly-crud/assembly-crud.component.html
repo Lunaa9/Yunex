@@ -1,0 +1,255 @@
+<div class="alert" *ngIf="action !== 'delete' && action !== 'inProcess'">
+  <div class="bg-light position-absolute min-alert card p-5">
+    <!-- assembly modal controls -->
+    <div class="d-flex flex-column">
+      <button
+        class="btn-close"
+        (click)="close()"
+        style="align-self: flex-end"
+      ></button>
+      <h3 class="text-center text-warning" *ngIf="action === 'edit'">
+        Editar datos
+      </h3>
+      <h3 class="text-center text-success m-0" *ngIf="action === 'view'">
+        Visualizar datos
+      </h3>
+    </div>
+    <!-- form to finish the assembly -->
+    <form
+      id="satisfaction"
+      #Satisfaction="ngForm"
+      class="m-3"
+      *ngIf="action === 'finish'"
+      (ngSubmit)="updateAssembly()"
+    >
+      <div class="form-floating">
+        <select
+          name="assemblyType"
+          class="form-select mt-2"
+          [(ngModel)]="crudAssembly.received"
+          style="min-width: 200px"
+          required
+        >
+          <option [ngValue]="sts" *ngFor="let sts of satisfaction">
+            {{ sts }}
+          </option>
+        </select>
+        <label>Recibido a Satisfacción</label>
+      </div>
+      <div class="text-end p-3">
+        <input
+          type="submit"
+          class="btn btn-outline-primary"
+          value="Finalizar"
+          [disabled]="Satisfaction.invalid"
+        />
+      </div>
+    </form>
+    <!-- update form to assembly or view according the action -->
+    <form
+      id="form"
+      #Form="ngForm"
+      class="row"
+      (ngSubmit)="updateAssembly()"
+      *ngIf="action === 'edit' || action === 'view'"
+    >
+      <div class="col">
+        <div class="form-floating" *ngIf="action === 'view'">
+          <input
+            type="number"
+            class="form-control mt-2"
+            name="consecutive"
+            [(ngModel)]="crudAssembly.consecutive"
+            [disabled]="true"
+            require
+          />
+          <label>Consecutivo</label>
+        </div>
+        <div class="form-floating">
+          <input
+            type="date"
+            class="form-control mt-2"
+            name="startDate"
+            [(ngModel)]="crudAssembly.startDate"
+            (change)="assemblyDate()"
+            [disabled]="action !== 'edit'"
+            require
+          />
+          <label class="text-danger" *ngIf="okDate"
+            >La fecha no es valida</label
+          >
+          <label *ngIf="!okDate">Fecha Inicial</label>
+        </div>
+        <div class="form-floating">
+          <input
+            type="sting"
+            class="form-control mt-2"
+            name="graph"
+            [(ngModel)]="crudAssembly.graph"
+            [disabled]="action !== 'edit'"
+            require
+          />
+          <label>Grafo</label>
+        </div>
+        <div class="form-floating">
+          <select
+            name="assemblyType"
+            class="form-select mt-2"
+            [(ngModel)]="crudAssembly.assemblyType"
+            [disabled]="action !== 'edit'"
+            required
+          >
+            <option [ngValue]="type" *ngFor="let type of assemblyType">
+              {{ type }}
+            </option>
+          </select>
+          <label>Tipo de Ensamble</label>
+        </div>
+        <div class="form-floating">
+          <input
+            type="number"
+            class="form-control mt-2"
+            name="amount"
+            [(ngModel)]="crudAssembly.amount"
+            [disabled]="action !== 'edit'"
+            require
+          />
+          <label>Cantidad</label>
+        </div>
+      </div>
+      <div class="col">
+        <div class="form-floating">
+          <input
+            type="string"
+            class="form-control mt-2"
+            name="contract"
+            [(ngModel)]="crudAssembly.contract"
+            [disabled]="action !== 'edit'"
+            require
+          />
+          <label>Contrato</label>
+        </div>
+        <div class="form-floating">
+          <input
+            type="sting"
+            class="form-control mt-2"
+            name="client"
+            [(ngModel)]="crudAssembly.client"
+            [disabled]="action !== 'edit'"
+            require
+          />
+          <label>Cliente</label>
+        </div>
+        <div class="form-floating">
+          <input
+            type="sting"
+            class="form-control mt-2"
+            name="senderName"
+            [(ngModel)]="crudAssembly.senderName"
+            [disabled]="action !== 'edit'"
+            require
+          />
+          <label>Remitente</label>
+        </div>
+        <div class="form-floating" *ngIf="action === 'view'">
+          <input
+            type="string"
+            class="form-control mt-2"
+            name="expectedOutDate"
+            [(ngModel)]="crudAssembly.expectedOutDate"
+            [disabled]="true"
+            require
+          />
+          <label>Fecha Estimada de Salida</label>
+        </div>
+        <div class="form-floating">
+          <input
+            type="date"
+            class="form-control mt-2"
+            name="realEndDate"
+            [(ngModel)]="crudAssembly.realEndDate"
+            (change)="assemblyDate()"
+            [disabled]="action !== 'edit' || !crudAssembly.realEndDate"
+            require
+          />
+          <label class="text-danger" *ngIf="okDate"
+            >La fecha no es valida</label
+          >
+          <label *ngIf="!okDate">Fecha Finalización</label>
+        </div>
+      </div>
+      <div class="col">
+        <div class="form-floating">
+          <select
+            class="form-control mt-2"
+            name="status"
+            [(ngModel)]="crudAssembly.status"
+            [disabled]="action !== 'edit'"
+            require
+          >
+            <option value="" disabled selected>Seleccionar estado</option>
+            <option value="finished">finalizado</option>
+            <option value="inProcess">en proceso</option>
+            <option value="started">iniciado</option>
+          </select>
+          <label>Estado</label>
+        </div>
+        <div class="form-floating" *ngIf="action === 'view'">
+          <input
+            type="boolean"
+            class="form-control mt-2"
+            name="complianceDate"
+            [(ngModel)]="crudAssembly.complianceDate"
+            [disabled]="true"
+            require
+          />
+          <label>Cumplimieno de Entrega</label>
+        </div>
+        <div class="form-floating">
+          <select
+            name="received"
+            class="form-select mt-2"
+            [(ngModel)]="crudAssembly.received"
+            [disabled]="action !== 'edit' || !crudAssembly.received"
+            required
+          >
+            <option [ngValue]="sts" *ngFor="let sts of satisfaction">
+              {{ sts }}
+            </option>
+          </select>
+          <label>Recibido a Satisfacción</label>
+        </div>
+        <div class="form-floating">
+          <input
+            type="string"
+            class="form-control mt-2"
+            name="assemblyRes"
+            [(ngModel)]="crudAssembly.assemblyRes"
+            [disabled]="action !== 'edit'"
+            require
+          />
+          <label>Responsable del Ensamble</label>
+        </div>
+        <div class="form-floating">
+          <input
+            type="string"
+            class="form-control mt-2"
+            name="serviceRes"
+            [(ngModel)]="crudAssembly.serviceRes"
+            [disabled]="action !== 'edit'"
+            require
+          />
+          <label>Responsable del Servicio</label>
+        </div>
+      </div>
+      <div class="text-end p-3" *ngIf="action === 'edit'">
+        <input
+          type="submit"
+          class="btn btn-outline-primary"
+          value="Actualizar"
+          [disabled]="Form.invalid || okDate"
+        />
+      </div>
+    </form>
+  </div>
+</div>

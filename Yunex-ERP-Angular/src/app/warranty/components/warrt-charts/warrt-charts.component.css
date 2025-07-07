@@ -1,0 +1,9 @@
+html,body{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+.chart-size{
+    height: 500px;
+}
+.iframe{
+    background-color: gainsboro;
+}

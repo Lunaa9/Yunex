@@ -1,0 +1,39 @@
+<!-- historical modal -->
+<div class="alert position-fixed">
+    <div class="min-alert position-absolute row p-5 bg-light container" style="height: 600px;">
+        <button class="btn-close m-2" (click)="close()"></button>
+        <!-- the void component -->
+        <app-void *ngIf="void"></app-void>
+        <!-- tickets column -->
+        <div class="p-0 col col-md-4 card me-5 overflow" *ngIf="!void">
+            <div class="card-header">
+                <h4>Historial</h4>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item d-flex align-items-center m-2 btn"
+                [ngClass]="{'soft-gray':Ticket.ticket===ticket}" 
+                *ngFor="let Ticket of tickets" 
+                (click)="getOneTicket(Ticket.ticket)">
+                    <img src="../../../../../assets/img/folder.png" height="30px">
+                    <h5 class="mx-2">TICKET {{Ticket.ticket}}</h5>
+                </li>
+            </ul>
+        </div>
+        <!-- files column -->
+        <div class="p-0 col card overflow" *ngIf="!void">
+            <div class="card-header mb-2">
+                <h4>Archivos</h4>
+            </div>
+            <ul class="list-group">
+                <li class="list-group-item mx-2 mb-2 p-2 border-2 d-flex align-items-center justify-content-between" 
+                style="flex-wrap: wrap;" 
+                *ngFor="let file of files">
+                    <img class="ms-3" src="../../../../../assets/img/file.png" height="40px">
+                    <h4 class="ms-3 text-success">Fase<br>{{file.phase}}:</h4>
+                    <h4 class="mx-3">Documento<br>{{file.name}}</h4>
+                    <button class="btn btn-success" (click)="download(file.file,file.mimetype)"><img src="../../../../../assets/img/download.png" height="25"></button>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

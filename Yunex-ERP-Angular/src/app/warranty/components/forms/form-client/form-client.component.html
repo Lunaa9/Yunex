@@ -1,0 +1,154 @@
+<div class="container">
+  <!-- Formulario para cargar archivo Excel -->
+  <form (ngSubmit)="send($event)" name="excel">
+    <div class="card mb-3">
+      <div class="card-header bg-primary text-white">Excel de Módulos</div>
+      <div class="card-body">
+        <div class="form-floating mb-3">
+          <input
+            type="file"
+            class="form-control"
+            id="excel"
+            name="excel"
+            placeholder="Module1"
+            required
+            (change)="uploadButton($event)"
+          />
+          <label for="excel">Excel de Módulos</label>
+        </div>
+        <div class="text-danger mb-3" *ngIf="alertDanger">
+          Hubo un error al cargar los datos, revise los datos del archivo
+        </div>
+        <button
+          class="btn btn-success"
+          type="submit"
+          *ngIf="excel && !alertDanger"
+          [disabled]="overload"
+        >
+          Subir Excel
+        </button>
+      </div>
+    </div>
+  </form>
+
+  <!-- Formulario para ingresar un solo cliente -->
+  <form (ngSubmit)="handleSubmit()" id="form" #Form="ngForm">
+    <div class="card mb-3">
+      <div class="card-header bg-primary text-white">Información del Cliente</div>
+      <div class="card-body">
+        <div class="form-floating mb-3">
+          <input
+            type="text"
+            class="form-control"
+            [ngClass]="{ 'is-invalid': nameForm.invalid && (nameForm.dirty || nameForm.touched) }"
+            #nameForm="ngModel"
+            name="name"
+            required
+            [(ngModel)]="client.name"
+          />
+          <label for="name">Nombre</label>
+          <div class="invalid-feedback" *ngIf="nameForm.invalid && (nameForm.dirty || nameForm.touched)">
+            El nombre es requerido.
+          </div>
+        </div>
+        <div class="form-floating mb-3">
+          <input
+            type="text"
+            class="form-control"
+            [ngClass]="{ 'is-invalid': NITForm.invalid && (NITForm.dirty || NITForm.touched) }"
+            #NITForm="ngModel"
+            name="NIT"
+            required
+            [(ngModel)]="client.NIT"
+          />
+          <label for="NIT">NIT</label>
+          <div class="invalid-feedback" *ngIf="NITForm.invalid && (NITForm.dirty || NITForm.touched)">
+            El NIT es requerido.
+          </div>
+        </div>
+        <div class="form-floating mb-3">
+          <input
+            type="text"
+            class="form-control"
+            [ngClass]="{ 'is-invalid': PInCharge.invalid && (PInCharge.dirty || PInCharge.touched) }"
+            #PInCharge="ngModel"
+            name="personInCharge"
+            required
+            [(ngModel)]="client.personInCharge"
+          />
+          <label for="personInCharge">Personal a Cargo</label>
+          <div class="invalid-feedback" *ngIf="PInCharge.invalid && (PInCharge.dirty || PInCharge.touched)">
+            El personal a cargo es requerido.
+          </div>
+        </div>
+        <div class="form-floating mb-3">
+          <input
+            type="text"
+            class="form-control"
+            [ngClass]="{ 'is-invalid': directionForm.invalid && (directionForm.dirty || directionForm.touched) }"
+            #directionForm="ngModel"
+            name="direction"
+            required
+            [(ngModel)]="client.direction"
+          />
+          <label for="direction">Dirección</label>
+          <div class="invalid-feedback" *ngIf="directionForm.invalid && (directionForm.dirty || directionForm.touched)">
+            La dirección es requerida.
+          </div>
+        </div>
+        <div class="form-floating mb-3">
+          <input
+            type="email"
+            class="form-control"
+            [ngClass]="{ 'is-invalid': emailForm.invalid && (emailForm.dirty || emailForm.touched) }"
+            #emailForm="ngModel"
+            name="email"
+            required
+            [(ngModel)]="client.email"
+            (change)="emailTest()"
+          />
+          <label for="email">Correo Electrónico</label>
+          <div class="invalid-feedback" *ngIf="emailForm.invalid && (emailForm.dirty || emailForm.touched)">
+            <div *ngIf="emailForm.errors" required>
+              El correo electrónico es requerido.
+            </div>
+            <div *ngIf="emailForm.errors" required>
+              El correo electrónico debe ser válido.
+            </div>
+          </div>
+        </div>
+        <div class="form-floating mb-3">
+          <input
+            type="text"
+            class="form-control"
+            [ngClass]="{ 'is-invalid': phoneForm.invalid && (phoneForm.dirty || phoneForm.touched) }"
+            #phoneForm="ngModel"
+            name="phone"
+            required
+            pattern="[0-9]*" 
+            [(ngModel)]="client.phone"/>
+          <label for="phone">Número de Celular</label>
+          <div class="invalid-feedback" *ngIf="phoneForm.invalid && (phoneForm.dirty || phoneForm.touched)">
+            <div *ngIf="phoneForm.errors" required>
+              El número de celular es requerido.
+            </div>
+            <div *ngIf="phoneForm.errors">
+              El número de celular debe contener solo números.
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer">
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+          <button
+            class="btn btn-success"
+           
+            type="submit"
+          >
+            Aceptar
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

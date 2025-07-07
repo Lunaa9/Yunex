@@ -1,0 +1,17 @@
+.cursor {
+    cursor:pointer;
+    padding:5px
+}
+.dropDown{
+    overflow-y: scroll;
+    max-height: 600px;
+}
+.dropDown::-webkit-scrollbar{
+    width: 5px;
+}
+.dropDown::-webkit-scrollbar-thumb{
+    display:none;
+}
+.dropDown::-webkit-scrollbar-track{
+    background-color: rgba(255, 255, 255, 0.5);
+}

@@ -1,0 +1,131 @@
+<div class="container mt-4">
+    <form (ngSubmit)="handleSubmit3()" #Form="ngForm" novalidate>
+        <!-- Ticket -->
+        <div class="form-floating mb-3">
+            <select 
+                type="string"
+                #ticketForm="ngModel"
+                name="ticket" 
+                class="form-select" 
+                [ngClass]="{'is-invalid': ticketForm.invalid && (ticketForm.dirty || ticketForm.touched)}"
+                required 
+                [(ngModel)]="ticket">
+                <option *ngFor="let labIncidence of ticketList" [ngValue]="labIncidence.ticket">{{ labIncidence.ticket }}</option>
+            </select>
+            <label for="ticket">Ticket</label>
+            <div *ngIf="ticketForm.invalid && (ticketForm.dirty || ticketForm.touched)" class="invalid-feedback">
+                Selecciona un ticket.
+            </div>
+        </div>
+        
+        <!-- Tiempo real de reparacion -->
+        <div class="form-floating mb-3">
+            <input 
+                type="number" 
+                class="form-control" 
+                id="realRepairTime"
+                [ngClass]="{'is-invalid': RRTime.invalid && (RRTime.dirty || RRTime.touched)}"
+                #RRTime="ngModel"
+                name="realRepairTime"
+                required
+                [(ngModel)]="realRepairTime"
+                min="0">
+            <label for="realRepairTime">Tiempo real de reparación (Horas)</label>
+            <div *ngIf="RRTime.invalid && (RRTime.dirty || RRTime.touched)" class="invalid-feedback">
+                Ingresa un tiempo de reparación válido.
+            </div>
+        </div>
+        
+        <!-- Estado del modulo -->
+        <div class="form-floating mb-3">
+            <select 
+                type="string"
+                id="status"
+                #statusF="ngModel" 
+                name="status" 
+                class="form-select" 
+                [ngClass]="{'is-invalid': statusF.invalid && (statusF.dirty || statusF.touched)}"
+                required
+                [(ngModel)]="status">
+                <option value="irreparable">Irreparable</option>
+                <option value="repaired">Reparado</option>
+            </select>
+            <label for="status">Estado del módulo</label>
+            <div *ngIf="statusF.invalid && (statusF.dirty || statusF.touched)" class="invalid-feedback">
+                Este campo es obligatorio.
+            </div>
+        </div>
+        
+        <!-- Falla -->
+        <div class="form-floating mb-3">
+            <input 
+                type="text" 
+                class="form-control" 
+                id="failure"
+                [ngClass]="{'is-invalid': failureF.invalid && (failureF.dirty || failureF.touched)}"
+                #failureF="ngModel"
+                name="failure"
+                required
+                [(ngModel)]="failure">
+            <label for="failure">Falla</label>
+            <div *ngIf="failureF.invalid && (failureF.dirty || failureF.touched)" class="invalid-feedback">
+                Este campo es obligatorio.
+            </div>
+        </div>
+        
+        <!-- Sticker del modulo -->
+        <div class="form-floating mb-3">
+            <input 
+                type="text" 
+                class="form-control" 
+                id="sticker"
+                [ngClass]="{'is-invalid': stickerF.invalid && (stickerF.dirty || stickerF.touched)}"
+                #stickerF="ngModel"
+                name="sticker"
+                required
+                [(ngModel)]="sticker">
+            <label for="sticker">Sticker del módulo</label>
+            <div *ngIf="stickerF.invalid && (stickerF.dirty || stickerF.touched)" class="invalid-feedback">
+                Este campo es obligatorio.
+            </div>
+        </div>
+        
+        <!-- Comentarios -->
+        <div class="form-floating mb-3">
+            <input 
+                type="text" 
+                class="form-control" 
+                id="comments"
+                #commentsF="ngModel"
+                name="comments"
+                [(ngModel)]="comments">
+            <label for="comments">Comentarios</label>
+        </div>
+        
+        <!-- Proceso de reparacion -->
+        <div class="form-floating mb-3">
+            <input 
+                type="text" 
+                class="form-control" 
+                id="repairProcedure"
+                [ngClass]="{'is-invalid': RProcedure.invalid && (RProcedure.dirty || RProcedure.touched)}"
+                #RProcedure="ngModel"
+                name="repairProcedure"
+                required
+                [(ngModel)]="repairProcedure">
+            <label for="repairProcedure">Proceso de reparación</label>
+            <div *ngIf="RProcedure.invalid && (RProcedure.dirty || RProcedure.touched)" class="invalid-feedback">
+                Este campo es obligatorio.
+            </div>
+        </div>
+        
+        <!-- Botón de envío -->
+        <div class="d-grid" style="justify-content: end;">
+            <button class="btn btn-success" [disabled]="Form.invalid || isLoading" type="submit">
+                Aceptar
+                <span *ngIf="isLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            </button>
+            <div *ngIf="error" class="alert alert-warning mt-2">{{ error }}</div>
+        </div>
+    </form>
+</div>

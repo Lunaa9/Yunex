@@ -1,0 +1,15 @@
+<!-- form client modal -->
+<div class="alert position-fixed" tabindex="-1" *ngIf="form">
+    <div class="min-alert position-absolute">
+      <div class="card">
+        <div class="card-header d-flex justify-content-between">
+          <h1 class="fs-5" id="ModalToggleLabel2">Crear nuevo cliente</h1>
+          <button class="btn-close" (click)="closeForm()"></button>
+        </div>
+          <div class="card-body">
+              <app-form-client></app-form-client>
+          </div>
+      </div>
+    </div>
+  </div>
+  <button class="btn btn-primary" style="min-height: 60px;min-width: 85px;" (click)="openForm()">Nuevo cliente</button>

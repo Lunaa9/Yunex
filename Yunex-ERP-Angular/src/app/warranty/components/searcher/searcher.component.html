@@ -1,0 +1,42 @@
+<!-- input seacher -->
+<form class="d-flex" role="search" (ngSubmit)="search()" #Form="ngForm">
+    <input class="form-control me-2" type="text" name="params" placeholder="Search" [(ngModel)]="searchParams" (ngModelChange)="onFocusOut()" required>
+    <input class="btn btn-outline-primary" type="submit" value="Buscar" [disabled]="Form.invalid">
+</form>
+<!-- search results -->
+<ul class="list-group position-absolute" style="z-index: 1;" *ngIf="focus">
+    <li class="list-group-item border-bottom">Resultados</li>
+    <li class="list-group-item p-0 m-0" *ngIf="resSearch.length>0">
+        <div class="dropDown" *ngFor="let x of resSearch">
+            <div class="row mx-2 mb-2 cursor" *ngIf="x.NIT" (click)="selected(x)">
+                <div class="col"><h5 class="text-secondary">Cliente</h5><h6>{{x.name}}</h6></div>
+                <div class="col"><h5 class="text-secondary">NIT</h5><h6>{{x.NIT}}</h6></div>
+                <div class="col"><h5 class="text-secondary">Encargado</h5><h6>{{x.personInCharge}}</h6></div>
+                <div class="col"><h5 class="text-secondary">Telefono</h5><h6>{{x.phone}}</h6></div>
+            </div>
+            <div class="row mx-2 mb-2 cursor" *ngIf="x.contractName" (click)="selected(x)">
+                <div class="col"><h5 class="text-primary">Contrato</h5><h6>{{x.contractName}}</h6></div>
+                <div class="col"><h5 class="text-primary">Cliente</h5><h6>{{x.clientName}}</h6></div>
+                <div class="col"><h5 class="text-primary">Garantía</h5><h6>{{x.activeWarranty}}</h6></div>
+                <div class="col"><h5 class="text-primary">Fin Garantía</h5><h6>{{x.endWarranty}}</h6></div>
+            </div> 
+            <div class="row mx-2 mb-2 cursor" *ngIf="x.serial" (click)="selected(x)">
+                <div class="col"><h5 class="text-success">Modúlo</h5><h6>{{x.serial}}</h6></div>
+                <div class="col"><h5 class="text-success">Contrato</h5><h6>{{x.contractNum}}</h6></div>
+                <div class="col"><h5 class="text-success">Estado</h5><h6>{{x.status}}</h6></div>
+                <div class="col"><h5 class="text-success">Fin Garantía</h5><h6>{{x.endDate}}</h6></div>
+            </div>
+            <div class="row mx-2 mb-2 cursor" *ngIf="x.ticket" (click)="selected(x)">
+                <div class="col"><h5 class="text-warning">Ticket</h5><h6>{{x.ticket}}</h6></div>
+                <div class="col"><h5 class="text-warning">Modulo</h5><h6>{{x.module.serial}}</h6></div>
+                <div class="col"><h5 class="text-warning">Inicio</h5><h6>{{x.startAttentionDate}}</h6></div>
+                <div class="col"><h5 class="text-warning">Fin</h5><h6>{{x.realEndDate}}</h6></div>
+            </div>
+        </div>
+    </li>
+    <!-- void component -->
+    <li class="list-group-item" *ngIf="resSearch.length<=0">
+        <app-void></app-void>
+    </li>
+</ul> 
+

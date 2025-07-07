@@ -1,0 +1,121 @@
+<div class="container">
+  <!-- The contract form -->
+  <form (ngSubmit)="handleSubmit5()" id="form" #Form="ngForm">
+    <div class="form-group mb-3">
+      <label for="exampleSelect2" class="form-label"
+        ><font style="vertical-align: inherit"
+          ><font style="vertical-align: inherit">Clientes</font></font
+        ></label
+      >
+      <select
+        type="string"
+        #client="ngModel"
+        name="clientName"
+        class="form-select"
+        [ngClass]="{ 'is-invalid': client.invalid && client.dirty }"
+        required
+        [(ngModel)]="contract.clientName"
+      >
+        <option
+          *ngFor="let client of clientsNames"
+          [ngValue]="client.name"
+          [selected]="client.name === contract.clientName"
+        >
+          <font style="vertical-align: inherit">
+            <font style="vertical-align: inherit">{{ client.name }}</font>
+          </font>
+        </option>
+      </select>
+      <div *ngIf="client.invalid && client.touched" class="invalid-feedback">
+        Seleccione un cliente.
+      </div>
+    </div>
+    <div class="form-floating mb-3">
+      <input
+        type="string"
+        class="form-control"
+        [ngClass]="{ 'is-invalid': contractForm.invalid && contractForm.dirty }"
+        #contractForm="ngModel"
+        name="ContractName"
+        required
+        [(ngModel)]="contract.contractName"
+      />
+      <label for="floatingInputDisabled">Nombre del contrato</label>
+      <div *ngIf="contractForm.invalid && contractForm.touched" class="invalid-feedback">
+        Ingrese el nombre del contrato.
+      </div>
+    </div>
+    <div class="form-floating mb-3">
+      <input
+        type="file"
+        class="form-control"
+        id="handover"
+        name="handover"
+        placeholder="Module1"
+        required
+        (change)="handleSubmit2($event)"
+      />
+      <label for="floatingInputDisabled">handover</label>
+    </div>
+    <div class="form-floating mb-3">
+      <input
+        type="date"
+        class="form-control"
+        #iWarranty="ngModel"
+        name="initWarranty"
+        required
+        [(ngModel)]="contract.initWarranty"
+        [ngClass]="{ 'is-invalid': iWarranty.invalid && iWarranty.dirty }"
+        (change)="date()"
+      />
+      <label *ngIf="!wrongDate">Inicio de garantía</label>
+      <label class="text-danger" *ngIf="wrongDate">La fecha no es valida</label>
+      <div *ngIf="iWarranty.invalid && iWarranty.touched" class="invalid-feedback">
+        Seleccione una fecha de inicio de garantía.
+      </div>
+    </div>
+    <div class="form-floating mb-3">
+      <input
+        type="date"
+        class="form-control"
+        #eWarranty="ngModel"
+        name="endWarranty"
+        required
+        [(ngModel)]="contract.endWarranty"
+        [ngClass]="{ 'is-invalid': eWarranty.invalid && eWarranty.dirty }"
+        (change)="date()"
+      />
+      <label *ngIf="!wrongDate">Inicio de garantía</label>
+      <label class="text-danger" *ngIf="wrongDate">La fecha no es valida</label>
+      <div *ngIf="eWarranty.invalid && eWarranty.touched" class="invalid-feedback">
+        Seleccione una fecha de fin de garantía.
+      </div>
+    </div>
+    <div class="form-floating mb-3">
+      <input
+        type="string"
+        class="form-control"
+        [ngClass]="{ 'is-invalid': ceco.invalid || ceco.dirty }"
+        #ceco="ngModel"
+        name="ceco"
+        required
+        [(ngModel)]="contract.ceco"
+      />
+      <label for="floatingInputDisabled">Ceco</label>
+      <div *ngIf="ceco.invalid || ceco.touched" class="invalid-feedback">
+        Ingrese el ceco.
+      </div>
+    </div>
+    <div class="d-grid" style="justify-content: end">
+      <button
+        class="btn"
+        style="background-color: #00e676; border: none"
+        
+        type="submit"
+      >
+        aceptar
+      </button>
+      <!--<div *ngIf="error" class="error alert alert-warning">{{ error }}</div>-->
+    </div>
+  </form>
+</div>

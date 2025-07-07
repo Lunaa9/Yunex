@@ -1,0 +1,49 @@
+.custBorder{
+    border: #afb9be 1px solid;
+}
+.custBorder:hover{
+    border: #587583 2px solid;
+}
+.headTable{
+    border:rgba(110, 106, 106, 0.2) 1px solid !important;
+}
+.uploadFile{
+    overflow: hidden;
+}
+.label{
+  background-color: blue;
+  color: white;
+  font-family: sans-serif;
+  border-radius: 0.3rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  margin-right: 1rem;
+}
+.alert{
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    background-color: rgba(110, 106, 106, 0.2);
+    width: 100%;
+    z-index: 5;
+    padding: 100%;
+}
+.min-alert{
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+@media (max-width:526px ){
+    .resTable{
+        overflow-y: scroll;
+    }
+    .resTable::-webkit-scrollbar{
+        width: 5px;
+    }
+    .resTable::-webkit-scrollbar-thumb{
+        display:none;
+    }
+    .resTable::-webkit-scrollbar-track{
+        background-color: rgba(255, 255, 255, 0.5);
+    }
+}

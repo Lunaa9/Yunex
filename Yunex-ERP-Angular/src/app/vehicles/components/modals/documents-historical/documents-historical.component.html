@@ -1,0 +1,85 @@
+<!-- historical modal -->
+<div class="alert position-fixed">
+    <div class="min-alert position-absolute row p-5 bg-light container" style="height: 600px;">
+        <button class="btn-close m-2" (click)="Close()"></button>
+
+        <!-- tickets column: Filtros de categorías -->
+        <div class="p-0 col col-md-4 card me-5 overflow">
+            <div class="card-header">
+                <h4>Tipo de archivos</h4>
+            </div>
+
+            <!-- Botones para seleccionar la categoría -->
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item d-flex align-items-center m-2 btn" (click)="selectCategory('lifesheet')">
+                    <img src="../../../../../assets/img/folder.png" height="30px">
+                    <h5 class="mx-2">HOJA DE VIDA</h5>
+                </li>
+                <li class="list-group-item d-flex align-items-center m-2 btn" (click)="selectCategory('photoRecord')">
+                    <img src="../../../../../assets/img/folder.png" height="30px">
+                    <h5 class="mx-2">REGISTRO FOTOGRÁFICO</h5>
+                </li>
+                <li class="list-group-item d-flex align-items-center m-2 btn" (click)="selectCategory('transitLicense')">
+                    <img src="../../../../../assets/img/folder.png" height="30px">
+                    <h5 class="mx-2">LISENCIA DE TRÁNSITO</h5>
+                </li>
+                <li class="list-group-item d-flex align-items-center m-2 btn" (click)="selectCategory('soat')">
+                    <img src="../../../../../assets/img/folder.png" height="30px">
+                    <h5 class="mx-2">SOAT</h5>
+                </li>
+                <li class="list-group-item d-flex align-items-center m-2 btn" (click)="selectCategory('automobileInsurance')">
+                    <img src="../../../../../assets/img/folder.png" height="30px">
+                    <h5 class="mx-2">SEGURO AUTOMOVIL</h5>
+                </li>
+                <li class="list-group-item d-flex align-items-center m-2 btn" (click)="selectCategory('vehicleTax')">
+                    <img src="../../../../../assets/img/folder.png" height="30px">
+                    <h5 class="mx-2">IMPUESTO VEHÍCULO</h5>
+                </li>
+                <li class="list-group-item d-flex align-items-center m-2 btn" (click)="selectCategory('technomechanicalCertificate')">
+                    <img src="../../../../../assets/img/folder.png" height="30px">
+                    <h5 class="mx-2">CERTIFICADO TECNOMECÁNICA</h5>
+                </li>
+                <li class="list-group-item d-flex align-items-center m-2 btn" (click)="selectCategory('technicalSheets')">
+                    <img src="../../../../../assets/img/folder.png" height="30px">
+                    <h5 class="mx-2">FICHAS TÉCNICAS, MANUALES Y VARIOS</h5>
+                </li>
+            </ul>
+        </div>
+
+        <!-- files column: Muestra los archivos filtrados -->
+        <div class="p-0 col card overflow">
+            <div class="card-header mb-2">
+                <h4>Archivos </h4>
+                <app-add-documents [documentCategory]="selectedCategory" [isLicensePlateDisabled]="true"  [vehicleLicensePlate]="licensePlate"></app-add-documents>
+            </div>
+
+            <!-- Muestra los archivos filtrados según la categoría -->
+            <ul *ngIf="filteredFiles && filteredFiles.length > 0" class="list-group">
+                <li *ngFor="let file of filteredFiles" class="list-group-item mx-2 mb-2 p-2 border-2 d-flex align-items-center justify-content-between" style="flex-wrap: wrap;">
+                    <img class="ms-3" src="../../../../../assets/img/file.png" height="40px">
+                    <h4 class="ms-3 text-success">Archivo:<br> {{ file.fileName }}</h4>
+                    <div>
+                        <br>
+                        <!-- Botón para descargar el archivo -->
+                        <button class="btn btn-success" (click)="downloadVehicleFile(vehicle!.licensePlate, file.fileName)">
+                            <img src="../../../../../assets/img/download.png" height="25"> 
+                        </button>
+
+                        <!-- Botón para ver el archivo en el navegador -->
+                        <button class="btn btn-primary" (click)="viewFile(file.fileName, file.mimetype)">
+                            <img src="../../../../../assets/img/eye.svg" height="25">
+                        </button>
+
+                        <!-- Botón para eliminar el archivo -->
+                        <button class="btn m-1 btn-danger" (click)="deleteFile(file.fileName)">
+                            <img src="../../../../../assets/img/delete.png" height="25">
+                        </button>
+                    </div>
+                </li>
+            </ul>
+
+            <!-- Mensaje cuando no hay archivos disponibles -->
+            <p *ngIf="filteredFiles && filteredFiles.length === 0">No se encontraron archivos.</p>
+        </div>
+    </div>
+</div>

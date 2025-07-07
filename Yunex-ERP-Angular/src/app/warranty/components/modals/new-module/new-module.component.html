@@ -1,0 +1,50 @@
+<!-- The new module form, this is part of the warranty process -->
+<form class="m-3" id="form" (ngSubmit)="uploadPurchaseOrder($event)" #Form="ngForm">
+    <div class="row justify-content-end">
+        <h3 class="text-danger" *ngIf="!finished">Ocurrio un error en la carga de la información</h3>
+        <button class="btn-close" (click)="close()"></button>
+    </div>
+    <div class="row mb-2 justify-content-center">
+        <div class="col-md-3 col form-group">
+            <div class="mb-4">
+                <h3>Nuevo Serial</h3>
+                <input class="form-control"
+                    type="text"
+                    name="newSerial" 
+                    placeholder="Ingrese el numero del serial" 
+                    [disabled]="inputText" 
+                    [(ngModel)]="serial"
+                    required>
+            </div>
+            <div>
+                <h3>Precio del Nuevo Módulo</h3>
+                <input class="form-control"
+                    type="number"
+                    name="newPrice" 
+                    placeholder="Ingrese el precio del módulo" 
+                    [disabled]="inputText" 
+                    [(ngModel)]="newPrice"
+                    required>
+            </div>
+        </div>
+        <div class="col-md-3 col form-group">
+            <h3>Archivo de Soporte</h3>
+            <div class="justify-content-center align-items-center d-flex file-square">
+                <div class="text-center">
+                    <div>
+                        <input #uploadFile type="file" id="newFile" name="newFile" (change)="isFile($event)" hidden required>
+                        <label class="btn" for="newFile">
+                            <img src="../../../../../assets/img/upload.png" height="50px">
+                        </label>
+                    </div>
+                    <label>{{uploadName}}</label>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<div class="row m-4 d-flex justify-content-end">
+    <div class="col col-md-5 d-flex justify-content-end align-items-center">
+        <button type="submit" class="btn btn-success me-2 col-4 px-0" form="form" [disabled]="Form.invalid || disabledButton || !newPrice">ACTUALIZAR</button>
+    </div>
+</div>

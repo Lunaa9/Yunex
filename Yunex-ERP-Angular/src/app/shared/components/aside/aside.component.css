@@ -1,0 +1,13 @@
+.hover-aside:hover{
+    border-top: white 2px solid;
+    border-bottom: white 2px solid;
+}
+.hover-aside-focus{
+    border-top: white 2px solid;
+    border-bottom: white 2px solid;
+}
+@media (max-width:992px ){
+    .media{
+        position: absolute;
+    }
+}

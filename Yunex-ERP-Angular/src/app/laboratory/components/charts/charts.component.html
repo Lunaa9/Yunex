@@ -1,0 +1,34 @@
+<div class="col" [ngClass]="{'d-none':assembly}">
+  <p class="text-center fw-bold fs-2" style="color:blue;">Graficos Estadisticos</p>
+  <div class="row my-5 rounded p-4 iframe">
+    <!-- incidences status -->
+    <h2 class="fw-bold">Estado de las Incidencias</h2>
+    <div class="chart-size py-3 d-flex justify-content-center">
+      <canvas id="status">
+        {{statusIn}}
+      </canvas>
+    </div>
+    <!-- compliance the repair time -->
+    <h2 class="fw-bold">Tiempo de reparación</h2>
+    <div class="chart-size py-5 d-flex justify-content-center">
+      <canvas id="expTime">
+        {{expTimeIn}}
+      </canvas>
+    </div>
+    <!-- compliance the expected out date -->
+    <h2 class="fw-bold">Fecha de Salida</h2>
+    <div class="chart-size py-5 d-flex justify-content-center">
+      <canvas id="outDate">
+        {{outDateIn}}
+      </canvas>
+    </div>
+    <!-- Warranty entry -->
+    <h2 class="fw-bold">Entra por Garantía</h2>
+    <div class="chart-size py-5 d-flex justify-content-center">
+      <canvas id="warranty">
+        {{warrIn}}
+      </canvas>
+    </div>
+  </div>
+</div>
+

@@ -1,0 +1,288 @@
+<div class="container">
+  <!-- The excel file form -->
+  <form (ngSubmit)="send($event)" name="excel">
+    <div class="form-floating mb-3">
+      <input
+        type="file"
+        class="form-control"
+        id="handover"
+        name="handover"
+        placeholder="Module1"
+        required
+        (change)="uploadButton($event)"
+      />
+      <label for="floatingInputDisabled">Excel de Modulos</label>
+    </div>
+    <label class="rounded-2 bg-danger p-2 text-light mb-3" *ngIf="alertDanger">
+      Hubo un error al cargar los datos, revise los datos del archivo
+    </label>
+    <button
+      class="btn"
+      type="submit"
+      *ngIf="excel && !alertDanger"
+      style="background-color: #00e676; border: none"
+      [disabled]="overload"
+    >
+      Subir Excel
+    </button>
+  </form>
+
+  <!-- The one module form-->
+  <form (ngSubmit)="handleSubmit()" id="form" #Form="ngForm" *ngIf="!excel">
+    <div>
+      <div class="form-group form-floating mb-3">
+        <select
+          name="clientName"
+          #client="ngModel"
+          class="form-select"
+          [ngClass]="{ 'is-invalid': client.invalid && client.dirty }"
+          [(ngModel)]="module.clientName"
+          (ngModelChange)="getContractsName()"
+          required
+        >
+          <option
+            *ngFor="let client of clients"
+            [ngValue]="client.name"
+            [selected]="client.name === module.clientName"
+          >
+            {{ client.name }}
+          </option>
+        </select>
+        <label class="form-label">Cliente</label>
+        <div *ngIf="client.invalid && client.dirty" class="text-danger">
+          Por favor seleccione un cliente.
+        </div>
+      </div>
+      <div class="form-group form-floating mb-3">
+        <select
+          name="contractName"
+          #contract="ngModel"
+          class="form-select"
+          [ngClass]="{ 'is-invalid': contract.invalid && contract.dirty }"
+          [(ngModel)]="module.contractNum"
+          required
+        >
+          <option
+            *ngFor="let contract of contracts"
+            [ngValue]="contract.contractName"
+            [selected]="contract.contractName === module.contractNum"
+          >
+            {{ contract.contractName }}
+          </option>
+        </select>
+        <label class="form-label">Contrato</label>
+        <div *ngIf="contract.invalid && contract.dirty" class="text-danger">
+          Por favor seleccione un contrato.
+        </div>
+      </div>
+      <div class="form-floating mb-3">
+        <input
+          type="string"
+          [(ngModel)]="module.serial"
+          #serial="ngModel"
+          name="serial"
+          class="form-control"
+          [ngClass]="{ 'is-invalid': serial.invalid && serial.dirty }"
+          required
+        />
+        <label>Serial del módulo</label>
+        <div *ngIf="serial.invalid && serial.dirty" class="text-danger">
+          El serial del módulo es obligatorio.
+        </div>
+      </div>
+      <div class="form-floating mb-3">
+        <input
+          type="string"
+          [(ngModel)]="module.name"
+          name="name"
+          #name="ngModel"
+          class="form-control"
+          [ngClass]="{ 'is-invalid': name.invalid && name.dirty }"
+          required
+        />
+        <label>Nombre del módulo</label>
+        <div *ngIf="name.invalid && name.dirty" class="text-danger">
+          El nombre del módulo es obligatorio.
+        </div>
+      </div>
+      <div class="form-floating mb-3">
+        <input
+          type="string"
+          [(ngModel)]="module.type"
+          name="type"
+          #type="ngModel"
+          class="form-control"
+          [ngClass]="{ 'is-invalid': type.invalid && type.dirty }"
+          required
+        />
+        <label>Tipo de modulo</label>
+        <div *ngIf="type.invalid && type.dirty" class="text-danger">
+          El tipo de módulo es obligatorio.
+        </div>
+      </div>
+      <div class="form-floating mb-3">
+        <input
+          type="string"
+          [(ngModel)]="module.category"
+          name="category"
+          #category="ngModel"
+          class="form-control"
+          [ngClass]="{ 'is-invalid': category.invalid && category.dirty }"
+          required
+        />
+        <label>Categoria</label>
+        <div *ngIf="category.invalid && category.dirty" class="text-danger">
+          La categoría es obligatoria.
+        </div>
+      </div>
+      <div class="form-floating mb-3">
+        <input
+          type="string"
+          [(ngModel)]="module.ubication"
+          name="ubication"
+          #ubication="ngModel"
+          class="form-control"
+          [ngClass]="{ 'is-invalid': ubication.invalid && ubication.dirty }"
+          required
+        />
+        <label>Ubicación</label>
+        <div *ngIf="ubication.invalid && ubication.dirty" class="text-danger">
+          La ubicación es obligatoria.
+        </div>
+      </div>
+      <div class="form-floating mb-3">
+        <input
+          type="string"
+          [(ngModel)]="module.functionalUnit"
+          name="functionalUnit"
+          #functionalUnit="ngModel"
+          class="form-control"
+          [ngClass]="{
+            'is-invalid': functionalUnit.invalid && functionalUnit.dirty
+          }"
+          required
+        />
+        <label>Unidad Funcional</label>
+        <div
+          *ngIf="functionalUnit.invalid && functionalUnit.dirty"
+          class="text-danger"
+        >
+          La unidad funcional es obligatoria.
+        </div>
+      </div>
+      <div class="form-floating mb-3">
+        <input
+          type="date"
+          [(ngModel)]="module.startDate"
+          name="startDate"
+          #startDate="ngModel"
+          class="form-control"
+          [ngClass]="{ 'is-invalid': startDate.invalid && startDate.dirty }"
+          required
+        />
+        <label>Inicio Garantia</label>
+        <div *ngIf="startDate.invalid && startDate.dirty" class="text-danger">
+          La fecha de inicio de garantía es obligatoria.
+        </div>
+      </div>
+      <div class="form-floating mb-3">
+        <input
+          type="number"
+          [(ngModel)]="module.warrantyTime"
+          name="warrantyTime"
+          #warrantyTime="ngModel"
+          class="form-control"
+          [ngClass]="{
+            'is-invalid': warrantyTime.invalid && warrantyTime.dirty
+          }"
+          required
+        />
+        <label>Tiempo de garantía (meses)</label>
+        <div
+          *ngIf="warrantyTime.invalid && warrantyTime.dirty"
+          class="text-danger"
+        >
+          El tiempo de garantía es obligatorio.
+        </div>
+      </div>
+      <div class="form-floating mb-3">
+        <input
+          type="date"
+          [(ngModel)]="module.startDateSupp"
+          name="startDateSupp"
+          #startDateSupp="ngModel"
+          class="form-control"
+          [ngClass]="{
+            'is-invalid': startDateSupp.invalid && startDateSupp.dirty
+          }"
+          (change)="supplerDate()"
+          required
+        />
+        <label *ngIf="!wrongDate">Inicio Garantía del Proveedor</label>
+        <label class="text-danger" *ngIf="wrongDate">
+          La fecha no es valida
+        </label>
+        <div
+          *ngIf="startDateSupp.invalid && startDateSupp.dirty && !wrongDate"
+          class="text-danger"
+        >
+          La fecha de inicio de garantía del proveedor es obligatoria.
+        </div>
+      </div>
+      <div class="form-floating mb-3">
+        <input
+          type="date"
+          [(ngModel)]="module.endDateSupp"
+          name="endDateSupp"
+          #endDateSupp="ngModel"
+          class="form-control"
+          [ngClass]="{ 'is-invalid': endDateSupp.invalid && endDateSupp.dirty }"
+          (change)="supplerDate()"
+          required
+        />
+        <label *ngIf="!wrongDate">Fin Garantía del Proveedor</label>
+        <label class="text-danger" *ngIf="wrongDate">
+          La fecha no es valida
+        </label>
+        <div
+          *ngIf="endDateSupp.invalid && endDateSupp.dirty && !wrongDate"
+          class="text-danger"
+        >
+          La fecha de fin de garantía del proveedor es obligatoria.
+        </div>
+      </div>
+      <div class="form-group form-floating mb-3">
+        <select
+          name="status"
+          #status="ngModel"
+          class="form-select"
+          [ngClass]="{ 'is-invalid': status.invalid && status.dirty }"
+          [(ngModel)]="module.status"
+          required
+        >
+          <option [value]="'active'">Activo</option>
+          <option [value]="'inProcess'">En Proceso</option>
+          <option [value]="'inactive'">Inactivo</option>
+        </select>
+        <label class="form-label">Estatus</label>
+        <div *ngIf="status.invalid && status.dirty" class="text-danger">
+          El estatus es obligatorio.
+        </div>
+      </div>
+    </div>
+    <div class="d-grid" style="justify-content: end">
+      <button
+        class="btn"
+        style="background-color: #00e676; border: none"
+        [disabled]="Form.invalid || overload || wrongDate"
+        type="submit"
+        (click)="handleSubmit()"
+        data-bs-dismiss="modal"
+        [disabled]="Form.invalid || overload || wrongDate"
+
+      >
+        Aceptar
+      </button>
+    </div>
+  </form>
+</div>

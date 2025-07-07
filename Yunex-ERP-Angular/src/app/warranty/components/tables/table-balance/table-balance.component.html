@@ -1,0 +1,61 @@
+<div class="card">
+    <div class="card-body">
+        <!-- balance filter -->
+        <form class="d-flex row justify-content-end align-items-center">
+            <select name="client" class="rounded-pill me-2 mb-2 col col-sm-1" 
+            [(ngModel)]="balanceData.client" (ngModelChange)="reset()">
+                <option [ngValue]="''" selected hidden>Cliente</option>
+                <option [ngValue]="''">Todos</option>
+                <option *ngFor="let cli of mainData.clients">{{cli}}</option>
+            </select>
+            <select name="contract" class="rounded-pill me-2 mb-2 col col-sm-1" [(ngModel)]="balanceData.contract"
+            [disabled]="!balanceData.client" (ngModelChange)="reset()">
+                <option [ngValue]="''" selected hidden>Contrato</option>
+                <option [ngValue]="''">Todos</option>
+                <option *ngFor="let cont of mainData.contracts">{{cont}}</option>
+            </select>
+            <select name="module" class="rounded-pill me-2 mb-2 col col-sm-1" [(ngModel)]="balanceData.module"
+            [disabled]="!balanceData.contract" (ngModelChange)="reset()">
+                <option [ngValue]="''" selected hidden>Módulo</option>
+                <option [ngValue]="''">Todos</option>
+                <option *ngFor="let modl of mainData.modules">{{modl}}</option>
+            </select>
+            <select name="year" class="rounded-pill me-2 mb-2 col col-sm-1" [(ngModel)]="balanceData.year"
+            [disabled]="!balanceData.module" (ngModelChange)="reset()">
+                <option [ngValue]="''" selected hidden>Año</option>
+                <option [ngValue]="''">Todos</option>
+                <option *ngFor="let year of years">{{year}}</option>
+            </select>
+        </form>
+        <!-- Balance summary -->
+        <div>
+            <div class="row mx-5 my-4">
+                <div class="col d-flex align-items-center cardNumber rounded-3 m-2 py-2">
+                    <h3>Numero de Clientes</h3>
+                    <h4 class="ms-2 text-primary">{{cantCli}}</h4>
+                </div>
+                <div class="col d-flex align-items-center cardNumber rounded-3 m-2 py-2">
+                    <h3>Numero de Contratos</h3>
+                    <h4 class="ms-2 text-primary">{{cantCont}}</h4>
+                </div>
+            </div>
+            <div class="row mx-5 my-4">
+                <div class="col d-flex align-items-center cardNumber rounded-3 m-2 py-2">
+                    <h3>Numero de Modulos</h3>
+                    <h4 class="ms-2 text-primary">{{cantModl}}</h4>
+                </div>
+                <div class="col d-flex align-items-center cardNumber rounded-3 m-2 py-2">
+                    <h3>Numero de Tickets</h3>
+                    <h4 class="ms-2 text-primary">{{cantTick}}</h4>
+                </div>
+            </div>
+            <div class="d-flex justify-content-end">
+                <button class="btn btn-primary" 
+                (click)="charts(show)">
+                    {{btnTxt}}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<app-warrt-charts *ngIf="show"></app-warrt-charts>

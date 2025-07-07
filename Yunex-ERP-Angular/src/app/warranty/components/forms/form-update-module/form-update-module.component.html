@@ -1,0 +1,228 @@
+<!-- The update module form -->
+<form class="row" (ngSubmit)="updateModule()" id="form" #Form="ngForm">
+  <div class="col">
+    <div class="form-floating" *ngIf="!edit">
+      <input
+        class="form-control mt-2"
+        [ngClass]="{ 'is-invalid': serial.invalid && serial.dirty }"
+        type="text"
+        name="serial"
+        #serial="ngModel"
+        [disabled]="!edit"
+        [(ngModel)]="crudModule.serial"
+        required
+      />
+      <label>Serial</label>
+    </div>
+    <div class="form-floating">
+      <input
+        class="form-control mt-2"
+        [ngClass]="{ 'is-invalid': name.invalid && name.dirty }"
+        type="text"
+        name="name"
+        #name="ngModel"
+        [disabled]="!edit"
+        [(ngModel)]="crudModule.name"
+        required
+      />
+      <label>Nombre</label>
+    </div>
+    <div class="form-group form-floating">
+      <select
+        class="form-select mt-2"
+        [ngClass]="{ 'is-invalid': client.invalid && client.dirty }"
+        name="client"
+        #client="ngModel"
+        [disabled]="!edit"
+        [(ngModel)]="crudModule.clientName"
+        (ngModelChange)="getContracts()"
+        required
+      >
+        <option [ngValue]="crudModule.clientName" selected *ngIf="!edit">
+          {{ crudModule.clientName }}
+        </option>
+        <option *ngFor="let client of clients" [ngValue]="client.name">
+          {{ client.name }}
+        </option>
+      </select>
+      <label class="form-label">Cliente</label>
+    </div>
+    <div class="form-group form-floating">
+      <select
+        class="form-select mt-2"
+        [ngClass]="{ 'is-invalid': contract.invalid && contract.dirty }"
+        name="contract"
+        #contract="ngModel"
+        [disabled]="!edit"
+        [(ngModel)]="crudModule.contractNum"
+        required
+      >
+        <option [ngValue]="crudModule.contractNum" selected *ngIf="!edit">
+          {{ crudModule.contractNum }}
+        </option>
+        <option
+          *ngFor="let contract of contracts"
+          [ngValue]="contract.contractName"
+        >
+          {{ contract.contractName }}
+        </option>
+      </select>
+      <label class="form-label">Contrato</label>
+    </div>
+    <div class="form-floating">
+      <input
+        class="form-control mt-2"
+        [ngClass]="{ 'is-invalid': type.invalid && type.dirty }"
+        type="text"
+        name="type"
+        #type="ngModel"
+        [disabled]="!edit"
+        [(ngModel)]="crudModule.type"
+        required
+      />
+      <label>Tipo de Modulo</label>
+    </div>
+  </div>
+  <div class="col form-floating">
+    <div class="form-floating">
+      <input
+        class="form-control mt-2"
+        [ngClass]="{ 'is-invalid': category.invalid && category.dirty }"
+        type="text"
+        name="category"
+        #category="ngModel"
+        [disabled]="!edit"
+        [(ngModel)]="crudModule.category"
+        required
+      />
+      <label>Categoria</label>
+    </div>
+    <div class="form-floating">
+      <input
+        class="form-control mt-2"
+        [ngClass]="{ 'is-invalid': ubication.invalid && ubication.dirty }"
+        type="text"
+        name="ubication"
+        #ubication="ngModel"
+        [disabled]="!edit"
+        [(ngModel)]="crudModule.ubication"
+        required
+      />
+      <label>Ubicación</label>
+    </div>
+    <div class="form-floating">
+      <input
+        class="form-control mt-2"
+        [ngClass]="{
+          'is-invalid': functionalUnit.invalid && functionalUnit.dirty
+        }"
+        type="text"
+        name="functionalUnit"
+        #functionalUnit="ngModel"
+        [disabled]="!edit"
+        [(ngModel)]="crudModule.functionalUnit"
+        required
+      />
+      <label>Unidad Funcional</label>
+    </div>
+    <div class="form-floating">
+      <input
+        class="form-control mt-2"
+        [ngClass]="{ 'is-invalid': startDate.invalid && startDate.dirty }"
+        type="date"
+        name="startDate"
+        #startDate="ngModel"
+        [disabled]="!edit"
+        [(ngModel)]="crudModule.startDate"
+        required
+      />
+      <label>Inicio de Garantía</label>
+    </div>
+  </div>
+  <div class="col form-floating">
+    <div class="form-floating">
+      <input
+        class="form-control mt-2"
+        [ngClass]="{ 'is-invalid': warrantyTime.invalid && warrantyTime.dirty }"
+        type="text"
+        name="warrantyTime"
+        #warrantyTime="ngModel"
+        [disabled]="!edit"
+        [(ngModel)]="crudModule.warrantyTime"
+        required
+      />
+      <label>Tiempo de Garantía</label>
+    </div>
+    <div class="form-floating" *ngIf="!edit">
+      <input
+        class="form-control mt-2"
+        [ngClass]="{ 'is-invalid': endDate.invalid && endDate.dirty }"
+        type="string"
+        name="endDate"
+        #endDate="ngModel"
+        [disabled]="true"
+        [(ngModel)]="crudModule.endDate"
+        required
+      />
+      <label>Fin de Garantía</label>
+    </div>
+    <div class="form-floating">
+      <input
+        class="form-control mt-2"
+        [ngClass]="{
+          'is-invalid': startDateSupp.invalid && startDateSupp.dirty
+        }"
+        type="date"
+        name="startDateSupp"
+        #startDateSupp="ngModel"
+        [disabled]="!edit"
+        [(ngModel)]="crudModule.startDateSupp"
+        [ngClass]="{ 'is-invalid': wrongDate }"
+        (change)="supplerDate()"
+        required
+      />
+      <label *ngIf="!wrongDate">Inicio Garantía del Proveedor</label>
+      <label class="text-danger" *ngIf="wrongDate">La fecha no es valida</label>
+    </div>
+    <div class="form-floating">
+      <input
+        class="form-control mt-2"
+        [ngClass]="{ 'is-invalid': endDateSupp.invalid && endDateSupp.dirty }"
+        type="date"
+        name="endDateSupp"
+        #endDateSupp="ngModel"
+        [disabled]="!edit"
+        [(ngModel)]="crudModule.endDateSupp"
+        [ngClass]="{ 'is-invalid': wrongDate }"
+        (change)="supplerDate()"
+        required
+      />
+      <label *ngIf="!wrongDate">Fin Garantía del Proveedor</label>
+      <label class="text-danger" *ngIf="wrongDate">La fecha no es valida</label>
+    </div>
+    <div class="form-group form-floating">
+      <select
+        class="form-select mt-2"
+        [ngClass]="{ 'is-invalid': status.invalid && status.dirty }"
+        name="status"
+        #status="ngModel"
+        [disabled]="!edit"
+        [(ngModel)]="crudModule.status"
+        required
+      >
+        <option [value]="'active'">Activo</option>
+        <option [value]="'inProcess'">En Proceso</option>
+        <option [value]="'inactive'">Inactivo</option>
+      </select>
+      <label class="form-label">Estado</label>
+    </div>
+  </div>
+  <div class="text-end p-3" *ngIf="edit">
+    <input
+      class="btn btn-outline-primary"
+      type="submit"
+      value="Actualizar"
+      [disabled]="overload || Form.invalid || wrongDate"
+    />
+  </div>
+</form>

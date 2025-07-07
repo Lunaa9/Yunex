@@ -1,0 +1,62 @@
+
+.resTable{
+    overflow-x: scroll;
+}
+.resTable::-webkit-scrollbar{
+    height: 10px;
+}
+.resTable::-webkit-scrollbar-thumb{
+    display:none;
+}
+.resTable::-webkit-scrollbar-track{
+    background-color: rgba(200, 226, 230, 0.891);
+    height: 10px;
+}
+
+
+.up-arrow{
+transform: rotate(-90deg);
+height: 15px;
+}
+
+.down-arrow{
+transform: rotate(90deg);
+height: 15px;
+}
+
+.status-indicators {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+  }
+  
+  .status {
+    display: flex;
+    align-items: center;
+  }
+  
+  .dot {
+    height: 12px;
+    width: 12px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 5px;
+  }
+  
+  .red {
+    background-color: red;
+  }
+  
+  .yellow {
+    background-color: yellow;
+  }
+  
+  .green {
+    background-color: green;
+  }
+  
+
+  

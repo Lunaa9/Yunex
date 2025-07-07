@@ -1,0 +1,25 @@
+<ul class="list-group">
+  <li 
+    class="list-group-item list-group-item-primary d-flex justify-content-between align-items-center"
+    >
+    <div class="col">Usuario</div>
+    <div class="col">Rol</div>
+    <div class="col">Opciones</div>
+  </li>
+    <li 
+    class="list-group-item list-group-item-light d-flex justify-content-between align-items-center"
+    *ngFor="let User of usersList"
+    >
+    <div class="col">{{User.email}}</div>
+    <div class="col">{{User.rol}}</div>
+    <div class="col" *ngIf="User">
+        <button class="btn btn-danger" (click)="Delete(User.email)">
+          <img class="" src="../../../../assets/img/bag-x.svg">
+        </button>
+    </div>
+
+  </li>
+</ul>
+<div>
+  <app-edit-user></app-edit-user>
+</div>

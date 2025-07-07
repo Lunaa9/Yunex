@@ -1,0 +1,18 @@
+.file-square{
+    width: 100%;
+    border-style: dashed;
+    height: 150px;
+    border-color: rgb(220, 213, 213);
+}
+.finish span{
+    display: none;
+}
+.deny span{
+    display: none;
+}
+.finish::after{
+    content: 'Finalizar' !important;
+}
+.deny::after{
+    content: 'Rechazar garantía' !important;
+}

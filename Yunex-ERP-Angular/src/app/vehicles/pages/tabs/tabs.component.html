@@ -1,0 +1,11 @@
+<div class="tabs">
+  <div *ngFor="let tab of tabs" class="tab" [class.active]="tab === selectedTab" (click)="selectTab(tab)">
+    {{ tab }}
+  </div>
+</div>
+
+
+
+
+
+

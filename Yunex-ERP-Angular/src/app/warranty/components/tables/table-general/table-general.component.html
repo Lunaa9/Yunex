@@ -1,0 +1,114 @@
+<!-- void component -->
+<app-void *ngIf="void"></app-void>
+<!-- historical component -->
+<app-ticket-historical
+  *ngIf="modal && action === 'historical'"
+></app-ticket-historical>
+<!-- warranty procedure component -->
+<app-wrrty-procedure
+  *ngIf="modal && action === 'generalProcess'"
+></app-wrrty-procedure>
+<div *ngIf="!void">
+  <!-- table controllers -->
+  <div class="row d-flex justify-content-between align-items-center p-2">
+    <ul class="pagination col-md-2 col">
+      <li class="page-item me-4">
+        <button
+          class="btn btn-outline-primary"
+          (click)="page = page - 5"
+          [disabled]="page - 5 < 0"
+        >
+          &laquo;
+        </button>
+      </li>
+      <li class="page-item">
+        <button
+          class="btn btn-outline-primary"
+          (click)="page = page + 5"
+          [disabled]="tickets.length - (page + 5) <= 0"
+        >
+          &raquo;
+        </button>
+      </li>
+    </ul>
+    <div class="col-md-6 col d-flex align-items-center justify-content-center">
+      <h6 class="m-2">Han pasado...</h6>
+      <h6 class="m-2">50 días</h6>
+      <div class="circle bg-success"></div>
+      <h6 class="m-2">70 días</h6>
+      <div class="circle bg-warning"></div>
+      <h6 class="m-2">90 días</h6>
+      <div class="circle bg-danger"></div>
+    </div>
+    <form class="col-md-4 col" role="search">
+      <input
+        class="form-control me-2"
+        type="search"
+        placeholder="Search"
+        aria-label="Search"
+        name="filterTable"
+        [(ngModel)]="filterTable"
+        (ngModelChange)="page = 0"
+      />
+    </form>
+  </div>
+  <!-- general table -->
+  <div class="resTable">
+    <table class="table">
+      <thead>
+        <tr class="table-info">
+          <th scope="col" class="headTable">Ticket</th>
+          <th scope="col" class="headTable">Módulo</th>
+          <th scope="col" class="headTable">Serial</th>
+          <th scope="col" class="headTable">Contrato</th>
+          <th scope="col" class="headTable">Unidad Funcional</th>
+          <th scope="col" class="headTable">Archivos</th>
+          <th scope="col" class="headTable">Fecha Fin Garantía</th>
+          <th scope="col" class="headTable">Estado</th>
+          <th scope="col" class="headTable">Opciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="let ticket of tickets | general : filterTable : page"
+          [ngClass]="{
+            'table-success': noWarranty(ticket.startAttentionDate) <= 50,
+            'table-warning':
+              noWarranty(ticket.startAttentionDate) > 50 &&
+              noWarranty(ticket.startAttentionDate) <= 70,
+            'table-danger': noWarranty(ticket.startAttentionDate) > 70
+          }"
+        >
+          <td>{{ ticket.ticket }}</td>
+          <td>{{ ticket.module.name }}</td>
+          <td>{{ ticket.module.serial }}</td>
+          <td>{{ ticket.module.contractNum }}</td>
+          <td>{{ ticket.module.functionalUnit }}</td>
+          <td>
+            <button class="btn p-0" (click)="openHistorical(ticket.ticket)">
+              <img
+                src="../../../../../assets/img/folder.png"
+                alt=""
+                height="30px"
+              />
+            </button>
+          </td>
+          <td>
+            <h6 *ngIf="!ticket.estimatedEndDate">Sin Iniciar</h6>
+            {{ ticket.estimatedEndDate }}
+          </td>
+          <td>{{ ticket.status }}</td>
+          <td class="text-center">
+            <button class="btn p-0" (click)="processWrrty(ticket.ticket)">
+              <img
+                src="../../../../../assets/img/btnSidebar.png"
+                alt=""
+                height="30px"
+              />
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

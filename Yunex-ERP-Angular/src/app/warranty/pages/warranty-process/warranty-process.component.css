@@ -1,0 +1,4 @@
+.backImg{
+    transform: scaleX(-1);
+    height: 30px;
+}

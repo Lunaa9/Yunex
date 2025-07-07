@@ -1,0 +1,296 @@
+<div class="container mt-5">
+    <form (ngSubmit)="handleSubmit(Form.value)" #Form="ngForm" novalidate>
+      <div class="row">
+        <div class="col-lg-4 mb-4">
+          <div class="card">
+            <div class="card-header bg-primary text-white">
+              <h5 class="card-title mb-0">Modulo</h5>
+            </div>
+            <div class="card-body">
+              <div class="form-floating mb-3">
+                <input 
+                    type="text" 
+                    class="form-control" 
+                    id="name"
+                    name="name" 
+                    placeholder="Module1" 
+                    [(ngModel)]="incidence.module.name"
+                    required
+                    #name="ngModel"
+                    [ngClass]="{'is-invalid': name.invalid && (name.dirty || name.touched)}"
+                >
+                <label for="name">Nombre del módulo</label>
+                <div *ngIf="name.invalid && (name.dirty || name.touched)" class="invalid-feedback">
+                    Ingrese el nombre del módulo
+                </div>
+              </div>
+              <div class="form-floating mb-3">
+                <input 
+                    type="text" 
+                    class="form-control" 
+                    id="serial"
+                    name="serial" 
+                    placeholder="Serial" 
+                    [(ngModel)]="incidence.module.serial"
+                    required
+                    #serial="ngModel"
+                    [ngClass]="{'is-invalid': serial.invalid && (serial.dirty || serial.touched)}"
+                >
+                <label for="serial">Serial del módulo</label>
+                <div *ngIf="serial.invalid && (serial.dirty || serial.touched)" class="invalid-feedback">
+                    Ingrese el serial del módulo
+                </div>
+              </div>
+              <div class="form-floating mb-3">
+                <input 
+                    type="date" 
+                    class="form-control" 
+                    id="instalationDate"
+                    name="instalationDate" 
+                    placeholder="Fecha de instalación" 
+                    [(ngModel)]="incidence.module.instalationDate"
+                    required
+                    #instalationDate="ngModel"
+                    [ngClass]="{'is-invalid': instalationDate.invalid && (instalationDate.dirty || instalationDate.touched)}"
+                >
+                <label for="instalationDate">Fecha de instalación del módulo</label>
+                <div *ngIf="instalationDate.invalid && (instalationDate.dirty || instalationDate.touched)" class="invalid-feedback">
+                    Ingrese la fecha de instalación del módulo
+                </div>
+              </div> 
+              <div class="form-floating mb-3">
+                <input 
+                    type="number" 
+                    class="form-control" 
+                    id="warrantyTime"
+                    name="warrantyTime" 
+                    placeholder="Tiempo de garantía" 
+                    [(ngModel)]="incidence.module.warrantyTime"
+                    required
+                    #warrantyTime="ngModel"
+                    [ngClass]="{'is-invalid': warrantyTime.invalid && (warrantyTime.dirty || warrantyTime.touched)}"
+                >
+                <label for="warrantyTime">Tiempo de garantía del módulo (Meses)</label>
+                <div *ngIf="warrantyTime.invalid && (warrantyTime.dirty || warrantyTime.touched)" class="invalid-feedback">
+                    Ingrese el tiempo de garantía del módulo
+                </div>
+              </div>
+              <div class="form-floating mb-3">
+                <input 
+                    type="number" 
+                    class="form-control" 
+                    id="estimatedRepairTime"
+                    name="estimatedRepairTime" 
+                    placeholder="Tiempo estimado de reparación" 
+                    [(ngModel)]="incidence.module.estimatedRepairTime"
+                    required
+                    #estimatedRepairTime="ngModel"
+                    [ngClass]="{'is-invalid': estimatedRepairTime.invalid && (estimatedRepairTime.dirty || estimatedRepairTime.touched)}"
+                >
+                <label for="estimatedRepairTime">Tiempo estimado de reparación del módulo (Horas)</label>
+                <div *ngIf="estimatedRepairTime.invalid && (estimatedRepairTime.dirty || estimatedRepairTime.touched)" class="invalid-feedback">
+                    Ingrese el tiempo estimado de reparación del módulo
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 mb-4">
+          <div class="card">
+            <div class="card-header bg-success text-white">
+              <h5 class="card-title mb-0">Información Adicional</h5>
+            </div>
+            <div class="card-body">
+              <div class="form-floating mb-3">
+                <input 
+                    type="number" 
+                    class="form-control" 
+                    id="estimatedOutTime"
+                    name="estimatedOutTime" 
+                    placeholder="Tiempo estimado de salida" 
+                    [(ngModel)]="incidence.module.estimatedOutTime"
+                    required
+                    #estimatedOutTime="ngModel"
+                    [ngClass]="{'is-invalid': estimatedOutTime.invalid && (estimatedOutTime.dirty || estimatedOutTime.touched)}"
+                >
+                <label for="estimatedOutTime">Tiempo estimado de salida del módulo (Días)</label>
+                <div *ngIf="estimatedOutTime.invalid && (estimatedOutTime.dirty || estimatedOutTime.touched)" class="invalid-feedback">
+                    Ingrese el tiempo estimado de salida del módulo
+                </div>
+              </div> 
+              <div class="form-floating mb-3">
+                <input 
+                    type="text" 
+                    class="form-control" 
+                    id="equipment"
+                    name="equipment" 
+                    placeholder="Equipo" 
+                    [(ngModel)]="incidence.equipment"
+                    required
+                    #equipment="ngModel"
+                    [ngClass]="{'is-invalid': equipment.invalid && (equipment.dirty || equipment.touched)}"
+                >
+                <label for="equipment">Equipo</label>
+                <div *ngIf="equipment.invalid && (equipment.dirty || equipment.touched)" class="invalid-feedback">
+                    Ingrese el tipo de equipo
+                </div>
+              </div>
+              <div class="form-floating mb-3">
+                <input 
+                    type="text" 
+                    class="form-control" 
+                    id="city"
+                    name="city" 
+                    placeholder="Ciudad" 
+                    [(ngModel)]="incidence.city"
+                    required
+                    #city="ngModel"
+                    [ngClass]="{'is-invalid': city.invalid && (city.dirty || city.touched)}"
+                >
+                <label for="city">Ciudad</label>
+                <div *ngIf="city.invalid && (city.dirty || city.touched)" class="invalid-feedback">
+                    Ingrese la ciudad 
+                </div>
+              </div>
+              <div class="form-floating mb-3">
+                <input 
+                    type="text" 
+                    class="form-control" 
+                    id="contractNumber"
+                    name="contractNumber" 
+                    placeholder="Número de contrato" 
+                    [(ngModel)]="incidence.contractNumber"
+                    required
+                    #contractNumber="ngModel"
+                    [ngClass]="{'is-invalid': contractNumber.invalid && (contractNumber.dirty || contractNumber.touched)}"
+                >
+                <label for="contractNumber">Número del contrato</label>
+                <div *ngIf="contractNumber.invalid && (contractNumber.dirty || contractNumber.touched)" class="invalid-feedback">
+                    Ingrese el número de contrato
+                </div>
+              </div>
+              <div class="form-floating mb-3">
+                <input 
+                    type="text" 
+                    class="form-control" 
+                    id="client"
+                    name="client" 
+                    placeholder="Cliente" 
+                    [(ngModel)]="incidence.client"
+                    required
+                    #client="ngModel"
+                    [ngClass]="{'is-invalid': client.invalid && (client.dirty || client.touched)}"
+                >
+                <label for="client">Cliente</label>
+                <div *ngIf="client.invalid && (client.dirty || client.touched)" class="invalid-feedback">
+                    Ingrese el cliente
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 mb-4">
+          <div class="card">
+            <div class="card-header bg-warning text-white">
+              <h5 class="card-title mb-0">Detalles del Responsable</h5>
+            </div>
+            <div class="card-body">
+              <div class="form-floating mb-3">
+                <input 
+                    type="text" 
+                    class="form-control" 
+                    id="sender"
+                    name="sender" 
+                    placeholder="Remitente" 
+                    [(ngModel)]="incidence.sender"
+                    required
+                    #sender="ngModel"
+                    [ngClass]="{'is-invalid': sender.invalid && (sender.dirty || sender.touched)}"
+                >
+                <label for="sender">Remitente</label>
+                <div *ngIf="sender.invalid && (sender.dirty || sender.touched)" class="invalid-feedback">
+                    Ingrese el remitente
+                </div>
+              </div>
+              <div class="form-floating mb-3">
+                <input 
+                    type="text" 
+                    class="form-control" 
+                    id="repairCenterResponsable"
+                    name="repairCenterResponsable" 
+                    placeholder="Responsable del centro de reparación" 
+                    [(ngModel)]="incidence.repairCenterResponsable"
+                    required
+                    #repairCenterResponsable="ngModel"
+                    [ngClass]="{'is-invalid': repairCenterResponsable.invalid && (repairCenterResponsable.dirty || repairCenterResponsable.touched)}"
+                >
+                <label for="repairCenterResponsable">Responsable del centro de reparación</label>
+                <div *ngIf="repairCenterResponsable.invalid && (repairCenterResponsable.dirty || repairCenterResponsable.touched)" class="invalid-feedback">
+                    Ingrese el nombre del responsable del centro de reparación
+                </div>
+              </div>
+              <div class="form-floating mb-3">
+                <input 
+                    type="text" 
+                    class="form-control" 
+                    id="servicesResponsable"
+                    name="servicesResponsable"  
+                    placeholder="Responsable del servicio" 
+                    [(ngModel)]="incidence.servicesResponsable"
+                    required
+                    #servicesResponsable="ngModel"
+                    [ngClass]="{'is-invalid': servicesResponsable.invalid && (servicesResponsable.dirty || servicesResponsable.touched)}"
+                >
+                <label for="servicesResponsable">Responsable del servicio</label>
+                <div *ngIf="servicesResponsable.invalid && (servicesResponsable.dirty || servicesResponsable.touched)" class="invalid-feedback">
+                    Ingrese el nombre del responsable del servicio
+                </div>
+              </div>  
+              <div class="form-floating mb-3">
+                <input 
+                    type="text" 
+                    class="form-control" 
+                    id="comments"
+                    name="comments" 
+                    placeholder="Comentario" 
+                    [(ngModel)]="incidence.comments"
+                    required
+                    #comments="ngModel"
+                    [ngClass]="{'is-invalid': comments.invalid && (comments.dirty || comments.touched)}"
+                >
+                <label for="comments">Comentario</label>
+                <div *ngIf="comments.invalid && (comments.dirty || comments.touched)" class="invalid-feedback">
+                    Ingrese un comentario
+                </div>
+              </div>
+              <div class="form-group mb-3">
+                <label for="activity" class="form-label">Actividad a realizar</label>
+                <select 
+                    class="form-select" 
+                    id="activity"
+                    name="activity" 
+                    [(ngModel)]="incidence.activity" 
+                    required
+                    #activity="ngModel"
+                    [ngClass]="{'is-invalid': activity.invalid && (activity.dirty || activity.touched)}"
+                >
+                    <option value="" disabled selected>Seleccione una opción</option>
+                    <option value="repair">Reparar</option>
+                    <option value="diagnostic">Diagnóstico</option>
+                </select>
+                <div *ngIf="activity.invalid && (activity.dirty || activity.touched)" class="invalid-feedback">
+                    Ingrese actividad a realizar
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="d-grid mt-4" style="justify-content: end;">
+          <button class="btn btn-success" type="submit" [disabled]="Form.invalid">
+            <i class="fas fa-check"></i> Aceptar
+          </button>
+      </div>
+    </form>
+  </div>
+  

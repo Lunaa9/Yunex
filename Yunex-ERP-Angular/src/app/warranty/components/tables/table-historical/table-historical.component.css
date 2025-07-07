@@ -1,0 +1,23 @@
+.custBorder{
+    border: #afb9be 1px solid;
+}
+.custBorder:hover{
+    border: #587583 2px solid;
+}
+.headTable{
+    border:rgba(110, 106, 106, 0.2) 1px solid !important;
+}
+@media (max-width:991px ){
+    .resTable{
+        overflow-y: scroll;
+    }
+    .resTable::-webkit-scrollbar{
+        width: 5px;
+    }
+    .resTable::-webkit-scrollbar-thumb{
+        display:none;
+    }
+    .resTable::-webkit-scrollbar-track{
+        background-color: rgba(255, 255, 255, 0.5);
+    }
+}

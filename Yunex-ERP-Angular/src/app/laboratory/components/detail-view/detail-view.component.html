@@ -1,0 +1,146 @@
+<!-- edit form -->
+<div class="modal fade" id="modaldetails" data-bs-backdrop="static"  aria-hidden="true" aria-labelledby="modaldetailsLabel" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="modaldetailsLabel">Detalles</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col">
+            <mat-form-field>
+              <mat-label>Ticket</mat-label>
+              <input matInput readonly placeholder="Ticket" [(ngModel)]="incidenceToShow.ticket" />
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Fecha ingreso</mat-label>
+              <input matInput readonly placeholder="Fecha ingreso" [(ngModel)]="incidenceToShow.admissionDate" />
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Modulo</mat-label>
+              <input matInput readonly placeholder="Modulo" [(ngModel)]="incidenceToShow.module.name" />
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Serial</mat-label>
+              <input matInput readonly placeholder="Serial" [(ngModel)]="incidenceToShow.module.serial" />
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Estado</mat-label>
+              <input matInput readonly placeholder="Estado" [(ngModel)]="incidenceToShow.status" />
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Aprobar</mat-label>
+              <input matInput readonly placeholder="aprobar" [(ngModel)]="incidenceToShow.approved" />
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Ciudad</mat-label>
+              <input matInput readonly placeholder="Ciudad" [(ngModel)]="incidenceToShow.city" />
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Contrato</mat-label>
+              <input matInput readonly placeholder="Contrato" [(ngModel)]="incidenceToShow.contractNumber" />
+            </mat-form-field>
+          </div>
+          <div class="col">  
+            <mat-form-field>
+              <mat-label>Cliente</mat-label>
+              <input matInput readonly placeholder="Cliente" [(ngModel)]="incidenceToShow.client" />
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Quien envia</mat-label>
+              <input matInput readonly placeholder="Quien envia" [(ngModel)]="incidenceToShow.sender" />
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Garantia</mat-label>
+              <input matInput readonly placeholder="Garantia" [(ngModel)]="incidenceToShow.warranty"/>
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Equipo</mat-label>
+              <input matInput readonly placeholder="equipment" [(ngModel)]="incidenceToShow.equipment" />
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Fecha de instalacion</mat-label>
+              <input matInput readonly placeholder="instalationDate" [(ngModel)]="incidenceToShow.module.instalationDate" />
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Tiempo de Garantia (meses)</mat-label>
+              <input matInput readonly placeholder="warrantyTime" [(ngModel)]="incidenceToShow.module.warrantyTime" />
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Tiempo estimado de reparacion (horas)</mat-label>
+              <input matInput readonly placeholder="estimatedRepairTime" [(ngModel)]="incidenceToShow.module.estimatedRepairTime" />
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Sticker</mat-label>
+              <input matInput readonly placeholder="Contrato" [(ngModel)]="incidenceToShow.sticker" />
+            </mat-form-field>
+          </div>
+          <div class="col">
+            <mat-form-field>
+              <mat-label>Tiempo estimado de salida (meses)</mat-label>
+              <input matInput readonly placeholder="estimatedOutTime" [(ngModel)]="incidenceToShow.module.estimatedOutTime" />
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Fecha estimada de salida</mat-label>
+              <input matInput readonly placeholder="expectedOutDate" [(ngModel)]="incidenceToShow.expectedOutDate" />
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Responsable del centro de reparacion</mat-label>
+              <input matInput readonly placeholder="repairCenterResponsable" [(ngModel)]="incidenceToShow.repairCenterResponsable" />
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Responsable de servicios</mat-label>
+              <input matInput readonly placeholder="servicesResponsable" [(ngModel)]="incidenceToShow.servicesResponsable" />
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Fecha real de salida</mat-label>
+              <input matInput readonly placeholder="realOutDate" [(ngModel)]="incidenceToShow.realOutDate" />
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>¿Cumplio con la fecha estimada de salida?</mat-label>
+              <input matInput readonly placeholder="outDateCompliance" [(ngModel)]="incidenceToShow.outDateCompliance" />
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Tiempo real de reparacion (horas)</mat-label>
+              <input matInput readonly placeholder="realRepairTime" [(ngModel)]="incidenceToShow.realRepairTime" />
+            </mat-form-field>
+          </div>
+          <div class="col">
+            <mat-form-field>
+              <mat-label>¿Cumplio con el tiempo estimado de reparacion?</mat-label>
+              <input matInput readonly placeholder="repairTimeCompliance" [(ngModel)]="incidenceToShow.repairTimeCompliance" />
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Año</mat-label>
+              <input matInput readonly placeholder="year" [(ngModel)]="incidenceToShow.year" />
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Falla</mat-label>
+              <input matInput readonly placeholder="failure" [(ngModel)]="incidenceToShow.failure" />
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Procedimiento de reparacion</mat-label>
+              <input matInput readonly placeholder="repairProcedure" [(ngModel)]="incidenceToShow.repairProcedure" />
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Tecnico encargado</mat-label>
+              <input matInput readonly placeholder="repairTechnician" [(ngModel)]="incidenceToShow.repairTechnician" />
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Comentarios</mat-label>
+              <input matInput readonly placeholder="Comentarios" [(ngModel)]="incidenceToShow.comments" />
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Actividad</mat-label>
+              <input matInput readonly placeholder="Comentarios" [(ngModel)]="incidenceToShow.activity" />
+            </mat-form-field>
+          </div>
+        </div>    
+      </div>
+      <div class="modal-footer">
+      </div>
+    </div>
+  </div>
+</div>
+

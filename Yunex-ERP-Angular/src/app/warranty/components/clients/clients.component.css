@@ -1,0 +1,15 @@
+li {
+    background-color: #D9D9D9 ;
+    cursor:pointer;
+}
+
+.col{
+    display: flex;
+    justify-content: center;
+}
+
+.cli-card {
+    background-color: #ffffff;
+    border: rgba(15, 185, 232, 0.2) 3px solid;
+    word-wrap: break-word;
+}

@@ -1,0 +1,65 @@
+<!-- client charts -->
+<div class="col" [ngClass]="{'d-none':params.clients[0]}">
+    <div class="row my-5 rounded p-4 iframe">
+        <h1 class="text-center fw-bold">Gráficas - Clientes</h1>
+        <div class="chart-size py-5 d-flex justify-content-center">
+            <canvas id="client">
+                {{clientData}}
+            </canvas>
+        </div> 
+    </div>
+</div>
+<!-- contract charts -->
+<div class="col" [ngClass]="{'d-none':!params.contracts[0]}">
+    <div class="row my-5 rounded p-4 iframe">
+        <h1 class="text-center fw-bold">Gráficas - Contratos</h1>
+        <h4 class="fw-bold">Contratos con garantía</h4>
+        <div class="chart-size py-5 d-flex justify-content-center">
+            <canvas id="wrrActive">
+                {{contActive}}
+            </canvas>
+        </div>
+    </div>
+</div>
+<!-- module charts -->
+<div class="col">
+    <div class="row my-5 rounded p-4 iframe" [ngClass]="{'d-none':params.modules[0]}">
+        <h1 class="text-center fw-bold">Gráficas - Módulos</h1>
+        <h4 class="fw-bold">Estado de los módulos</h4>
+        <div class="chart-size py-5 d-flex justify-content-center">
+            <canvas id="mdlStatus">
+                {{modlStatus}}
+            </canvas>
+        </div>
+    </div>
+</div>
+<!-- ticket charts -->
+<div class="col">
+    <div class="row my-5 rounded p-4 iframe">
+        <h1 class="text-center fw-bold">Gráficas - Tickets</h1>
+        <h4 class="fw-bold">Estado del ticket</h4>
+        <div class="chart-size py-3 d-flex justify-content-center">
+            <canvas id="process">
+                {{tickProcess}}
+            </canvas>
+        </div>
+        <h4 class="fw-bold">Calidad en reprocesos</h4>
+        <div class="chart-size py-5 d-flex justify-content-center">
+            <canvas id="quality">
+                {{tickQuality}}
+            </canvas>
+        </div>
+        <h4 class="fw-bold">Cumplimiento de tiempo en garantía</h4>
+        <div class="chart-size py-5 d-flex justify-content-center">
+            <canvas id="compli">
+                {{tickCompli}}
+            </canvas>
+        </div>
+        <h4 class="fw-bold">Tickets con nuevo módulo</h4>
+        <div class="chart-size py-5 d-flex justify-content-center">
+            <canvas id="new">
+                {{tickNew}}
+            </canvas>
+        </div>
+    </div>
+</div>

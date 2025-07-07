@@ -1,0 +1,53 @@
+<div>
+    <!-- notification button -->
+  <button type="button" 
+    class="btn" 
+    data-bs-toggle="dropdown" 
+    aria-expanded="false"
+    (click)="point()"
+  >
+    <img src="../../../../assets/img/noti.png" height="25">
+  </button>
+  <!-- notifications -->
+  <ul class="dropdown-menu p-2 rounded noti">
+        <!-- expired notifications -->
+    <li class="m-2 rounded border border-secondary border-opacity-50" *ngFor="let noti of notiDanger">
+      <h6 class="text-end py-1 pe-4 text-white rounded-top bg-danger">Ticket: {{noti.ticket}}</h6>
+      <div class="p-2" *ngIf="role==='LAB MANAGER'">
+        <p>El tiempo estipulado para la reparación del modúlo ha finalizado y no se aprobo.<br> El tecnico encargado es {{noti.repairTechnician}}</p>
+        <p style="color: blue;">La fecha de expiracion es {{noti.expectedOutDate}}</p>
+      </div>
+      <div class="p-2" *ngIf="role==='ADMIN'">
+        <p>El ticket esta pronto a alcanzar el limite de atención y no se ha finalizado.<br> Su estatus es: {{noti.status}}</p>
+        <p style="color: blue;">El tiempo de respuesta inicio el {{noti.startAttentionDate}}</p>
+      </div>
+    </li>
+        <!-- notifications near to expire -->
+    <li class="m-2 rounded border border-secondary border-opacity-50" *ngFor="let noti of notiWarning">
+      <h6 class="text-end py-1 pe-4 text-white rounded-top bg-warning" *ngIf="role==='LAB MANAGER'">Ticket: {{noti.ticket}}</h6>
+      <h6 class="text-end py-1 pe-4 text-white rounded-top bg-warning" *ngIf="role==='ADMIN'">Contrato: {{noti.contractName}}</h6>
+      <div class="p-2" *ngIf="role==='LAB MANAGER'">
+        <p>Quedan menos de 24 horas para que el plazo estimado termine.<br> El tecnico encargado es {{noti.repairTechnician}}</p>
+        <p style="color: blue;">La fecha de expiracion es {{noti.expectedOutDate}}</p>
+      </div>
+      <div class="p-2" *ngIf="role==='ADMIN'">
+        <p>La garantía del contrato ha finalizado, por favor escriba la carta de finalización a {{noti.clientName}}.</p>
+        <p style="color: blue;">La fecha de expiracion fue {{noti.endWarranty}}</p>
+      </div>
+    </li>
+        <!-- To approve -->
+    <li class="m-2 rounded border border-secondary border-opacity-50" *ngFor="let x of toApprove">
+      <h6 class="text-end py-1 pe-4 text-white rounded-top bg-success">Ticket: {{x.ticket}}</h6>
+      <div class="p-2">
+        <p>El modulo esta pendiente por aprobación.<br> El tecnico encargado fue {{x.repairTechnician}}</p>
+      </div>
+    </li>
+    <li class="d-flex justify-content-center column" *ngIf="noNoti" style="min-width: 300px;">
+      <div style="min-height: 300px;" class="d-flex row align-elements-center">
+        <div class="d-flex">No hay notificaciones</div>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<img class="position-absolute top-0 end-0" src="../../../../assets/img/red-point.png" alt="" height="10" *ngIf="!noNoti && redPoint===null ">

@@ -1,0 +1,54 @@
+<div class="container">
+    <form (ngSubmit)="handleSubmit2()" id="form" #Form="ngForm">
+        <div class="form-group mb-3">
+            <label for="exampleSelect2" class="form-label"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Email</font></font></label>
+            <select 
+                readonly
+                type="string"
+                id="email" 
+                name="email" 
+                class="form-select" 
+                [ngClass]="{'is-invalid': email === ''}"
+                required 
+                [(ngModel)]="email"       
+                (click)= users()
+                >
+                <option *ngFor="let User of usersList" [ngValue]="User.email" [selected]="User.email === email"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{ User.email }}</font></font></option>
+            </select>
+        </div>
+        <div class="form-floating mb-3">
+            <input 
+                type="password"
+                class="form-control" 
+                id="password2" 
+                name="password" 
+                placeholder="Module1" 
+                [(ngModel)]="password"
+                [ngClass]="{'is-invalid': password === ''}" 
+                >
+            <label for="floatingInputDisabled">Contraseña</label>
+            <div  class="invalid-feedback" >
+                Ingrese el nombre del modulo
+            </div>
+        </div>
+        <div class="form-group mb-3">
+            <label for="exampleSelect2" class="form-label"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Roles</font></font></label>
+            <select 
+                readonly
+                type="string"
+                id="rol" 
+                name="rol" 
+                class="form-select" 
+                [ngClass]="{'is-invalid': rol === ''}"
+                required 
+                [(ngModel)]="rol"     
+                (click)=roles()      
+                >
+                <option *ngFor="let Rol of roleList" [ngValue]="Rol.name" [selected]="Rol.name === rol"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{ Rol.name }}</font></font></option>
+            </select>
+        </div>
+        <div class="d-grid" style=" justify-content: end; ">
+            <button class="btn" style="background-color: #00E676; border: none; " [disabled]="Form.invalid" type="submit">Aceptar</button>
+        </div>
+    </form>
+</div>

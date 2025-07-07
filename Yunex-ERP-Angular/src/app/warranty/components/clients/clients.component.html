@@ -1,0 +1,25 @@
+<app-void *ngIf="void"></app-void>
+<!-- The card information of each client -->
+<div class="container" *ngIf="clientsList.length > 0">
+  <ul class="list-group p-2">
+    <li
+      class="list-group-item row d-flex justify-content-start mb-4 shadow-sm cli-card"
+      *ngFor="let client of clientsList"
+      (click)="getOneContract(client)"
+    >
+      <div class="col-4 h4">
+        <p class="fw-bold" style="color: #00e676">Nombre</p>
+        <p>{{ client.name }}</p>
+      </div>
+      <div class="col-4">
+        <h6>NIT: {{ client.NIT }}</h6>
+        <h6>PM: {{ client.personInCharge }}</h6>
+        <h6>TELEFONO: {{ client.phone }}</h6>
+      </div>
+      <div class="col-4">
+        <h6>EMAIL: {{ client.email }}</h6>
+        <h6>DIRECCIÓN: {{ client.direction }}</h6>
+      </div>
+    </li>
+  </ul>
+</div>

@@ -1,0 +1,13 @@
+<app-navbar></app-navbar>
+<!--<app-content ></app-content>-->
+<div class="d-flex">
+
+    <!-- Aside component -->
+    <app-aside *ngIf="isActiveRouter()"></app-aside>
+
+    <!-- Show the current component's content -->
+    <div class="p-0 m-0 iframe">
+        <router-outlet></router-outlet>
+    </div>
+</div>
+<app-footer></app-footer> 

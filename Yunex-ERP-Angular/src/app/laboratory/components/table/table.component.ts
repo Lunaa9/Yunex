@@ -1,0 +1,201 @@
+import { LiveAnnouncer } from '@angular/cdk/a11y';
+import { Component, ViewChild } from '@angular/core';
+import { MatSort, Sort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatDialog } from '@angular/material/dialog';
+import { TableService } from '../../services/table.service';
+import { TableIndices } from 'src/app/interfaces/warranties/table.interface';
+import {
+  animate,
+  state,
+  style,
+  transition,
+  trigger,
+} from '@angular/animations';
+import Swal from 'sweetalert2';
+import { AuthService } from 'src/app/shared/services/auth.service';
+import { User } from 'src/app/interfaces/users/user.interface';
+import { LabIncidence } from 'src/app/interfaces/lab/labIncidence.interface';
+import { ExporterServices } from '../../services/exported.service'
+import { ExcelLab } from 'src/app/interfaces/lab/excelLab.interface';
+
+@Component({
+  selector: 'app-table-repair',
+  templateUrl: './table.component.html',
+  styleUrls: ['./table.component.css'],
+  animations: [
+    trigger('fadeInOut', [
+      state(
+        'void',
+        style({
+          opacity: 0,
+        })
+      ),
+      transition('void <=> *', animate(300)),
+    ]),
+  ],
+})
+export class TableComponent {
+  // Variable declarations
+  displayedColumns: string[] = this.tableService.getColumns();
+  dataSource: any;
+  labChief: boolean = true;
+  incidenceToPass!: LabIncidence;
+
+  constructor(
+    private _liveAnnouncer: LiveAnnouncer,
+    public dialog: MatDialog,
+    public tableService: TableService,
+    private authService: AuthService,
+    private exportservice: ExporterServices
+  ){}
+
+  ngOnInit() {
+    this.getTableContent();
+    //this.labChief = this.checkUser();
+  }
+
+  /**
+   * This function test if the user is the lab manager to show the correct functions
+   * @returns boolean if the user is a LAB MANAGER
+   */
+  checkUser(): boolean {
+    const user: User = this.authService.getUser();
+    const response = user.rol === 'LAB MANAGER' ? true : false;
+    return response;
+  }
+
+  /** This function get all the incidence to fill the table  */
+  async getTableContent(): Promise<void> {
+    try {
+      const data: TableIndices[] = await this.tableService.getIncidences();
+      if (data) {
+        this.dataSource = new MatTableDataSource(data);
+        this.dataSource.sort = this.sort;
+        this.dataSource.paginator = this.paginator;
+  
+        //FILTRA POR TICKET 
+        this.dataSource.filterPredicate = (data: TableIndices, filter: string) => {
+          return data.ticket.toLowerCase().includes(filter);
+        };
+      }
+    } catch (error) {
+      console.error("Error fetching incidences:", error);
+    }
+  }
+  
+  @ViewChild(MatPaginator)
+  paginator!: MatPaginator;
+
+  @ViewChild(MatSort)
+  sort: MatSort = new MatSort();
+
+  /** Announce the change in sort state for assistive technology. */
+  announceSortChange(sortState: Sort): void {
+    // This example uses English messages. If your application supports
+    // multiple language, you would internationalize these strings.
+    // Furthermore, you can customize the message to add additional
+    // details about the values being sorted.
+    if (sortState.direction) {
+      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
+    } else {
+      this._liveAnnouncer.announce('Sorting cleared');
+    }
+  }
+
+  /**
+   * This function call's delete the selected item
+   * @param ticket The ticket that identifies an incidence
+   */
+  async delete(ticket: string): Promise<void> {
+    await Swal.fire({
+      title: 'Estas seguro?',
+      text: 'Esta acción no se podrá deshacer!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, eliminalo!',
+      cancelButtonText: 'Cancelar',
+    }).then(async result => {
+      if (result.isConfirmed) {
+        const response: boolean = await this.tableService.deleteIncidence(
+          ticket
+        );
+        if (response) {
+          Swal.fire(
+            'Eliminado!',
+            'La incidencia ha sido eleminada.',
+            'success'
+          );
+          this.getTableContent();
+        } else {
+          Swal.fire(
+            'Algo salio mal!',
+            'No se ha podido eliminar esta incidencia.',
+            'error'
+          );
+        }
+      }
+    });
+  }
+
+  /**
+   * This function calls the view component passing the full incidence
+   * @param ticket The ticket that identifies an incidence
+   */
+  edit(ticket: string): void {
+    let incidence = this.tableService.incidences.find(
+      incidence => (incidence.ticket === ticket)
+    );
+    if (incidence){
+      this.incidenceToPass = incidence;
+      this.tableService.show = true;
+    }
+  }
+
+  /**
+   * This function calls the view component passing the full incidence
+   * @param ticket The ticket that identifies an incidence
+   */
+  view(ticket: string): void {
+    let incidence = this.tableService.incidences.find(
+      incidence => (incidence.ticket === ticket)
+    );
+    if (incidence){
+      this.incidenceToPass = incidence;
+      this.tableService.show = true;
+    }
+  }
+
+  /**
+   * This function calls the create component passing the full incidence
+   */
+  create(): void {}
+
+  repare(ticket: string): void {
+    const incidence = this.tableService.incidences.find(
+      incidence => (incidence.ticket === ticket)
+    );
+    if (incidence){
+      this.incidenceToPass = incidence;
+      this.tableService.show = true;
+
+    }
+  }
+
+  /**
+   * This function aplies the filter to the table
+   * @param event
+   */
+  applyFilter(event: Event): void {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
+  
+  async exportAsXLXS():Promise<void>{
+    const dataExcel:ExcelLab[]= await this.exportservice.getExcelInfo();
+    this.exportservice.exportToExcel(dataExcel, 'Lab_service');}
+}

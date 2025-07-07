@@ -1,0 +1,52 @@
+<div class="container">
+    <form (ngSubmit)="handleSubmit2()" id="form" #Form="ngForm">
+        <div class="form-group mb-3">
+            <label for="exampleSelect2" class="form-label"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Ticket</font></font></label>
+            <select 
+                type="string"
+                #ticketForm="ngModel" 
+                name="ticket" 
+                class="form-select" 
+                [ngClass]="{'is-invalid': ticketForm.invalid && ticketForm.dirty}"
+                required
+                [(ngModel)]="ticket"  
+                (change)="viewDetails()"
+                [disabled]="!ticketsAvailable">     
+                <option *ngFor="let labIncidence of ticketList; trackBy: trackByTicket" [ngValue]="labIncidence.ticket">{{ labIncidence.ticket }}</option>
+            </select>
+        </div>
+        <div class="accordion mb-3" id="accordionExample">
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                  Detalles
+                </button>
+              </h2>
+              <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                  <ng-container *ngIf="selectedLabIncidence">
+                    <li>Ticket: {{ selectedLabIncidence.ticket }}</li>
+                    <li>Modulo: {{ selectedLabIncidence.module.name }}</li>
+                    <li>Serial: {{ selectedLabIncidence.module.serial }}</li>
+                  </ng-container>
+                </div>
+              </div>
+            </div>
+        </div>
+        <div class="form-floating mb-3">
+            <input  
+                type="string" 
+                class="form-control" 
+                [ngClass]="{'is-invalid': tecnichan.invalid && tecnichan.dirty}"
+                #tecnichan="ngModel" 
+                name="repairTechnician" 
+                placeholder="Module1" 
+                required
+                [(ngModel)]="repairTechnician">
+            <label for="floatingInputDisabled">Tecnico de repacion</label>
+        </div>
+        <div class="d-grid" style=" justify-content: end; ">
+            <button class="btn" style="background-color: #00E676; border: none; " [disabled]="Form.invalid" type="submit" data-bs-dismiss="modal">Aceptar</button>
+        </div>
+    </form>
+</div>

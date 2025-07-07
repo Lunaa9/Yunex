@@ -1,0 +1,192 @@
+<!-- alert container -->
+<div class="alert position-fixed w-100" *ngIf="form">
+  <!-- form container -->
+  <div class="min-alert position-absolute w-100 d-flex justify-content-center">
+    <div class="card" style="max-width: 800px">
+      <!-- Add new assembly form -->
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <h1 class="fs-5" id="ModalToggleLabel2">Crear nuevo módulo</h1>
+        <button class="btn-close" (click)="form = false"></button>
+      </div>
+      <div class="card-body">
+        <form
+          (ngSubmit)="uploadXls($event)"
+          name="excel"
+          accept=".xls, .xlsx, .csv"
+        >
+          <div class="form-floating mb-3">
+            <input
+              type="file"
+              class="form-control"
+              id="handover"
+              name="handover"
+              placeholder="Module1"
+              required
+              (change)="uploadButton($event)"
+            />
+            <label for="handover">Excel de Módulos</label>
+          </div>
+          <div *ngIf="alertDanger" class="alert alert-danger mb-3" role="alert">
+            Hubo un error al cargar los datos, revise los datos del archivo.
+          </div>
+          <button
+            class="btn btn-success w-100"
+            type="submit"
+            *ngIf="excel && !alertDanger"
+            [disabled]="overload"
+          >
+            Subir Excel
+          </button>
+        </form>
+        <form
+          (ngSubmit)="createAssembly()"
+          #Form="ngForm"
+          *ngIf="!excel"
+          class="needs-validation"
+          novalidate
+        >
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-floating mb-2">
+                <input
+                  type="text"
+                  name="graph"
+                  [(ngModel)]="newAssembly.graph"
+                  class="form-control"
+                  placeholder="Grafo"
+                  required
+                  #graph="ngModel"
+                />
+                <label for="graph">Ingrese el Grafo</label>
+                <div *ngIf="graph.invalid && (graph.dirty || graph.touched)" class="invalid-feedback d-block">
+                  El grafo es requerido.
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-floating mb-2">
+                <select
+                  name="assemblyType"
+                  [(ngModel)]="newAssembly.assemblyType"
+                  class="form-select"
+                  required
+                  #assemblyType="ngModel"
+                >
+                  <option *ngFor="let type of assemblyTypes" [ngValue]="type">
+                    {{ type }}
+                  </option>
+                </select>
+                <label for="assemblyType">Seleccione el Tipo de Ensamble</label>
+                <div *ngIf="assemblyType.invalid && (assemblyType.dirty || assemblyType.touched)" class="invalid-feedback d-block">
+                  El tipo de ensamble es requerido.
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-floating mb-2">
+                <input
+                  type="text"
+                  name="contract"
+                  [(ngModel)]="newAssembly.contract"
+                  class="form-control"
+                  placeholder="Contrato"
+                  required
+                  #contract="ngModel"
+                />
+                <label for="contract">Ingrese el Contrato</label>
+                <div *ngIf="contract.invalid && (contract.dirty || contract.touched)" class="invalid-feedback d-block">
+                  El contrato es requerido.
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-floating mb-2">
+                <input
+                  type="text"
+                  name="client"
+                  [(ngModel)]="newAssembly.client"
+                  class="form-control"
+                  placeholder="Cliente"
+                  required
+                  #client="ngModel"
+                />
+                <label for="client">Ingrese el Cliente</label>
+                <div *ngIf="client.invalid && (client.dirty || client.touched)" class="invalid-feedback d-block">
+                  El cliente es requerido.
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-floating mb-2">
+                <input
+                  type="text"
+                  name="senderName"
+                  [(ngModel)]="newAssembly.senderName"
+                  class="form-control"
+                  placeholder="Remitente"
+                  required
+                  #senderName="ngModel"
+                />
+                <label for="senderName">Nombre del Remitente</label>
+                <div *ngIf="senderName.invalid && (senderName.dirty || senderName.touched)" class="invalid-feedback d-block">
+                  El nombre del remitente es requerido.
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-floating mb-2">
+                <input
+                  type="text"
+                  name="assemblyRes"
+                  [(ngModel)]="newAssembly.assemblyRes"
+                  class="form-control"
+                  placeholder="Tecnico de Ensamble"
+                  required
+                  #assemblyRes="ngModel"
+                />
+                <label for="assemblyRes">Técnico de Ensamble</label>
+                <div *ngIf="assemblyRes.invalid && (assemblyRes.dirty || assemblyRes.touched)" class="invalid-feedback d-block">
+                  El técnico de ensamble es requerido.
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-floating mb-2">
+                <input
+                  type="number"
+                  name="amount"
+                  [(ngModel)]="newAssembly.amount"
+                  class="form-control"
+                  placeholder="Cantidad"
+                  required
+                  #amount="ngModel"
+                />
+                <label for="amount">Ingrese la cantidad</label>
+                <div *ngIf="amount.invalid && (amount.dirty || amount.touched)" class="invalid-feedback d-block">
+                  La cantidad es requerida.
+                </div>
+              </div>
+            </div>
+          </div>
+          <input
+            type="submit"
+            [disabled]="Form.invalid"
+            class="btn btn-primary w-100"
+            value="Crear Ensamble"
+          />
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Open form button -->
+<button class="btn btn-primary py-2" (click)="form = true">
+  Nuevo Ensamble
+</button>

@@ -1,0 +1,50 @@
+<app-layout-gab>
+<div class="container" style="margin: 2%;">
+    <div class="card d-flex"> 
+        <!-- spinner component -->
+        <app-spinner></app-spinner>
+        <div class="card-header row flex-md-row d-flex align-items-center m-1">
+           <div class="col-6 col-md d-flex align-items-center">
+                <button class="btn p-0 m-3" *ngIf="tableToShow!=='clients'" (click)="backPage()"><img class="backImg" src="../../../../assets/img/btnSidebar.png"></button>
+                <div *ngIf="tableToShow==='clients'"><h1>Clientes</h1></div>
+                <div *ngIf="tableToShow==='contracts'"><h1>Contratos</h1></div>
+                <div *ngIf="tableToShow==='modules'"><h1>Módulos</h1></div>
+                <div *ngIf="tableToShow==='finished' || tableToShow==='entries'"><h1>Tickets</h1></div>
+           </div>
+           <div class="col-8 col-md m-2">
+                <div class="row" (click)="modal=true">
+                    <!-- new client modal component -->
+                    <app-new-client class="col mb-1" *ngIf="tableToShow==='clients'"></app-new-client>
+                    <!-- new contract modal component -->
+                    <app-new-contract class="col mb-1" *ngIf="tableToShow==='contracts'" ></app-new-contract>
+                    <!-- new module modal component -->
+                    <app-entry-modules class="col mb-1" *ngIf="tableToShow === 'modules'"></app-entry-modules>
+                </div>
+            </div>
+           <div class="col-8 col-md">
+                <!-- searcher component -->
+                <app-searcher></app-searcher>
+           </div>
+        </div>
+        <div class="card-body">           
+            <div *ngIf="tableToShow==='modules' || tableToShow === 'entries' || tableToShow === 'finished'">
+                <div class="d-flex justify-content-end" style="flex-wrap: wrap;">
+                    <button class="btn btn-outline-primary text-primary me-2 mt-1" (click)="getTableAll()">TODOS</button>
+                    <button class="btn btn-outline-success text-success me-2 mt-1" (click)="getTableEntries()" >INGRESOS</button>
+                    <button class="btn btn-outline-danger text-danger mt-1" (click)="getTablefinish()">FINALIZADOS</button>
+                </div>
+                <!-- module component -->
+                <app-modules *ngIf="tableToShow==='modules'"></app-modules>
+                <!-- table entry component -->
+                <app-table-entry *ngIf="tableToShow==='entries'"></app-table-entry>
+                <!-- finish component -->
+                <app-table-finish *ngIf="tableToShow==='finished'"></app-table-finish>
+            </div>
+            <!-- clients component -->
+            <app-clients *ngIf="tableToShow==='clients'"></app-clients>
+            <!-- contracts component -->
+            <app-contracts *ngIf="tableToShow==='contracts'"></app-contracts>
+        </div>
+    </div>
+</div>
+</app-layout-gab>

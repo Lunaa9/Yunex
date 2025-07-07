@@ -1,0 +1,140 @@
+<div class="row justify-content-between mt-2">
+  <!-- table controls-->
+  <form class="col-sm-4 col d-flex mb-5" role="search">
+    <input
+      class="form-control me-2"
+      type="search"
+      placeholder="Buscar por placa"
+      aria-label="Search"
+      [(ngModel)]="searchText"
+      name="filterTable"
+    />
+  </form>
+
+  <nav class="col-sm-4 col">
+    <ul class="pagination justify-content-end">
+      <li class="page-item me-4">
+        <button
+          class="btn btn-outline-primary"
+          (click)="page = page - 5"
+          [disabled]="page - 5 < 0"
+        >
+          &laquo;
+        </button>
+      </li>
+      <li class="page-item">
+        <button
+          class="btn btn-outline-primary"
+          (click)="page = page + 5"
+          [disabled]="vehicles.length - (page + 5) <= 0"
+        >
+          &raquo;
+        </button>
+      </li>
+    </ul>
+  </nav>
+  <div class="resTable">
+    <table class="table table-bordered table-row-thick">
+      <!-- table header -->
+      <thead class="table-secondary">
+        <tr>
+          <th scope="col"><p class="mx-0 mb-2">Placa</p></th>
+          <th scope="col">
+            <p class="mx-0 mb-2" style="white-space: nowrap">
+              Clase de vehículo
+            </p>
+          </th>
+          <th scope="col">
+            <p class="mx-0 mb-2" style="white-space: nowrap">Marca</p>
+          </th>
+          <th scope="col">
+            <p class="mx-0 mb-2" style="white-space: nowrap">
+              Tipo de <br />combustible
+            </p>
+          </th>
+          <th scope="col">
+            <p class="mx-0 mb-2" style="white-space: nowrap">
+              Seguridad activa
+            </p>
+          </th>
+          <th scope="col">
+            <p class="mx-0 mb-2" style="white-space: nowrap">
+              Seguridad pasiva
+            </p>
+          </th>
+          <th scope="col">
+            <p class="mx-0 mb-2">Mantenimientos realizados</p>
+          </th>
+          <th scope="col"><p class="mx-0 mb-2">Archivos</p></th>
+          <th scope="col"><p class="mx-0 mb-2">Opciones</p></th>
+        </tr>
+      </thead>
+      <!-- table body -->
+      <tbody
+        *ngFor="let vehicle of vehicles | vehicleFilter : searchText : page"
+      >
+        <tr>
+          <td>{{ vehicle.licensePlate }}</td>
+          <td>{{ vehicle.vehicleClass }}</td>
+          <td>{{ vehicle.brand }}</td>
+          <td>{{ vehicle.fuelType }}</td>
+          <td><p>x <app-add-security [selectedSecurity]="'security1'"></app-add-security></p></td>
+          <td><p>x <app-add-security [selectedSecurity]="'security2'"></app-add-security></p></td>
+          <td><p>x</p></td>
+          <td>
+            <!-- folder button -->
+            <button
+              class="btn p-0"
+              (click)="openVehicleHistory(vehicle.licensePlate)"
+            >
+              <img
+                src="../../../../../assets/img/folder.png"
+                alt=""
+                height="30px"
+              />
+            </button>
+          </td>
+          <td>
+            <div class="container-fluid d-flex">
+              <!-- more info button -->
+              <div>
+                <button
+                  type="button"
+                  class="btn btn-primary me-1 p-0 ps-1 pe-1"
+                >
+                  <img class="" src="../../../../assets/img/eye.svg" />
+                </button>
+              </div>
+              <div>
+                <!-- edit button -->
+                <button
+                  type="button"
+                  class="btn btn-warning me-1 p-0 ps-1 pe-1"
+                >
+                  <img
+                    class=""
+                    src="../../../../assets/img/pencil-square.svg"
+                  />
+                </button>
+              </div>
+              <div>
+                <!-- delete button -->
+                <button type="button" class="btn btn-danger p-0 ps-1 pe-1 me-1" (click)="deleteVehicle(vehicle.licensePlate)">
+                  
+                  <img class="" src="../../../../assets/img/bag-x.svg" />
+                </button>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <app-documents-historical
+      *ngIf="showVehicleHistory"
+      [vehicle]="selectedVehicle"
+      [licensePlate]="selectedLicensePlate"
+      (close)="closeVehicleHistory()"
+    >
+    </app-documents-historical>
+  </div>
+</div>

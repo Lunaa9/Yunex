@@ -1,0 +1,91 @@
+<!-- void component -->
+<app-void *ngIf="void"></app-void>
+<!-- warranty-pocedure component -->
+<app-wrrty-procedure *ngIf="actions.show && actions.action!=='historical'"></app-wrrty-procedure>
+<!-- historical component -->
+<app-ticket-historical *ngIf="actions.show && actions.action==='historical'"></app-ticket-historical>
+
+<div *ngIf="tickets.length>0"> 
+  <div class="row justify-content-between mt-2">
+        <!-- table controls-->
+        <nav  class="col-sm-3 col" aria-label="Page navigation example col">
+          <ul class="pagination justify-content-start">
+            <li class="page-item me-4">
+                <button class="btn btn-outline-primary" (click)="page=page-5" [disabled]="(page-5)<0">&laquo;</button>
+            </li>
+            <li class="page-item">
+              <button 
+                class="btn btn-outline-primary" 
+                (click)="page=page+5" 
+                [disabled]="(tickets.length-(page+5))<=0"
+                >&raquo;</button>
+            </li>
+          </ul>
+        </nav>
+        <form class="col-sm-3 col d-flex mb-5 " role="search">
+          <input 
+            class="form-control me-2 " 
+            type="search" 
+            placeholder="Search" 
+            aria-label="Search"
+            name="filterTable"
+            [(ngModel)]="filterTable"
+            (ngModelChange)="page=0">
+        </form>
+  </div>
+    <!-- entries table -->
+    <div class="d-flex resTable">
+      <table class="table table-bordered border-info" >
+        <thead class="table-info">
+          <tr>
+            <th scope="col">Ticket</th>
+            <th scope="col">Módulo</th>
+            <th scope="col">Documentos</th>
+            <th scope="col">Fecha de petición</th>
+            <th scope="col">Inicio de Garantía</th>
+            <th scope="col">Fecha Limite Atención</th>
+            <th scope="col">Calidad en Reprocesos</th>
+            <th scope="col">Progreso</th>
+            <th scope="col">Estado</th>
+            <th scope="col">Opciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of tickets | ticketFilter:filterTable:page:table">
+            <td>{{item.ticket}}</td>
+            <td >{{item.module.serial}}</td>
+            <td class="text-center">
+              <button class="btn p-0 m-0" (click)="openHistorical(item.ticket)">
+                  <img src="../../../../assets/img/folder.png" alt="Archivos" height="25px">
+              </button>
+            </td>
+            <td>{{item.startRequestDate}}</td>
+            <td>{{item.startAttentionDate}}</td>
+            <td>{{item.estimatedEndDate}}</td>
+            <td>{{item.quality}}</td>
+            <td class="justify-content-center">
+              <div class="progress">
+                <div class="progress-bar"
+                [ngClass]="{'started':item.status==='started',
+                            'accepted':item.status==='accepted',  
+                            'waiting':item.status==='waiting',         
+                            'storage':item.status==='storage',
+                            'sending-supplier':item.status==='sendingSupplier',
+                            'supplier':item.status==='supplier', 
+                            'laboratory':item.status==='laboratory',
+                            'new-module':item.status==='newModule',
+                            'solved':item.status==='solved'                 
+                           }"></div>
+              </div>
+            </td>
+            <td>{{item.status}}</td>
+            <td class="justify-content-center d-flex">
+              <button class="btn p-0">
+                <img src="../../../../../assets/img/btnSidebar.png" height="20px" (click)="warrantyProcess(item.ticket)">
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+</div>
