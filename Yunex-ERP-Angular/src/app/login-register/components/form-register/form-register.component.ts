@@ -13,6 +13,7 @@ export class FormRegisterComponent {
   email: string = '';
   emailOk: boolean = true;
   password: string = '';
+  confirmPassword: string = '';
   error: string | null = null;
   isLoading: boolean = false;
 

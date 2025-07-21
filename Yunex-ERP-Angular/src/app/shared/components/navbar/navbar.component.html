@@ -80,15 +80,15 @@
           </li>
           <!-- navbar options if the user was'nt authorized -->
           <li *ngIf="user.email === ''" class="nav-item d-grid gap-3 ">
-            <button [routerLink]="'/auth/login'" *ngIf="isActiveRouter('/auth/register')" class="btn" style="background-color: #00e676; border: none">
+            <button [routerLink]="'/auth/login'" *ngIf="isActiveRouter('/auth/register')" class="btn" style="background-color: hsla(197, 52%, 51%, 0.548); border: none">
               Login
             </button>
 
-            <button [routerLink]="'/auth/register'" *ngIf="isActiveRouter('/auth/login')" class="btn" style="background-color: #00e676; border: none">
+            <button [routerLink]="'/auth/register'" *ngIf="isActiveRouter('/auth/login')" class="btn" style="background-color: hsla(197, 52%, 51%, 0.548); border: none">
               Sign up
             </button>
 
-            <button [routerLink]="'/auth/login'" *ngIf="isActiveRouter('/auth/forgot')" class="btn" style="background-color: #00e676; border: none">
+            <button [routerLink]="'/auth/login'" *ngIf="isActiveRouter('/auth/forgot')" class="btn" style="background-color: hsla(197, 52%, 51%, 0.548); border: none">
               Login
             </button>
           </li>
