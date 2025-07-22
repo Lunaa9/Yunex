@@ -1,7 +1,8 @@
 import { Component, Input } from '@angular/core';
 import { LabIncidence } from 'src/app/interfaces/lab/labIncidence.interface';
-import { TableService } from '../../../services/table.service';
 import { LabService } from '../../../services/lab.service'
+import { TableService } from '../../../services/table.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-edit-view',
@@ -52,14 +53,18 @@ export class EditViewComponent {
    * The constructor function for the LabIncidenceComponent.
    * 
    *
-   * @param private tableService: TableService Inject the tableservice into this component
    * @param private labservice: LabService Create a private labservice variable
+   * @param private tableService: TableService Inject the tableservice into this component
    *
    * @return An instance of the class
    *
    * @docauthor Trelent
    */
-  constructor(private tableService: TableService, private labservice: LabService) {}
+  constructor(private labservice: LabService, private tableService: TableService) {}
+
+  close(): void {
+    this.tableService.show = false;
+  }
 
   /**
    * Controller to edit the incidences.
@@ -69,35 +74,36 @@ export class EditViewComponent {
    *
    * @return {void}
    */
-  handleSubmit(){
-    // Set loading state to true and clear any previous error
+  handleSubmit(): void {
     this.isLoading = true;
     this.error = null;
-    
-    try {  
-      // Send a request to update the module
-      this.labservice.UpdateModule(
-        this.incidenceToShow
-      ).subscribe(
-        // If the request is successful, reload the page
-        (response) => {
-          console.log('Entry module updated correctly', response);
-          window.location.reload();
-        }
-      );
-    } catch {
-      // Log an error if the request fails
-      console.log('Error');
-    } finally {
-      // Set loading state to false
-      this.isLoading = false;
-    }
+    this.incidenceToShow.module = this.incidenceToShow.module;    
+  
+    this.labservice.UpdateModule(this.incidenceToShow).subscribe({
+      next: ( response ) => {
+        this.isLoading = true;
+        console.log(response);
+        Swal.fire({
+          icon: 'success',
+          title: '¡Cambios guardados!',
+          text: 'El módulo fue actualizado correctamente.',
+          confirmButtonText: 'Aceptar'
+        }).then(() => {
+          window.location.reload(); // recarga después de aceptar la alerta
+        });
+      },
+      error: (err) => {
+        this.isLoading = false;
+        console.error(err);
+        this.error = err.message;
+  
+        Swal.fire({
+          icon: 'error',
+          title: 'Error al actualizar',
+          text: err.error?.message || 'Ocurrió un error al editar el módulo.'
+        });
+      }
+    });
   }
 
-  /**
-   * close the frame
-   */
-  close() {
-    this.tableService.show = false;
-  }
 }

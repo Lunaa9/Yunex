@@ -42,6 +42,8 @@ export class TableComponent {
   dataSource: any;
   labChief: boolean = true;
   incidenceToPass!: LabIncidence;
+  viewMode: 'view' | 'edit' | 'auth' | null = null;
+
 
   constructor(
     private _liveAnnouncer: LiveAnnouncer,
@@ -146,11 +148,11 @@ export class TableComponent {
    * @param ticket The ticket that identifies an incidence
    */
   edit(ticket: string): void {
-    let incidence = this.tableService.incidences.find(
-      incidence => (incidence.ticket === ticket)
-    );
+    const incidence = this.tableService.incidences.find(i => i.ticket === ticket);
+
     if (incidence){
       this.incidenceToPass = incidence;
+      this.viewMode = 'edit';
       this.tableService.show = true;
     }
   }
@@ -160,11 +162,10 @@ export class TableComponent {
    * @param ticket The ticket that identifies an incidence
    */
   view(ticket: string): void {
-    let incidence = this.tableService.incidences.find(
-      incidence => (incidence.ticket === ticket)
-    );
+    const incidence = this.tableService.incidences.find(i => i.ticket === ticket);
     if (incidence){
       this.incidenceToPass = incidence;
+      this.viewMode = 'view';
       this.tableService.show = true;
     }
   }
@@ -175,13 +176,11 @@ export class TableComponent {
   create(): void {}
 
   repare(ticket: string): void {
-    const incidence = this.tableService.incidences.find(
-      incidence => (incidence.ticket === ticket)
-    );
+    const incidence = this.tableService.incidences.find(i => i.ticket === ticket);
     if (incidence){
       this.incidenceToPass = incidence;
+      this.viewMode = 'auth';
       this.tableService.show = true;
-
     }
   }
 
@@ -193,9 +192,9 @@ export class TableComponent {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
-
-  
-  async exportAsXLXS():Promise<void>{
-    const dataExcel:ExcelLab[]= await this.exportservice.getExcelInfo();
-    this.exportservice.exportToExcel(dataExcel, 'Lab_service');}
+  exportAsXLSX(): void {
+  // Si tienes un servicio de exportación
+  const data = this.dataSource.data; // <-- O usa tu arreglo directamente si no usas MatTableDataSource
+  this.exportservice.exportToExcel(data, 'lab_report');
+}
 }

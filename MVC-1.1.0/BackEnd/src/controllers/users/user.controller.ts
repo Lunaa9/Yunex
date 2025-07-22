@@ -11,7 +11,8 @@ import {
   getAllUsersService,
 } from "../../services/users/user.service";
 import { handleHttp } from "../../utils/error.handle";
-import { Response, Request } from "express";
+import { Response, Request, response } from "express";
+
 
 /**
  *
@@ -105,7 +106,7 @@ export const loginUser = async ({ body }: Request, res: Response) => {
   try {
     const { email, password } = body;
     const response = await loginUserService(email, password);
-    response !== "Not user"
+    response !== "Not user" 
       ? res.status(200).send({ msg: response })
       : res.status(401).send({ msg: "Not user" });
   } catch (e) {
@@ -113,6 +114,7 @@ export const loginUser = async ({ body }: Request, res: Response) => {
     handleHttp(res, `ERROR LOGIN USER=${e}`);
   }
 };
+
 
 export const forgotPassword = async ({ body }: Request, res: Response) => {
   try {

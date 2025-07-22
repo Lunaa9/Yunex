@@ -1,12 +1,12 @@
-<div class="modal fade" id="modaledit" data-bs-backdrop="static" aria-hidden="true" aria-labelledby="modaleditLabel" tabindex="-1">
-  <form (ngSubmit)="handleSubmit()" #Form="ngForm">
-    <div class="modal-dialog modal-dialog-centered modal-xl">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h1 class="modal-title fs-5" id="modaleditLabel">Editar</h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="close()"></button>
-        </div>
-        <div class="modal-body">
+<div class="custom-modal-backdrop">
+  <div class="custom-modal">
+    <form (ngSubmit)="handleSubmit()" #Form="ngForm" class="needs-validation">
+
+      <div class="modal-header">
+        <h5>Editar</h5>
+        <button type="button" (click)="close()" class="btn-close">&times;</button>
+      </div>
+      <div class="modal-body">
           <div class="row">
             <div class="col-md-6">
               <div class="form-floating mb-3">
@@ -188,11 +188,8 @@
           </div>
         </div>
         <div class="modal-footer">
-          <div class="d-grid" style="justify-content: end;">
-            <button class="btn btn-success" type="submit" [disabled]="Form.invalid">Aceptar</button>
-          </div>
+          <button class="btn btn-success" type="submit" [disabled]="Form.invalid">Aceptar</button>
         </div>
-      </div>
+      </form>
     </div>
-  </form>
-</div>
+  </div>

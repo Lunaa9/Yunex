@@ -115,3 +115,44 @@ th {
     border-radius: 10px;
   }
 }
+
+
+
+
+table th {
+  background-color: rgba(103, 184, 235, 0.781) !important;
+  border: none !important;
+}
+table td
+{
+  background-color: rgba(250, 246, 246, 0.623) !important;
+  border: none !important;
+}
+table tr
+{
+  background-color: rgba(250, 246, 246, 0.623) !important;
+  border: none !important;
+}
+
+.table-hover tbody tr:hover {
+  background-color: rgba(10, 184, 228, 0.1) !important; /* verde suave al pasar el mouse */
+  transition: background-color 0.2s ease-in-out;
+}
+
+table,
+thead,
+tbody,
+th {
+  border: 3px solid black !important; /* Rojo Bootstrap: puedes cambiar el color */
+  background-color: transparent !important;
+  color: #000000;
+  
+}
+
+table {
+  border-collapse: collapse !important;
+  border-spacing: 0 !important;
+  border: 1px solid black !important;
+  border-radius: 10px !important;
+  width:100%;
+}

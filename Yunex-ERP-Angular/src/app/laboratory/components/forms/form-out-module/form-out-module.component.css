@@ -1,0 +1,15 @@
+::ng-deep app-init-repair-module button,
+::ng-deep app-out-module button {
+  background-color: #0092e6 !important;
+  color: white;
+  border: none;
+  font-weight: 500;
+  padding: 0.5rem 1.2rem;
+  border-radius: 8px;
+  transition: 0.2s ease;
+}
+
+::ng-deep app-init-repair-module button:hover,
+::ng-deep app-out-module button:hover {
+  background-color: #0092e6 !important;
+}

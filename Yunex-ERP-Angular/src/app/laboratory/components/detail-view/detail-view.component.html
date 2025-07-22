@@ -1,11 +1,12 @@
 <!-- edit form -->
-<div class="modal fade" id="modaldetails" data-bs-backdrop="static"  aria-hidden="true" aria-labelledby="modaldetailsLabel" tabindex="-1">
-  <div class="modal-dialog modal-dialog-centered modal-xl">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="modaldetailsLabel">Detalles</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
+<div class="custom-backdrop" (click)="close()"></div>
+
+<div class="custom-modal">
+  <div class="modal-content p-3">
+    <div class="modal-header d-flex justify-content-between">
+      <h5 class="modal-title">Detalles</h5>
+      <button type="button" class="btn-close btn-primary" (click)="close()">x</button>
+    </div>
       <div class="modal-body">
         <div class="row">
           <div class="col">
@@ -137,10 +138,7 @@
             </mat-form-field>
           </div>
         </div>    
-      </div>
       <div class="modal-footer">
       </div>
     </div>
   </div>
-</div>
-

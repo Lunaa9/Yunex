@@ -1,0 +1,27 @@
+.card {
+    border-radius: 1rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  }
+  
+  .card-header {
+    font-weight: bold;
+    font-size: 1.1rem;
+  }
+  
+  .form-floating .form-control {
+    border-radius: 0.75rem;
+  }
+  
+  .form-floating i {
+    position: absolute;
+    top: 50%;
+    left: 1rem;
+    transform: translateY(-50%);
+    color: #6c757d;
+  }
+  
+  .form-floating input,
+  .form-floating select {
+    padding-left: 2.5rem;
+  }
+  

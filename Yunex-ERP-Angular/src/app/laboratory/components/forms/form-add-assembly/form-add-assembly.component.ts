@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { assembly } from 'src/app/interfaces/lab/assembly.interface';
 import { AssemblyService } from 'src/app/laboratory/services/assembly.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-form-add-assembly',
   templateUrl: './form-add-assembly.component.html',
@@ -55,10 +56,15 @@ export class FormAddAssemblyComponent {
   createAssembly() {
     // Send the newDbly object to the backend to create a new assembly
     this.assemblySvc.createAssambly(this.newAssembly).subscribe(
-      // If the creation is successful
-      (res) => {
+      function (res) {
         // Reload the page to update the table
-        res ? window.location.reload() : console.log('failed');
+        res ? Swal.fire({
+          icon: 'success',
+          title: 'Éxito',
+          text: 'Módulo creado correctamente',
+        }).then(() => {
+           // solo después de mostrar la alerta
+        }) : console.log('failed');
       }
     );
   }
@@ -89,7 +95,13 @@ export class FormAddAssemblyComponent {
       this.assemblySvc.uploadExcel(formData).subscribe(
         (res) => {
           if (res) {
-            window.location.reload();
+            Swal.fire({
+              icon: 'success',
+              title: 'Éxito',
+              text: 'Módulo creado correctamente',
+            }).then(() => {
+              window.location.reload(); // solo después de mostrar la alerta
+            });
           } else {
             this.alertDanger = true;
           }

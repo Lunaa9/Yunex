@@ -1,52 +1,98 @@
-<div class="container">
-    <form (ngSubmit)="handleSubmit2()" id="form" #Form="ngForm">
-        <div class="form-group mb-3">
-            <label for="exampleSelect2" class="form-label"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Ticket</font></font></label>
-            <select 
-                type="string"
-                #ticketForm="ngModel" 
-                name="ticket" 
-                class="form-select" 
-                [ngClass]="{'is-invalid': ticketForm.invalid && ticketForm.dirty}"
-                required
-                [(ngModel)]="ticket"  
-                (change)="viewDetails()"
-                [disabled]="!ticketsAvailable">     
-                <option *ngFor="let labIncidence of ticketList; trackBy: trackByTicket" [ngValue]="labIncidence.ticket">{{ labIncidence.ticket }}</option>
-            </select>
+<div class="container p-4 rounded-4 shadow-sm" style="background-color: #f8f9fa;">
+  <form (ngSubmit)="handleSubmit2()" #Form="ngForm" novalidate>
+    
+    <!-- TICKET -->
+    <div class="mb-4">
+      <label for="ticket" class="form-label text-primary">
+        <i class="bi bi-receipt-cutoff me-1"></i> Ticket
+      </label>
+      <select
+        id="ticket"
+        name="ticket"
+        class="form-select border-primary shadow-sm"
+        [ngClass]="{ 'is-invalid': ticketForm.invalid && ticketForm.touched }"
+        required
+        #ticketForm="ngModel"
+        [(ngModel)]="ticket"
+        (change)="viewDetails()"
+        [disabled]="!ticketsAvailable"
+      >
+        <option value="" disabled selected>Selecciona un ticket</option>
+        <option
+          *ngFor="let labIncidence of ticketList; trackBy: trackByTicket"
+          [ngValue]="labIncidence.ticket"
+        >
+          {{ labIncidence.ticket }}
+        </option>
+      </select>
+      <div *ngIf="ticketForm.invalid && ticketForm.touched" class="text-danger small mt-1">
+        Por favor selecciona un ticket válido.
+      </div>
+    </div>
+
+    <!-- DETALLES DEL TICKET -->
+    <div class="accordion mb-4" id="accordionExample">
+      <div class="accordion-item border-0 shadow-sm rounded-3">
+        <h2 class="accordion-header">
+          <button
+            class="accordion-button collapsed bg-primary bg-gradient text-white rounded-top-3"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#collapseOne"
+            aria-expanded="false"
+            aria-controls="collapseOne"
+          >
+            <i class="bi bi-info-circle me-2"></i> Detalles del módulo
+          </button>
+        </h2>
+        <div
+          id="collapseOne"
+          class="accordion-collapse collapse"
+          data-bs-parent="#accordionExample"
+        >
+          <div class="accordion-body bg-white">
+            <ng-container *ngIf="selectedLabIncidence">
+              <ul class="list-unstyled mb-0">
+                <li><strong>Ticket:</strong> {{ selectedLabIncidence.ticket }}</li>
+                <li><strong>Módulo:</strong> {{ selectedLabIncidence.module.name }}</li>
+                <li><strong>Serial:</strong> {{ selectedLabIncidence.module.serial }}</li>
+              </ul>
+            </ng-container>
+          </div>
         </div>
-        <div class="accordion mb-3" id="accordionExample">
-            <div class="accordion-item">
-              <h2 class="accordion-header">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                  Detalles
-                </button>
-              </h2>
-              <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                <div class="accordion-body">
-                  <ng-container *ngIf="selectedLabIncidence">
-                    <li>Ticket: {{ selectedLabIncidence.ticket }}</li>
-                    <li>Modulo: {{ selectedLabIncidence.module.name }}</li>
-                    <li>Serial: {{ selectedLabIncidence.module.serial }}</li>
-                  </ng-container>
-                </div>
-              </div>
-            </div>
-        </div>
-        <div class="form-floating mb-3">
-            <input  
-                type="string" 
-                class="form-control" 
-                [ngClass]="{'is-invalid': tecnichan.invalid && tecnichan.dirty}"
-                #tecnichan="ngModel" 
-                name="repairTechnician" 
-                placeholder="Module1" 
-                required
-                [(ngModel)]="repairTechnician">
-            <label for="floatingInputDisabled">Tecnico de repacion</label>
-        </div>
-        <div class="d-grid" style=" justify-content: end; ">
-            <button class="btn" style="background-color: #00E676; border: none; " [disabled]="Form.invalid" type="submit" data-bs-dismiss="modal">Aceptar</button>
-        </div>
-    </form>
+      </div>
+    </div>
+
+    <!-- TECNICO DE REPARACION -->
+    <div class="form-floating mb-4">
+      <input
+        type="text"
+        id="repairTechnician"
+        name="repairTechnician"
+        class="form-control border-primary shadow-sm"
+        placeholder="Técnico"
+        required
+        [(ngModel)]="repairTechnician"
+        #tecnichan="ngModel"
+        [ngClass]="{ 'is-invalid': tecnichan.invalid && tecnichan.touched }"
+      />
+      <label for="repairTechnician">Técnico de reparación</label>
+      <div *ngIf="tecnichan.invalid && tecnichan.touched" class="text-danger small mt-1">
+        El nombre del técnico es obligatorio.
+      </div>
+    </div>
+
+    <!-- BOTÓN -->
+    <div class="d-flex justify-content-end">
+      <button
+        type="submit"
+        class="btn btn-primary d-flex align-items-center gap-2 px-4"
+        [disabled]="Form.invalid"
+        data-bs-dismiss="modal"
+      >
+        <i class="bi bi-check-circle"></i> Aceptar
+      </button>
+    </div>
+  </form>
 </div>
+

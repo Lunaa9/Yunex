@@ -1,0 +1,100 @@
+/* Fondo oscuro del modal (backdrop) */
+.custom-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1040;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+  
+  /* Contenedor principal del modal */
+  .custom-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #ffffff;
+    z-index: 1050;
+    max-height: 95vh;
+    overflow-y: auto;
+    border-radius: 1rem; /* más redondeado */
+    width: 95%;
+    max-width: 1100px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+    border: 2px solid #0d6efd25;
+  }
+  
+  /* Cabecera del modal */
+  .modal-header {
+    
+    color: #0d6efd;
+    padding: 1rem 1.5rem;
+    border-top-left-radius: 1rem;
+    border-top-right-radius: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  /* Cuerpo del modal */
+  .modal-body {
+    padding: 2rem;
+    background-color: #f8f9fa;
+  }
+  
+  /* Pie del modal */
+  .modal-footer {
+    padding: 1rem 1.5rem;
+    background-color: #f1f1f1;
+    border-bottom-left-radius: 1rem;
+    border-bottom-right-radius: 1rem;
+    display: flex;
+    justify-content: flex-end;
+  }
+  
+  /* Botón de cerrar (X) */
+  .btn-close {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: #0d6efd;
+    cursor: pointer;
+    line-height: 1;
+  }
+  
+  /* Scroll amigable dentro del modal */
+  .custom-modal::-webkit-scrollbar {
+    width: 8px;
+  }
+  .custom-modal::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+  }
+  
+  /* Inputs y selects con estilo azul */
+  .form-control,
+  .form-select {
+    border: 1px solid #ced4da;
+    border-radius: 0.5rem;
+    transition: border-color 0.2s;
+  }
+  .form-control:focus,
+  .form-select:focus {
+    border-color: #0d6efd;
+    box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+  }
+  
+  /* Etiquetas animadas del form-floating */
+  .form-floating > label {
+    color: #6c757d;
+  }
+  
+  /* Errores en rojo suave */
+  .text-danger {
+    font-size: 0.875rem;
+    color: #dc3545;
+  }
+  
+  

@@ -1,23 +1,32 @@
 import "dotenv/config";
 import express, { json } from "express";
 import cors from "cors";
-import { router } from "./routes";
+import { loadRoutes } from "./routes";
 import db from "./config/mongo";
-import bodyParser from 'body-parser';
+import bodyParser from "body-parser";
 import fileUpload from "express-fileupload";
 
 // Gets the port from env
 const PORT = process.env.PORT || 3001;
-// Initialices the express app
 const app = express();
 
-app.use(bodyParser.json({ limit: '50mb' })); 
-
+app.use(bodyParser.json({ limit: "50mb" }));
+app.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
 app.use(cors());
 app.use(json());
 app.use(fileUpload());
-db().then(() => console.log("Connected to Database"));
-app.use(router);
-app.listen(PORT, () => {
-  console.log("Server started", process.env.PORT);
+
+const startServer = async () => {
+  await db().then(() => console.log("Connected to Database"));
+
+  const router = await loadRoutes(); // 👈 Espera las rutas dinámicas
+  app.use("/", router);              // 👈 Usa el router correctamente
+
+  app.listen(PORT, () => {
+    console.log(`✅ Server started on port ${PORT}`);
+  });
+};
+
+startServer().catch((err) => {
+  console.error("❌ Error starting server:", err);
 });

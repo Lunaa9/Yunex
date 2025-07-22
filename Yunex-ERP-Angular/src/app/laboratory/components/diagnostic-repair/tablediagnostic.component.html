@@ -1,108 +1,132 @@
 <!-- Repair Table -->
 <div>
-  <div >
-    <!-- Forms -->
-    <div class="col d-flex justify-content-start">
-      <div class="me-3"><app-init-repair-module></app-init-repair-module></div>
-      <div><app-out-module></app-out-module></div>
+  <div class="row align-items-center mb-3">
+
+    <!-- Módulos de formulario -->
+    <div class="custom-button col-auto d-flex flex-wrap gap-3">
+      <app-init-repair-module></app-init-repair-module>
     </div>
-    <form class="col d-flex mb-5 justify-content-end" role="search">
-      <input
-        class="form-control me-2"
-        type="search"
-        placeholder="Buscar por ticket, fecha o módulo"
-        aria-label="Buscar"
-        name="filterTable"
-        [(ngModel)]="filterTable"
-        (ngModelChange)="applyFilter()"
-      />
-    </form>
+    <div class="custom-button col-auto d-flex flex-wrap gap-3">
+      <app-out-module></app-out-module>
+    </div>
     
-    <!-- Table Controls -->
-    <nav class="col" aria-label="Page navigation">
-      <ul class="pagination justify-content-end bg-white">
-        <!-- Botón para retroceder -->
-        <li class="page-item me-2">
+
+    <!-- Buscador -->
+    <div class="col d-flex justify-content-end">
+      <div class="input-group" style="max-width: 350px;">
+        <span class="input-group-text bg-white border-end-0">
+          <i class="bi bi-search text-secondary"></i>
+        </span>
+        <input
+          class="form-control border-start-0"
+          type="search"
+          placeholder="Buscar por ticket, fecha o módulo"
+          aria-label="Buscar"
+          name="filterTable"
+          [(ngModel)]="filterTable"
+          (ngModelChange)="applyFilter()"
+        />
+      </div>
+    </div>
+  </div>
+
+  <!-- Tabla -->
+  <div
+  class="table-responsive rounded shadow-sm border-black"
+  style="padding: 0.5rem;"
+>
+  <table
+    class="table table-hover mb-0"
+    style="border-collapse: collapse; background-color: transparent;"
+  >
+    <thead class="text-center text-dark border-danger">
+        <tr>
+          <th (click)="toggleOrderTicket()" class="cursor-pointer">
+            Ticket
+            <span *ngIf="orderType === 'Ticket'">
+              <i [ngClass]="order === 'asc' ? 'bi bi-arrow-up' : 'bi bi-arrow-down'"></i>
+            </span>
+          </th>
+          <th (click)="toggleOrderDate()" class="cursor-pointer">
+            Fecha de inicio
+            <span *ngIf="orderType === 'Date'">
+              <i [ngClass]="order === 'asc' ? 'bi bi-arrow-up' : 'bi bi-arrow-down'"></i>
+            </span>
+          </th>
+          <th>Horas</th>
+          <th>Equipo</th>
+          <th>Ciudad</th>
+          <th>Falla encontrada</th>
+          <th>Estado módulo</th>
+          <th>Reparación Estimada</th>
+          <th>Procedimiento</th>
+          <th (click)="toggleOrderTech()" class="cursor-pointer">
+            Responsable
+            <span *ngIf="orderType === 'Tech'">
+              <i [ngClass]="order === 'asc' ? 'bi bi-arrow-up' : 'bi bi-arrow-down'"></i>
+            </span>
+          </th>
+          <th>Módulo</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="let labIncidence of visibleTickets | filter:filterTable"
+          [ngClass]="{
+            'table-warning': labIncidence.status === 'irreparable',
+            'table-success': labIncidence.status === 'repaired',
+            'table-secondary': labIncidence.status === 'approved'
+          }"
+          class="align-middle"
+          style="cursor: pointer;"
+          (click)="toggleProcedure(labIncidence)"
+        >
+          <td>{{ labIncidence.ticket }}</td>
+          <td>{{ labIncidence.admissionDate }}</td>
+          <td>{{ labIncidence.realRepairTime }}</td>
+          <td>{{ labIncidence.equipment }}</td>
+          <td>{{ labIncidence.city }}</td>
+          <td>{{ labIncidence.failure }}</td>
+          <td>{{ labIncidence.status }}</td>
+          <td>{{ labIncidence.estimatedRepairTime }}</td>
+          <td>
+            {{ labIncidence.showFullProcedure ? labIncidence.repairProcedure : trimProcedure(labIncidence.repairProcedure) }}
+          </td>
+          <td>{{ labIncidence.repairTechnician }}</td>
+          <td>{{ labIncidence.module.name }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Paginación -->
+  <div class="d-flex justify-content-end mt-3">
+    <nav aria-label="Paginación">
+      <ul class="pagination pagination-sm mb-0">
+        <li class="page-item">
           <button
-            class="btn btn-outline-primary"
+            class="page-link"
             (click)="changePage(-1)"
-            [disabled]="page === 0">
-            &laquo;
+            [disabled]="page === 0"
+          >
+            <i class="bi bi-chevron-double-left"></i>
           </button>
         </li>
-    
-        <!-- Número de página actual -->
+
         <li class="page-item disabled">
-          <span class="btn text-secondary">Página {{ page + 1 }} de {{ totalPages }}</span>
+          <span class="page-link bg-light text-dark border-0">Página {{ page + 1 }} de {{ totalPages }}</span>
         </li>
-    
-        <!-- Botón para avanzar -->
-        <li class="page-item ms-2">
+
+        <li class="page-item">
           <button
-            class="btn btn-outline-primary"
+            class="page-link"
             (click)="changePage(1)"
-            [disabled]="page + 1 >= totalPages">
-            &raquo;
+            [disabled]="page + 1 >= totalPages"
+          >
+            <i class="bi bi-chevron-double-right"></i>
           </button>
         </li>
       </ul>
     </nav>
-    
-  </div>
-  <!-- View Table -->
-  <div class="resTable table-container">
-    <table class="table table-bordered border-primary">
-      <thead>
-        <tr class="table-success">
-          <th scope="col" (click)="toggleOrderTicket()">
-            <span *ngIf="order === 'asc' && orderType === 'Ticket'">↑</span>
-            <span *ngIf="order !== 'asc' && orderType === 'Ticket'">↓</span>
-            Ticket
-          </th>
-          <th scope="col" (click)="toggleOrderDate()">
-            <span *ngIf="order === 'asc' && orderType === 'Date'">↑</span>
-            <span *ngIf="order !== 'asc' && orderType === 'Date'">↓</span>
-            Fecha de inicio
-          </th>
-          <th scope="col">Horas</th>
-          <th scope="col">Equipo</th>
-          <th scope="col">Ciudad</th>
-          <th scope="col">Falla encontrada</th>
-          <th scope="col">Estado modulo</th>
-          <th scope="col">Reparación Estimada (Horas)</th>
-          <th scope="col">Procedimiento</th>
-          <th scope="col" (click)="toggleOrderTech()">
-            <span *ngIf="order === 'asc' && orderType === 'Tech'">↑</span>
-            <span *ngIf="order !== 'asc' && orderType === 'Tech'">↓</span>
-            Responsable
-          </th>
-          <th scope="col">Módulo</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let labIncidence of visibleTickets | filter:filterTable"
-
-          [ngClass]="{
-            'table-warning': labIncidence.status === 'irreparable',
-            'table-info': labIncidence.status === 'repaired',
-            'table-secondary': labIncidence.status === 'approved'
-          }"
-        >
-          <td (click)="toggleProcedure(labIncidence)" style="cursor: pointer;">{{ labIncidence.ticket }}</td>
-          <td (click)="toggleProcedure(labIncidence)" style="cursor: pointer;">{{ labIncidence.admissionDate }}</td>
-          <td (click)="toggleProcedure(labIncidence)" style="cursor: pointer;">{{ labIncidence.realRepairTime }}</td>
-          <td (click)="toggleProcedure(labIncidence)" style="cursor: pointer;">{{ labIncidence.equipment }}</td>
-          <td (click)="toggleProcedure(labIncidence)" style="cursor: pointer;">{{ labIncidence.city }}</td>
-          <td (click)="toggleProcedure(labIncidence)" style="cursor: pointer;">{{ labIncidence.failure }}</td>
-          <td (click)="toggleProcedure(labIncidence)" style="cursor: pointer;">{{ labIncidence.status }}</td>
-          <td (click)="toggleProcedure(labIncidence)" style="cursor: pointer;">{{ labIncidence.estimatedRepairTime }}</td>
-          <td (click)="toggleProcedure(labIncidence)" style="cursor: pointer;">
-            {{ labIncidence.showFullProcedure ? labIncidence.repairProcedure : trimProcedure(labIncidence.repairProcedure) }}
-          </td>
-          <td (click)="toggleProcedure(labIncidence)" style="cursor: pointer;">{{ labIncidence.repairTechnician }}</td>
-          <td (click)="toggleProcedure(labIncidence)" style="cursor: pointer;">{{ labIncidence.module.name }}</td>
-        </tr>
-      </tbody>
-    </table>
   </div>
 </div>

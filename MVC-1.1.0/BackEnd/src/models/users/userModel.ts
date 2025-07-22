@@ -17,7 +17,12 @@ const userSchema = new Schema({
   reports: {
     type: Array,
     default: []
+  },
+  token: {
+    type: String,
+    default: ''
   }
+
 });
 
 const UserModel = model('users', userSchema);

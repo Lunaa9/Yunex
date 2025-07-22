@@ -1,13 +1,29 @@
 <app-layout-lab>
-    <div class="container " style="margin: 2%;" >
-        <div class="card">
-            <app-spinner></app-spinner>
-            <div class="card-header">
-                <h1>Reparaciones</h1>
-            </div>
-            <div class="card-body" style="padding: 4%;">
-                <app-table-diagnostic></app-table-diagnostic>
-            </div>
+    <div class="container" style="margin: 2%; background-color: transparent;">
+      <div
+        class="card shadow-sm"
+        style="
+          background-color: transparent;
+          border: 5px solid rgba(255, 255, 255, 0);
+          border-radius: 12px;
+          overflow: hidden;
+        "
+      >
+        <app-spinner></app-spinner>
+  
+        <div class="card-header bg-transparent border-bottom border-transparent">
+          <h1 class="text-center text-black fs-10  text-uppercase font-Sans Serif">Reparaciones</h1>
         </div>
+  
+        <div
+          class="card-header"
+          style="padding: 4%; background-color: transparent;
+         border-top: 4px solid rgba(255, 255, 255, 0);
+          overflow: hidden;"
+        >
+          <app-table-diagnostic></app-table-diagnostic>
+        </div>
+      </div>
     </div>
-</app-layout-lab>
+  </app-layout-lab>
+  

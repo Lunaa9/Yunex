@@ -1,6 +1,6 @@
 import clientModel from '../../models/warranty/client.model';
 import * as xlsx from "xlsx";
-import { client } from '../../interfaces/warranties/client.interface';
+import { client } from '../../interfaces/warranties/Client.interface';
 
 /**
  * function create new clent by garantias

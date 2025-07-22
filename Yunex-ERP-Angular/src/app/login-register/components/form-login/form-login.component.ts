@@ -14,6 +14,7 @@ export class FormLoginComponent {
   emailOk: boolean = true;
   password: string = '';
   error: string | null = null;
+  
   isLoading: boolean = false;
 
   constructor(private loginService: LoginService, private router: Router) { }

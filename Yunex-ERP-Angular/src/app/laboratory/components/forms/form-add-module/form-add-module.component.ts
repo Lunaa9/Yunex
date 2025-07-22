@@ -1,6 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { LabService } from '../../../services/lab.service'
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-form-add-module',
@@ -55,34 +56,42 @@ export class FormAddModuleComponent {
    * @param {any} values - The form values.
    * @returns {void} - No return value.
    */
-  handleSubmit(values: any): void{
-    // Set isLoading and error to initial values
+  
+
+
+
+
+  handleSubmit(values: any): void {
     this.isLoading = true;
     this.error = null;
-
-    // Format instalation date
-    this.incidence.module.instalationDate = new Date(this.incidence.module.instalationDate).toLocaleDateString('es-CO');
-
-    try {
-      // Make API call to add new module
-      this.labservice.newModule(this.incidence).subscribe(
-        response => {
-          // Log response and reload page
-          console.log('new module created correctly', response);
-          window.location.reload();
-        },
-        (error: HttpErrorResponse) => {
-          // Log error and set error message
-          console.log(error.error);
-          this.error = "Usuario o contraseña incorrectos";
-        }
-      )
-    } catch {
-      // Log error
-      console.log('error');
-    } finally {
-      // Set isLoading to false
-      this.isLoading = false;
-    }
+  
+    // Formatea la fecha
+    const date = new Date(this.incidence.module.instalationDate);
+    this.incidence.module.instalationDate = date.toISOString().split('T')[0]; // yyyy-MM-dd
+    
+  
+    this.labservice.newModule(this.incidence).subscribe({
+      next: (response) => {
+        console.log('new module created correctly', response);
+        
+        Swal.fire({
+          icon: 'success',
+          title: 'Éxito',
+          text: 'Módulo creado correctamente',
+        }).then(() => {
+          window.location.reload(); // solo después de mostrar la alerta
+        });
+      },
+      error: (error: HttpErrorResponse) => {
+        console.log(error.error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: error.error || 'Ocurrió un error inesperado',
+        });
+        this.isLoading = false;
+      }
+    });
   }
+
 }

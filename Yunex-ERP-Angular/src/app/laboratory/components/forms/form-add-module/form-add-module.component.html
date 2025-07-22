@@ -1,5 +1,5 @@
 <div class="container mt-5">
-    <form (ngSubmit)="handleSubmit(Form.value)" #Form="ngForm" novalidate>
+    <form #Form="ngForm" novalidate>
       <div class="row">
         <div class="col-lg-4 mb-4">
           <div class="card">
@@ -287,9 +287,9 @@
         </div>
       </div>
       <div class="d-grid mt-4" style="justify-content: end;">
-          <button class="btn btn-success" type="submit" [disabled]="Form.invalid">
-            <i class="fas fa-check"></i> Aceptar
-          </button>
+        <button type="button" class="btn btn-success" (click)="handleSubmit(Form.value)" [disabled]="Form.invalid">
+          <i class="fas fa-check"></i> Aceptar
+        </button>
       </div>
     </form>
   </div>

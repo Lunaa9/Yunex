@@ -46,7 +46,7 @@ export class DetailViewComponent {
 
   constructor(private tableService: TableService) {}
 
-  close() {
+  close(): void {
     this.tableService.show = false;
   }
 }

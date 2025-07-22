@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { LabService } from '../../../services/lab.service';
 import { LabIncidence } from 'src/app/interfaces/lab/labIncidence.interface';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-form-out-module',
@@ -47,7 +48,7 @@ export class FormOutModuleComponent {
       }
     );
   }
-
+ 
 
   handleSubmit3(): void {
     this.isLoading = true;
@@ -61,22 +62,39 @@ export class FormOutModuleComponent {
         this.failure,
         this.sticker,
         this.comments,
-        this.repairProcedure,
-      ).subscribe(
-        response => {
-          console.log('Entry module update correctly', response);
-          window.location.reload();
+        this.repairProcedure
+      ).subscribe({
+        next: (response) => {
+          Swal.fire({
+            icon: 'success',
+            title: 'Módulo finalizado',
+            text: 'El módulo se finalizó correctamente',
+            confirmButtonColor: '#3085d6'
+          }).then(() => {
+            window.location.reload();
+          });
         },
-        (error: HttpErrorResponse) => {
-          console.error('Error submitting form:', error);
-          this.error = 'Error submitting form';
+        error: (err: HttpErrorResponse) => {
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Hubo un problema al finalizar el módulo',
+            confirmButtonColor: '#d33'
+          });
+          this.error = 'Error al enviar el formulario';
+          this.isLoading = false;
         },
-        () => {
+        complete: () => {
           this.isLoading = false;
         }
-      );
+      });
     } catch (error) {
       console.error('Error:', error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Error al finalizar el módulo',
+      });
       this.error = 'Error submitting form';
       this.isLoading = false;
     }

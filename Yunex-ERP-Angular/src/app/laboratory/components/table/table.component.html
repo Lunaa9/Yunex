@@ -7,7 +7,7 @@
   >
   
   <div class="m-4">
-    <button class="btn btn-primary " (click)="exportAsXLXS()">
+    <button class="btn btn-primary " (click)="exportAsXLSX()">
       <img src="../../../../assets/img/filetype-xlsx.svg" class="me-1" >
       Descargar
     </button>
@@ -225,8 +225,6 @@
               type="button"
               class="btn btn-primary me-1 p-0 ps-1 pe-1"
               (click)="view(element.ticket)"
-              data-bs-target="#modaldetails" 
-              data-bs-toggle="modal"
             >
               <img class="" src="../../../../assets/img/eye.svg">
             </button>
@@ -237,8 +235,6 @@
               type="button"
               class="btn btn-warning me-1 p-0 ps-1 pe-1"
               (click)="edit(element.ticket)"
-              data-bs-target="#modaledit" 
-              data-bs-toggle="modal"
             >
             <img class="" src="../../../../assets/img/pencil-square.svg">
             </button>
@@ -259,8 +255,6 @@
               type="button"
               class="btn btn-secondary p-0  ps-1 pe-1"
               (click)="repare(element.ticket)"
-              data-bs-target="#modalauth" 
-              data-bs-toggle="modal"
             >
               <img class="" src="../../../../assets/img/check-square.svg">
             </button>
@@ -274,10 +268,16 @@
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>
   </section>
-  <div *ngIf="tableService.loading" [@fadeInOut]="true" class="loading-spinner"></div>
-  <div><app-detail-view *ngIf="tableService.show" [incidenceToShow]="incidenceToPass"></app-detail-view></div>
-  <div><app-edit-view *ngIf="tableService.show" [incidenceToShow]="incidenceToPass"></app-edit-view></div>
-  <div><app-auth-repair *ngIf="tableService.show" [incidenceToShow]="incidenceToPass"></app-auth-repair></div>
+  <div *ngIf="tableService.show && viewMode === 'view'">
+    <app-detail-view [incidenceToShow]="incidenceToPass"></app-detail-view>
+  </div>
+  
+  <div *ngIf="tableService.show && viewMode === 'edit'">
+    <app-edit-view [incidenceToShow]="incidenceToPass"></app-edit-view>
+  </div>
+  <div *ngIf="tableService.show && viewMode === 'auth'">
+    <app-auth-repair [incidenceToShow]="incidenceToPass"></app-auth-repair>
+  </div>
 </div>
 </app-layout-lab>
 

@@ -3,6 +3,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { LabService } from '../../../services/lab.service';
 import { LabIncidence } from 'src/app/interfaces/lab/labIncidence.interface';
 import { Observable, map, tap } from 'rxjs';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-form-init-module',
@@ -77,12 +78,23 @@ export class FormInitModuleComponent {
     this.error = null; // Clear the error message
     this.labservice.EntryModule(this.ticket, this.status, this.repairTechnician).subscribe(
       (response) => { // If the request is successful
-        console.log('Entry module updated correctly', response); // Log the response
+        console.log('Entry module updated correctly', response);
+        Swal.fire({
+          icon: 'success',
+          title: 'Módulo iniciado correctamente',
+          showConfirmButton: false,
+          timer: 1500
+        });
         window.location.reload(); // Reload the page
       },
       (error: HttpErrorResponse) => { // If there is an error
         console.log(error.error); // Log the error
-        this.error = 'Error submitting form'; // Set the error message
+        Swal.fire({
+          icon: 'error',
+          title: 'Error al iniciar el módulo',
+          showConfirmButton: false,
+          timer: 1500
+        });
       },
       () => {
         this.isLoading = false; // Set the isLoading flag to false

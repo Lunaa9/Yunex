@@ -1,7 +1,7 @@
-import { Router } from "express";
 import controllers from "../../controllers/index";
+import express from "express";
 
-const router = Router();
+const router = express.Router();
 
 // Get-all route
 router.get("/get-all", controllers.User.getAllUsers);
