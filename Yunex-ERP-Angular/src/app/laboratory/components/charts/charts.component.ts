@@ -4,6 +4,7 @@ import {Chart,ChartType} from 'chart.js/auto';
 import { Subscription } from 'rxjs';
 import { assemblyCharts, incidenceCharts } from 'src/app/interfaces/lab/charts.interface';
 
+////////////////////////////////////////////
 @Component({
   selector: 'app-charts',
   templateUrl: './charts.component.html',
@@ -94,8 +95,8 @@ export class ChartsComponent {
         label: 'Tiempo de Reparación',
         data: this.incidenceList.repairTime.data,
         backgroundColor: [
-          'rgb(255, 99, 132)',
-          'rgb(54, 162, 235)'
+          'rgba(46, 99, 245, 1)',
+          'rgba(54, 235, 84, 1)'
         ],
         hoverOffset: 2
       }]
@@ -106,8 +107,8 @@ export class ChartsComponent {
         label: 'Fecha de Salida',
         data: this.incidenceList.outTime.data,
         backgroundColor: [
-          'rgb(255, 99, 132)',
-          'rgb(54, 162, 235)'
+          'rgba(49, 94, 243, 1)',
+          'rgba(60, 235, 54, 1)'
         ],
         hoverOffset: 2
       }]
@@ -118,8 +119,8 @@ export class ChartsComponent {
         label: 'Garantía',
         data: this.incidenceList.warranty.data,
         backgroundColor: [
-          'rgb(255, 99, 132)',
-          'rgb(54, 162, 235)'
+          'rgba(50, 86, 248, 1)',
+          'rgba(69, 235, 54, 1)'
         ],
         hoverOffset: 2
       }]
@@ -165,94 +166,104 @@ export class ChartsComponent {
   /**
    * initialize the assembly charts
    */
-  genAssemblies(){
-    const typeData = {
-      labels:this.assemblyList.type.labels,
-      datasets: [{
-        label: 'Tipos de Ensambles',
-        data: this.assemblyList.type.data,
-        backgroundColor: [
-          'rgb(255, 99, 132)',
-          'rgb(54, 162, 235)',
-          'rgb(117,234,172)',
-          'rgb(32,215,29)',
-          'rgb(29,54,215)',
-          'rgb(245,230,24)',
-          'rgb(245,24,216)'
-        ],
-        borderWidth: 1
-      }]
-    };
-    const statusData = {
-      labels:this.assemblyList.status.labels,
-      datasets: [{
-        label: 'Estados de Ensambles',
-        data: this.assemblyList.status.data,
-        backgroundColor: [
-          'rgb(255, 99, 132)',
-          'rgb(54, 162, 235)',
-          'rgb(117,234,172)'
+  genAssemblies() {
+  if (!this.assemblyList) return;
 
-        ],
-        hoverOffset: 3
-      }]
-    }
-    const receivedData = {
-      labels:this.assemblyList.received.labels,
-      datasets: [{
-        label: 'Estado Recibido',
-        data: this.assemblyList.received.data,
-        backgroundColor: [
-          'rgb(255, 99, 132)',
-          'rgb(54, 162, 235)',
-          'rgb(117,234,172)'
-        ],
-        hoverOffset: 3
-      }]
-    }
-    const compliData = {
-      labels:this.assemblyList.compliDate.labels,
-      datasets: [{
-        label: 'Fecha de Finalización',
-        data: this.assemblyList.compliDate.data,
-        backgroundColor: [
-          'rgb(255, 99, 132)',
-          'rgb(54, 162, 235)'
-        ],
-        hoverOffset: 2
-      }]
-    }
-    this.typeAs = new Chart("typeAs",{
-      type:'bar' as ChartType,
-      data:typeData,
-      options: {
-        scales: {
-          y: {
-            beginAtZero: true
-          }
+  const { type, status, received, compliDate } = this.assemblyList;
+
+  const typeData = {
+    labels: type?.labels || [],
+    datasets: [{
+      label: 'Tipos de Ensambles',
+      data: type?.data || [],
+      backgroundColor: [
+        'rgb(255, 99, 132)',
+        'rgb(54, 162, 235)',
+        'rgb(117,234,172)',
+        'rgb(32,215,29)',
+        'rgb(29,54,215)',
+        'rgb(245,230,24)',
+        'rgb(245,24,216)'
+      ],
+      borderWidth: 1
+    }]
+  };
+
+  const statusData = {
+    labels: status?.labels || [],
+    datasets: [{
+      label: 'Estados de Ensambles',
+      data: status?.data || [],
+      backgroundColor: [
+        'rgb(255, 99, 132)',
+        'rgb(54, 162, 235)',
+        'rgb(117,234,172)'
+      ],
+      hoverOffset: 3
+    }]
+  };
+
+  const receivedData = {
+    labels: received?.labels || [],
+    datasets: [{
+      label: 'Estado Recibido',
+      data: received?.data || [],
+      backgroundColor: [
+        'rgb(255, 99, 132)',
+        'rgb(54, 162, 235)',
+        'rgb(117,234,172)'
+      ],
+      hoverOffset: 3
+    }]
+  };
+
+  const compliData = {
+    labels: compliDate?.labels || [],
+    datasets: [{
+      label: 'Fecha de Finalización',
+      data: compliDate?.data || [],
+      backgroundColor: [
+        'rgb(255, 99, 132)',
+        'rgb(54, 162, 235)'
+      ],
+      hoverOffset: 2
+    }]
+  };
+
+  this.typeAs = new Chart("typeAs", {
+    type: 'bar' as ChartType,
+    data: typeData,
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
         }
       }
-    });
-    this.statusAs = new Chart("statusAs",{
-      type:'pie' as ChartType,
-      data:statusData,
-      options: {
-        aspectRatio:0.7
-      }
-    });
-    this.received = new Chart("received",{
-      type:'pie' as ChartType,
-      data:receivedData,
-      options: {
-        aspectRatio:0.7
-      }
-    });
-    this.compliDate = new Chart("compliDate",{
-      type:'pie' as ChartType,
-      data:compliData,
-      options: {
-        aspectRatio:0.7
-      }
-    });
-  }
+    }
+  });
+
+  this.statusAs = new Chart("statusAs", {
+    type: 'pie' as ChartType,
+    data: statusData,
+    options: {
+      aspectRatio: 0.7
+    }
+  });
+
+  this.received = new Chart("received", {
+    type: 'pie' as ChartType,
+    data: receivedData,
+    options: {
+      aspectRatio: 0.7
+    }
+  });
+
+  this.compliDate = new Chart("compliDate", {
+    type: 'pie' as ChartType,
+    data: compliData,
+    options: {
+      aspectRatio: 0.7
+    }
+  });
+}
 }

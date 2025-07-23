@@ -1,122 +1,109 @@
 <!-- Filter form -->
-<div class="d-flex justify-content-between">
-    <select class="form-select bg-light border-primary text-primary mx-2" name="table" [(ngModel)]="data.table" (ngModelChange)="changeTable()">
-        <option class="bg-light" value="incidence" selected hidden>Tabla</option>
-        <option class="bg-light" value="incidence">Todos</option>
-        <option class="bg-light" value="incidence">Incidencias</option>
-        <option class="bg-light" value="assembly">Ensambles</option>
+<div class="filtros-container">
+  <select class="select-general" name="table" [(ngModel)]="data.table" (ngModelChange)="changeTable()">
+    <option value="incidence" selected hidden>Tabla</option>
+    <option value="incidence">Todos</option>
+    <option value="incidence">Incidencias</option>
+    <option value="assembly">Ensambles</option>
+  </select>
+
+  <form class="filtros-form">
+    <select class="select-filtro" name="year" [(ngModel)]="data.year" (ngModelChange)="getBalanceCard(false)">
+      <option [value]="0" selected hidden>Año</option>
+      <option [value]="0">Todos</option>
+      <option *ngFor="let year of years">{{year}}</option>
     </select>
-    <form class="pb-3" style="align-self: flex-end;">
-        <select class="rounded-pill me-2 mb-2" name="year" [(ngModel)]="data.year" (ngModelChange)="getBalanceCard(false)">
-            <option [value]="0" selected hidden>Año</option>
-            <option [value]="0">Todos</option>
-            <option *ngFor="let year of years">{{year}}</option>
-        </select>
-        <select class="rounded-pill me-2 mb-2" name="client" [(ngModel)]="data.client" (ngModelChange)="getBalanceCard(true)" [disabled]="clients.length<=0">
-            <option [value]="''" selected hidden>Cliente</option>
-            <option [value]="''">Todos</option>
-            <option style="max-width: 100px;" *ngFor="let client of clients">{{client}}</option>
-        </select>
-        <select class="rounded-pill me-2 mb-2" name="contractNum" [(ngModel)]="data.contract" (ngModelChange)="getBalanceCard(false)" [disabled]="!data.client || contracts.length<=0">
-            <option [value]="''" selected hidden>Contrato</option>
-            <option [value]="''">Todos</option>
-            <option *ngFor="let contractNum of contracts">{{contractNum}}</option>
-        </select>
-    </form>
-</div>
-<!-- Statistics table -->
-<p class="text-center fw-bold fs-2">Estadisticas Globales</p>
-<h4 class="fw-bold py-3" *ngIf="data.table==='incidence'">Modulos</h4>
-<h4 class="fw-bold py-3" *ngIf="data.table==='assembly'">Ensambles</h4>
 
-<div class="row py-3 rounded-4 align-items-center" *ngIf="data.table==='incidence'" style="background-color: gainsboro">
-   <div class="col">
-       <h5 class="text-muted fw-bold ">Reparandose</h5>
-       <p class="text-success fw-bold">{{incidenceData.repairing}} de {{incidenceData.total}}</p>
-   </div>
-   <div class="col">
-       <h5 class="text-muted fw-bold">Para reparar</h5>
-       <p class="text-success fw-bold">{{incidenceData.toRepair}} de {{incidenceData.total}}</p>
-   </div>
-   <div class="col">
-        <h5 class="text-muted fw-bold">Reparados</h5>
-        <p class="text-success fw-bold">{{incidenceData.repaired}} de {{incidenceData.total}}</p>
-    </div>
-    <div class="col">
-        <h5 class="text-muted fw-bold">Irreparables</h5>
-        <p class="text-success fw-bold">{{incidenceData.irreparable}} de {{incidenceData.total}}</p>
-    </div>
-    <div class="col">
-       <h5 class="text-muted fw-bold">Aprobados</h5>
-       <p class="text-success fw-bold">{{incidenceData.approved}} de {{incidenceData.total}}</p>
-   </div>
-</div>
-<div class="p-3 rounded-4" *ngIf="data.table==='assembly'" style="background-color: gainsboro">
-    <div class="row">
-        <div class="col">
-            <h5 class="text-muted fw-bold ">Semaforos</h5>
-            <p class="text-success fw-bold">{{assemblyData.trafLight}} de {{assemblyData.total}}</p>
-        </div>
-        <div class="col">
-            <h5 class="text-muted fw-bold ">Bandejas</h5>
-            <p class="text-success fw-bold">{{assemblyData.trays}} de {{assemblyData.total}}</p>
-        </div>
-        <div class="col">
-            <h5 class="text-muted fw-bold ">SX Protector</h5>
-            <p class="text-success fw-bold">{{assemblyData.SxProt}} de {{assemblyData.total}}</p>
-        </div>
-        <div class="col">
-            <h5 class="text-muted fw-bold ">Controlador C800</h5>
-            <p class="text-success fw-bold">{{assemblyData.C800}} de {{assemblyData.total}}</p>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col">
-            <h5 class="text-muted fw-bold ">Controlador C900</h5>
-            <p class="text-success fw-bold">{{assemblyData.C900}} de {{assemblyData.total}}</p>
-        </div>
-        <div class="col">
-            <h5 class="text-muted fw-bold ">Controlador ST950</h5>
-            <p class="text-success fw-bold">{{assemblyData.CST950}} de {{assemblyData.total}}</p>
-        </div>
-        <div class="col">
-            <h5 class="text-muted fw-bold ">Controlador SX</h5>
-            <p class="text-success fw-bold">{{assemblyData.CSX}} de {{assemblyData.total}}</p>
-        </div>
-    </div>
- </div>
-<div class="row py-3" *ngIf="data.table==='incidence'">
-    <h4 class="text-center fw-bold col-xs-12 col-md-6 col-lg-6">Tiempo de reparacion</h4>
-    <h4 class="text-center fw-bold col-xs-12 col-md-6 col-lg-6">Tiempo de salida</h4>
+    <select class="select-filtro" name="client" [(ngModel)]="data.client" (ngModelChange)="getBalanceCard(true)" [disabled]="clients.length<=0">
+      <option [value]="''" selected hidden>Cliente</option>
+      <option [value]="''">Todos</option>
+      <option *ngFor="let client of clients">{{client}}</option>
+    </select>
+
+    <select class="select-filtro" name="contractNum" [(ngModel)]="data.contract" (ngModelChange)="getBalanceCard(false)" [disabled]="!data.client || contracts.length<=0">
+      <option [value]="''" selected hidden>Contrato</option>
+      <option [value]="''">Todos</option>
+      <option *ngFor="let contractNum of contracts">{{contractNum}}</option>
+    </select>
+  </form>
 </div>
 
-<div class="row py-3 rounded-4" style="background-color: gainsboro;" *ngIf="data.table==='incidence'">
- <div class="col-xs-6 col-md-3 col-lg-3">
-     <h5 class="text-muted fw-bold text-center">Cumplio</h5>
-     <p class="text-success fw-bold text-center">{{incidenceData.repairTimeTrue}} de {{incidenceData.total}}</p>
- </div>
- <div class="col-xs-6 col-md-3 col-lg-3">
-     <h5 class="text-muted fw-bold text-center">No cumplio</h5>
-     <p class="text-danger fw-bold text-center">{{incidenceData.repairTimeFalse}} de {{incidenceData.total}}</p>
- </div>
- <div class="col-xs-6 col-md-3 col-lg-3">
-     <h5 class="text-muted fw-bold text-center">Cumplio</h5>
-     <p class="text-success fw-bold text-center">{{incidenceData.outTimeTrue}} de {{incidenceData.total}}</p>
- </div>
- <div class="col-xs-6 col-md-3 col-lg-3">
-     <h5 class="text-muted fw-bold text-center">No cumplio</h5>
-     <p class="text-danger fw-bold text-center">{{incidenceData.outTimeFalse}} de {{incidenceData.total}}</p>
- </div>
+<p class="text-center titulo-seccion">Estadísticas Globales</p>
+<h4 class="titulo-tabla" *ngIf="data.table==='incidence'">Módulos</h4>
+<h4 class="titulo-tabla" *ngIf="data.table==='assembly'">Ensambles</h4>
+
+<!-- Tarjetas de Incidencias -->
+<div class="tarjeta-grid" *ngIf="data.table==='incidence'">
+  <div class="tarjeta_1">
+    <h5>Reparándose</h5>
+    <p>{{incidenceData.repairing}} de {{incidenceData.total}}</p>
+  </div>
+  <div class="tarjeta_2">
+    <h5>Para reparar</h5>
+    <p>{{incidenceData.toRepair}} de {{incidenceData.total}}</p>
+  </div>
+  <div class="tarjeta_3">
+    <h5>Reparados</h5>
+    <p>{{incidenceData.repaired}} de {{incidenceData.total}}</p>
+  </div>
+  <div class="tarjeta_4">
+    <h5>Irreparables</h5>
+    <p>{{incidenceData.irreparable}} de {{incidenceData.total}}</p>
+  </div>
+  <div class="tarjeta_5">
+    <h5>Aprobados</h5>
+    <p>{{incidenceData.approved}} de {{incidenceData.total}}</p>
+  </div>
 </div>
 
-<!-- Show/hide charts button -->
-<div class="d-flex flex-column my-4">
-   <button class="rounded-pill py-2 px-4 border-0 text-white fw-bold" 
-    style="align-self: flex-end;background-color: blue;" 
-    (click)="charts(showCharts)">
-       {{btnText}}
-   </button>
-</div>    
+<!-- Tarjetas de Ensambles -->
+<div class="tarjeta-grid" *ngIf="data.table==='assembly'">
+  <div class="tarjeta" *ngFor="let item of [
+    {label: 'Semáforos', value: assemblyData.trafLight},
+    {label: 'Bandejas', value: assemblyData.trays},
+    {label: 'SX Protector', value: assemblyData.SxProt},
+    {label: 'Controlador C800', value: assemblyData.C800},
+    {label: 'Controlador C900', value: assemblyData.C900},
+    {label: 'Controlador ST950', value: assemblyData.CST950},
+    {label: 'Controlador SX', value: assemblyData.CSX}
+  ]">
+    <h5>{{item.label}}</h5>
+    <p>{{item.value}} de {{assemblyData.total}}</p>
+  </div>
+</div>
 
-<!-- Statistical charts -->
+<!-- Tiempos -->
+<div *ngIf="data.table==='incidence'">
+  <div class="tiempo-header">
+    <h4>Tiempo de reparación</h4>
+    <h4>Tiempo de salida</h4>
+  </div>
+
+  <div class="tiempo-grid">
+    <div class="tiempo-box_cumplio_1">
+      <h5>Cumplió</h5>
+      <p>{{incidenceData.repairTimeTrue}} de {{incidenceData.total}}</p>
+    </div>
+    <div class="tiempo-box_no-cumplio_2">
+      <h5>No cumplió</h5>
+      <p>{{incidenceData.repairTimeFalse}} de {{incidenceData.total}}</p>
+    </div>
+    <div class="tiempo-box_cumplio_3">
+      <h5>Cumplió</h5>
+      <p>{{incidenceData.outTimeTrue}} de {{incidenceData.total}}</p>
+    </div>
+    <div class="tiempo-box_no-cumplio_4">
+      <h5>No cumplió</h5>
+      <p>{{incidenceData.outTimeFalse}} de {{incidenceData.total}}</p>
+    </div>
+  </div>
+</div>
+
+<!-- Botón -->
+<div class="boton-graficos">
+  <button (click)="charts(showCharts)">
+    {{btnText}}
+  </button>
+</div>
+
 <app-charts *ngIf="showCharts"></app-charts>
