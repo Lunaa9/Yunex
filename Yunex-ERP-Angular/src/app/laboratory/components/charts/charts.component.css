@@ -1,9 +1,65 @@
-html,body{
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
+.graficos-container {
+  padding: 30px;
+  background-color: #f8f9fa;
 }
-.chart-size{
-    height: 500px;
+
+.titulo-graficos {
+  text-align: center;
+  font-weight: bold;
+  font-size: 2.5rem;
+  color: #007bff;
+  margin-bottom: 30px;
 }
-.iframe{
-    background-color: gainsboro;
+
+.graficos-panel {
+  display: grid;
+  gap: 30px;
+  grid-template-columns: 1fr;
+}
+
+.grafico-box {
+  background: #ffffff;
+  padding: 20px 30px;
+  border-radius: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease;
+}
+
+.grafico-box:hover {
+  transform: translateY(-4px);
+}
+
+.grafico-titulo {
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #343a40;
+  margin-bottom: 20px;
+}
+
+.grafico-canvas {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px 0;
+  min-height: 200px;
+}
+
+/* Opcional: tamaño de los canvas */
+canvas {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Responsive */
+@media (min-width: 768px) {
+  .graficos-panel {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1200px) {
+  .graficos-panel {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
