@@ -1,8 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { BalancesComponent } from './balances.component';
 
-describe('BalanceComponent', () => {
+describe('BalancesComponent', () => {
   let component: BalancesComponent;
   let fixture: ComponentFixture<BalancesComponent>;
 
@@ -19,3 +18,4 @@ describe('BalanceComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+  

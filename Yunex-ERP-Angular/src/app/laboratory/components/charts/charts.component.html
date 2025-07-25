@@ -1,12 +1,13 @@
-<div class="col graficos-container" [ngClass]="{'d-none': assembly}">
-  <p class="titulo-graficos">Gráficos Estadísticos</p>
+<!-- GRAFICAS DE INCIDENCIAS -->
+<div class="col graficos-container" *ngIf="incidence">
+  <p class="titulo-graficos">Gráficos Estadísticos - Incidencias</p>
 
   <div class="graficos-panel">
     <!-- Estado de las Incidencias -->
     <div class="grafico-box">
       <h2 class="grafico-titulo">Estado de las Incidencias</h2>
       <div class="grafico-canvas">
-        <canvas id="status">{{statusIn}}</canvas>
+        <canvas id="status"></canvas>
       </div>
     </div>
 
@@ -14,15 +15,15 @@
     <div class="grafico-box">
       <h2 class="grafico-titulo">Tiempo de Reparación</h2>
       <div class="grafico-canvas">
-        <canvas id="expTime">{{expTimeIn}}</canvas>
+        <canvas id="expTime"></canvas>
       </div>
     </div>
-            
+
     <!-- Fecha de Salida -->
     <div class="grafico-box">
       <h2 class="grafico-titulo">Fecha de Salida</h2>
       <div class="grafico-canvas">
-        <canvas id="outDate">{{outDateIn}}</canvas>
+        <canvas id="outDate"></canvas>
       </div>
     </div>
 
@@ -30,10 +31,47 @@
     <div class="grafico-box">
       <h2 class="grafico-titulo">Entra por Garantía</h2>
       <div class="grafico-canvas">
-        <canvas id="warranty">{{warrIn}}</canvas>
+        <canvas id="warranty"></canvas>
       </div>
     </div>
   </div>
 </div>
 
+<!-- GRAFICAS DE ENSAMBLES -->
+<div class="col graficos-container" *ngIf="assembly">
+  <p class="titulo-graficos">Gráficos Estadísticos - Ensambles</p>
 
+  <div class="graficos-panel">
+    <!-- Tipos de Ensambles -->
+    <div class="grafico-box">
+      <h2 class="grafico-titulo">Tipos de Ensambles</h2>
+      <div class="grafico-canvas">
+        <canvas id="typeAs"></canvas>
+      </div>
+    </div>
+
+    <!-- Estado del Ensamble -->
+    <div class="grafico-box">
+      <h2 class="grafico-titulo">Estado del Ensamble</h2>
+      <div class="grafico-canvas">
+        <canvas id="statusAs"></canvas>
+      </div>
+    </div>
+
+    <!-- Fecha de Entrada -->
+    <div class="grafico-box">
+      <h2 class="grafico-titulo">Fecha de Entrada</h2>
+      <div class="grafico-canvas">
+        <canvas id="received"></canvas>
+      </div>
+    </div>
+
+    <!-- Fecha Compromiso -->
+    <div class="grafico-box">
+      <h2 class="grafico-titulo">Fecha Compromiso</h2>
+      <div class="grafico-canvas">
+        <canvas id="compliDate"></canvas>
+      </div>
+    </div>
+  </div>
+</div>

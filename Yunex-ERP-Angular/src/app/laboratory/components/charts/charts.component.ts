@@ -3,7 +3,7 @@ import { DataChartsService } from '../../services/data-charts.service';
 import {Chart,ChartType} from 'chart.js/auto';
 import { Subscription } from 'rxjs';
 import { assemblyCharts, incidenceCharts } from 'src/app/interfaces/lab/charts.interface';
-
+import {chartIncidences, chartAssemblies} from 'src/app/interfaces/lab/charts.interface';
 ////////////////////////////////////////////
 @Component({
   selector: 'app-charts',
@@ -107,11 +107,12 @@ export class ChartsComponent {
         label: 'Fecha de Salida',
         data: this.incidenceList.outTime.data,
         backgroundColor: [
-          'rgba(49, 94, 243, 1)',
-          'rgba(60, 235, 54, 1)'
+          'rgba(50, 86, 248, 1)','',
+          'rgba(55, 228, 49, 1)'
         ],
         hoverOffset: 2
       }]
+
     }
     const warrantyData = {
       labels:this.incidenceList.warranty.labels,
