@@ -14,10 +14,11 @@ export class DetailViewComponent {
     module: {
       name: '',
       serial: '',
-      instalationDate: '',
+      installationDate: '',
       warrantyTime: 0,
       estimatedRepairTime: 0,
-      estimatedOutTime: 0
+      estimatedOutTime: 0,
+      warrantyDate: ''
     },
     equipment: '',
     sticker:'',

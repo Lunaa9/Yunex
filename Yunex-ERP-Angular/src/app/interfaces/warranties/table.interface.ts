@@ -4,11 +4,12 @@ export interface TableIndices {
     serial: string,
     status: string,
     approved:boolean,
-    client: string,
+    city: string,
     warranty: string,
     expectedOutDate: string,
     outDateCompliance: boolean,
     repairTimeCompliance: boolean,
-    technician: string,
-    sticker: string
+    sticker: string,
+    repairProcedure?: string;
+    activity?: string;
 }

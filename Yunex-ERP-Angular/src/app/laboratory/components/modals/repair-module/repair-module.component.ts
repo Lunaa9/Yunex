@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'app-repair-module',
@@ -6,5 +6,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./repair-module.component.css']
 })
 export class RepairModuleComponent {
+
+  @Output() moduleCreated = new EventEmitter<any>();
+
+  onModuleCreated(event: any) {
+    this.moduleCreated.emit(event);
+  }
 
 }

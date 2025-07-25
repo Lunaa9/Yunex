@@ -6,7 +6,7 @@ import ModuleModel from "../../models/lab/module.model";
  * @param module module {
  *  name: string,
  *  serial: string
- *  instalationDate: string,
+ *  installationDate: string,
  *  warrantyTime:number,
  *  estimatedRepairTime:number,
  *  estimatedOutTime:number,
@@ -30,7 +30,7 @@ const createModuleService = async (module: Module) => {
  * @param module module {
  *  name: string,
  *  serial: string
- *  instalationDate: string,
+ *  installationDate: string,
  *  warrantyTime:number,
  *  estimatedRepairTime:number,
  *  estimatedOutTime:number,

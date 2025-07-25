@@ -19,10 +19,11 @@ export class AuthRepairComponent {
     module: {
       name: '',
       serial: '',
-      instalationDate: '',
+      installationDate: '',
       warrantyTime: 0,
       estimatedRepairTime: 0,
       estimatedOutTime: 0,
+      warrantyDate: '',
     },
     equipment: '',
     sticker:'',

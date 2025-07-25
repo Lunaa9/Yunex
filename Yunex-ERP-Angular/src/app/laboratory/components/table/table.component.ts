@@ -1,11 +1,15 @@
 import { LiveAnnouncer } from '@angular/cdk/a11y';
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, Input } from '@angular/core';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatDialog } from '@angular/material/dialog';
 import { TableService } from '../../services/table.service';
 import { TableIndices } from 'src/app/interfaces/warranties/table.interface';
+import * as bootstrap from 'bootstrap';
+
+
+
 import {
   animate,
   state,
@@ -17,8 +21,11 @@ import Swal from 'sweetalert2';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { User } from 'src/app/interfaces/users/user.interface';
 import { LabIncidence } from 'src/app/interfaces/lab/labIncidence.interface';
-import { ExporterServices } from '../../services/exported.service'
-import { ExcelLab } from 'src/app/interfaces/lab/excelLab.interface';
+import { ExporterServices } from '../../services/exported.service'      
+import { ExcelLab } from 'src/app/interfaces/lab/excelLab.interface'; 
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
+
 
 @Component({
   selector: 'app-table-repair',
@@ -43,7 +50,18 @@ export class TableComponent {
   labChief: boolean = true;
   incidenceToPass!: LabIncidence;
   viewMode: 'view' | 'edit' | 'auth' | null = null;
+  @Input() serial: string = '';
+  @Input() modulo: string = '';
+  @Input() city: string = '';
+  modules: any[] = [];
 
+  addModuleToList(module: any) {
+    this.modules.push(module);
+  }
+
+  onModuleCreated(event: any) {
+    this.addModuleToList(event);
+  }
 
   constructor(
     private _liveAnnouncer: LiveAnnouncer,
@@ -62,6 +80,38 @@ export class TableComponent {
    * This function test if the user is the lab manager to show the correct functions
    * @returns boolean if the user is a LAB MANAGER
    */
+
+  downloadPDF(): void {
+    const doc = new jsPDF();
+    doc.setFontSize(14);
+    doc.text('Reporte de Reparaciones', 14, 15);
+  
+    const filteredData = this.dataSource.filteredData;
+    this.dataSource.filteredData
+
+
+  
+    const tableData = filteredData.map((item: any) => [
+      item.ticket || '',
+      item.city || '',
+      item.repairProcedure || '',
+      item.activity || ''
+    ]);
+  
+    autoTable(doc, {
+      startY: 20,
+      head: [['Ticket', 'Ciudad', 'Procedimiento de reparación', 'Actividad']],
+      body: tableData,
+      styles: { fontSize: 10 },
+      headStyles: { fillColor: [41, 128, 185] },
+    });
+    const ciudad = this.dataSource.filteredData.length > 0 ? this.dataSource.filteredData[0].city : 'Desconocida';
+    const fecha = new Date().toISOString().split('T')[0];
+    
+    doc.save(`Reporte_${ciudad}_${fecha}.pdf`);
+  }
+  
+  
   checkUser(): boolean {
     const user: User = this.authService.getUser();
     const response = user.rol === 'LAB MANAGER' ? true : false;
@@ -72,20 +122,26 @@ export class TableComponent {
   async getTableContent(): Promise<void> {
     try {
       const data: TableIndices[] = await this.tableService.getIncidences();
-      if (data) {
-        this.dataSource = new MatTableDataSource(data);
-        this.dataSource.sort = this.sort;
-        this.dataSource.paginator = this.paginator;
   
-        //FILTRA POR TICKET 
-        this.dataSource.filterPredicate = (data: TableIndices, filter: string) => {
-          return data.ticket.toLowerCase().includes(filter);
-        };
-      }
+      // Asegurar que todos los objetos tienen los campos que quieres exportar
+      const normalizedData = data.map(item => ({
+        ...item,
+        repairProcedure: item.repairProcedure || '',
+        activity: item.activity || ''
+      }));
+  
+      this.dataSource = new MatTableDataSource(normalizedData);
+      this.dataSource.sort = this.sort;
+      this.dataSource.paginator = this.paginator;
+  
+      this.dataSource.filterPredicate = (data: TableIndices, filter: string) => {
+        return data.ticket.toLowerCase().includes(filter) || data.city.toLowerCase().includes(filter);
+      };
     } catch (error) {
       console.error("Error fetching incidences:", error);
     }
   }
+  
   
   @ViewChild(MatPaginator)
   paginator!: MatPaginator;
@@ -181,6 +237,12 @@ export class TableComponent {
       this.incidenceToPass = incidence;
       this.viewMode = 'auth';
       this.tableService.show = true;
+
+      const modalElement = document.getElementById('modalauth');
+    if (modalElement) {
+      const modal = new bootstrap.Modal(modalElement);
+      modal.show();
+    }
     }
   }
 
@@ -188,9 +250,15 @@ export class TableComponent {
    * This function aplies the filter to the table
    * @param event
    */
+
+  showDownloadBtn = false;
   applyFilter(event: Event): void {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
+
+    // Actualiza la visibilidad del botón según el resultado del filtro
+    this.showDownloadBtn = this.dataSource.filteredData.length > 0;
+    
   }
   exportAsXLSX(): void {
   // Si tienes un servicio de exportación

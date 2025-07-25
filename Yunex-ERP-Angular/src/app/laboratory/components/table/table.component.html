@@ -1,283 +1,159 @@
 <app-layout-lab>
-<!-- Principal container -->
-<div class="container-fluid p-2 text-center bg-gray rounded-4" style="background-color: #e2edf300">
-  <!-- Options container -->
-  <div
-    class="d-flex bg-gray justify-content-between flex-column flex-sm-row flex-md-row flex-lg-row flex-xl-row align-content-center"
-  >
-  
-  <div class="m-4">
-    <button class="btn btn-primary " (click)="exportAsXLSX()">
-      <img src="../../../../assets/img/filetype-xlsx.svg" class="me-1" >
-      Descargar
-    </button>
+  <div class="container-fluid p-4" style="border-radius: 1rem;">
+    
+    <!-- Contenedor de opciones -->
+    <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
+      <!-- Botones de acciones -->
+      <div class="d-flex flex-wrap align-items-center gap-2">
+        <button class="btn btn-primary d-flex align-items-center" (click)="exportAsXLSX()">
+          <img src="../../../../assets/img/filetype-xlsx.svg" class="me-2" style="width: 20px;">
+          Descargar Excel
+        </button>
+
+        <app-repair-module (moduleCreated)="onModuleCreated($event)"></app-repair-module>
+      </div>
+
+      <!-- Filtro -->
+      <mat-form-field appearance="outline" class="m-0">
+        <mat-label>Filtrar por ticket y ciudad</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Ej. L-123, Lima" />
+      </mat-form-field>
+
+      <button
+        *ngIf="showDownloadBtn"
+        mat-raised-button
+        color="primary"
+        (click)="downloadPDF()"
+      >
+        Descargar PDF
+      </button>
+    </div>
+
+    <!-- Tabla -->
+    <section class="table-container rounded p-2" tabindex="0">
+      <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)">
+        <!-- Columnas dinámicas -->
+        <ng-container matColumnDef="ticket">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Ticket</th>
+          <td mat-cell *matCellDef="let element">{{ element.ticket }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="moduleName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Módulo</th>
+          <td mat-cell *matCellDef="let element">{{ element.moduleName }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="sticker">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Sticker</th>
+          <td mat-cell *matCellDef="let element">{{ element.sticker }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="serial">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Serial</th>
+          <td mat-cell *matCellDef="let element">{{ element.serial }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Estado</th>
+          <td mat-cell *matCellDef="let element">{{ element.status }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="approved">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Aprobado</th>
+          <td mat-cell *matCellDef="let element">
+            <span class="badge bg-success" *ngIf="element.approved">Sí</span>
+            <span class="badge bg-danger" *ngIf="!element.approved">No</span>
+          </td>
+        </ng-container>
+
+          <ng-container matColumnDef="city">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Ciudad</th>
+            <td mat-cell *matCellDef="let element">{{ element.city }}</td>
+          </ng-container>
+
+        <ng-container matColumnDef="warranty">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Garantía</th>
+          <td mat-cell *matCellDef="let element">
+            <span class="badge bg-info text-dark">{{ element.warranty }}</span>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="expectedOutDate">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha de registro</th>
+          <td mat-cell *matCellDef="let element">{{ element.expectedOutDate }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="outDateCompliance">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha de salida</th>
+          <td mat-cell *matCellDef="let element">
+            <span class="text-success fw-bold" *ngIf="element.outDateCompliance">Sí</span>
+            <span class="text-danger fw-bold" *ngIf="!element.outDateCompliance">No</span>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="repairTimeCompliance">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Tiempo de reparación</th>
+          <td mat-cell *matCellDef="let element">
+            <span class="text-success fw-bold" *ngIf="element.repairTimeCompliance">Sí</span>
+            <span class="text-danger fw-bold" *ngIf="!element.repairTimeCompliance">No</span>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="technician">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Técnico</th>
+          <td mat-cell *matCellDef="let element">{{ element.technician }}</td>
+        </ng-container>
+
+        <!-- Opciones -->
+        <ng-container matColumnDef="options" stickyEnd>
+          <th mat-header-cell *matHeaderCellDef>Opciones</th>
+          <td mat-cell *matCellDef="let element">
+            <div class="d-flex flex-row justify-content-center gap-2">
+              <button class="btn btn-primary btn-sm p-1 px-2" (click)="view(element.ticket)">
+                <img src="../../../../assets/img/eye.svg" style="width: 18px;">
+              </button>
+              <button *ngIf="labChief" class="btn btn-warning btn-sm p-1 px-2" (click)="edit(element.ticket)">
+                <img src="../../../../assets/img/pencil-square.svg" style="width: 18px;">
+              </button>
+              <button *ngIf="labChief" class="btn btn-danger btn-sm p-1 px-2" (click)="delete(element.ticket)">
+                <img src="../../../../assets/img/bag-x.svg" style="width: 18px;">
+              </button>
+              <button
+                *ngIf="labChief && (element.approved === false && (element.status === 'repaired' || element.status === 'irreparable'))"
+                class="btn btn-secondary btn-sm p-1 px-2"
+                (click)="repare(element.ticket)">
+                <img src="../../../../assets/img/check-square.svg" style="width: 18px;">
+              </button>
+            </div>
+          </td>
+        </ng-container>
+
+        <!-- Filas -->
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+    </section>
+
+    <!-- Paginador abajo a la izquierda -->
+    <div class="mt-3">
+      <mat-paginator
+        class="mat-paginator"
+        style="width: fit-content;"
+        [pageSizeOptions]="[10, 20, 30]"
+        showFirstLastButtons
+        aria-label="Selector de página">
+      </mat-paginator>
+    </div>
+
+    <!-- Detalle dinámico -->
+    <div *ngIf="tableService.show && viewMode === 'view'">
+      <app-detail-view [incidenceToShow]="incidenceToPass"></app-detail-view>
+    </div>
+    <div *ngIf="tableService.show && viewMode === 'edit'">
+      <app-edit-view [incidenceToShow]="incidenceToPass"></app-edit-view>
+    </div>
+    <div *ngIf="tableService.show && viewMode === 'auth'">
+      <app-auth-repair [incidenceToShow]="incidenceToPass"></app-auth-repair>
+    </div>
   </div>
-
-    <!-- Create incidence button -->
-  <div class="m-2 ms-sm-2 mt-4 ms-md-5 mb-1 ms-lg-5 ms-xl-5">
-    <app-repair-module></app-repair-module>
-  </div>
-
-    <!-- Filter box -->
-    <mat-form-field class="m-2 ms-sm-2 mt-3 ms-md-5 mb-1 ms-lg-5 ms-xl-5">
-      <mat-label>Filtrar por ticket</mat-label>
-      <input
-        matInput
-        (keyup)="applyFilter($event)"
-        placeholder="Ej. L-123"
-      />
-    </mat-form-field>
-
-    <!-- Paginator options -->
-    <mat-paginator
-      [pageSizeOptions]="[10, 20, 30]"
-      showFirstLastButtons
-      aria-label="Select page of periodic elements"
-    >
-    </mat-paginator>
-  </div>
-  <!-- Table section -->
-  <section class="table-container mat-elevation-z8" tabindex="0">
-    <!-- Table -->
-    <table
-      mat-table
-      [dataSource]="dataSource"
-      matSort
-      (matSortChange)="announceSortChange($event)"
-    >
-      <!-- Tickiet column -->
-      <ng-container matColumnDef="ticket" relative>
-        <th
-          mat-header-cell
-          *matHeaderCellDef
-          mat-sort-header
-          sortActionDescription="Sort by ticket"
-        >
-          Ticket
-        </th>
-        <td mat-cell *matCellDef="let element" >{{ element.ticket }}</td>
-      </ng-container>
-
-      <!-- ModuleName column -->
-      <ng-container matColumnDef="moduleName">
-        <th
-          mat-header-cell
-          *matHeaderCellDef
-          mat-sort-header
-          sortActionDescription="Sort by moduleName"
-        >
-          Modulo
-        </th>
-        <td mat-cell *matCellDef="let element" >{{ element.moduleName }}</td>
-      </ng-container>
-
-       <!-- ModuleSticker column -->
-       <ng-container matColumnDef="sticker">
-        <th
-          mat-header-cell
-          *matHeaderCellDef
-          mat-sort-header
-          sortActionDescription="Sort by sticker"
-        >
-          Sticker
-        </th>
-        <td mat-cell *matCellDef="let element" >{{ element.sticker }}</td>
-      </ng-container>
-
-      <!-- Serial column -->
-      <ng-container matColumnDef="serial">
-        <th
-          mat-header-cell
-          *matHeaderCellDef
-          mat-sort-header
-          sortActionDescription="Sort by serial"
-        >
-          Serial
-        </th>
-        <td mat-cell *matCellDef="let element">{{ element.serial }}</td>
-      </ng-container>
-
-      <!-- Status column -->
-      <ng-container matColumnDef="status">
-        <th
-          mat-header-cell
-          *matHeaderCellDef
-          mat-sort-header
-          sortActionDescription="Sort by status"
-        >
-          Estado
-        </th>
-        <td mat-cell *matCellDef="let element">{{ element.status }}</td>
-      </ng-container>
-
-      <!-- approved column -->
-      <ng-container matColumnDef="approved">
-        <th
-          mat-header-cell
-          *matHeaderCellDef
-          mat-sort-header
-          sortActionDescription="Sort by approved"
-        >
-          Aprobado
-        </th>
-        <td mat-cell *matCellDef="let element"><p *ngIf="element.approved">Si</p><p *ngIf="!element.approved">No</p></td>
-      </ng-container>
-
-      <!-- Client column -->
-      <ng-container matColumnDef="client">
-        <th
-          mat-header-cell
-          *matHeaderCellDef
-          mat-sort-header
-          sortActionDescription="Sort by client"
-        >
-          Cliente
-        </th>
-        <td mat-cell *matCellDef="let element">{{ element.client }}</td>
-      </ng-container>
-
-      <!-- warranty -->
-      <ng-container matColumnDef="warranty">
-        <th
-          mat-header-cell
-          *matHeaderCellDef
-          mat-sort-header
-          sortActionDescription="Sort by warranty"
-        >
-          Garantia
-        </th>
-        <td mat-cell *matCellDef="let element"><p *ngIf="element.warranty==='Si'">Si</p><p *ngIf="element.warranty==='No'">No</p></td>
-      </ng-container>
-
-      <!-- expected out date column -->
-      <ng-container matColumnDef="expectedOutDate">
-        <th
-          mat-header-cell
-          *matHeaderCellDef
-          mat-sort-header
-          sortActionDescription="Sort by expectedOutDate"
-        >
-          FES
-        </th>
-        <td mat-cell *matCellDef="let element">
-          {{ element.expectedOutDate }}
-        </td>
-      </ng-container>
-
-      <!-- out date compliance column -->
-      <ng-container matColumnDef="outDateCompliance">
-        <th
-          mat-header-cell
-          *matHeaderCellDef
-          mat-sort-header
-          sortActionDescription="outDateCompliance"
-        >
-          CFS
-        </th>
-        <td mat-cell *matCellDef="let element">
-          <p *ngIf="element.outDateCompliance">Si</p><p *ngIf="!element.outDateCompliance">No</p>
-        </td>
-      </ng-container>
-
-      <!-- repair time compliance column -->
-      <ng-container matColumnDef="repairTimeCompliance">
-        <th
-          mat-header-cell
-          *matHeaderCellDef
-          mat-sort-header
-          sortActionDescription="Sort by repairTimeCompliance"
-        >
-          CTR
-        </th>
-        <td mat-cell *matCellDef="let element">
-          <p *ngIf="element.repairTimeCompliance">Si</p><p *ngIf="!element.repairTimeCompliance">No</p>
-        </td>
-      </ng-container>
-
-      <!-- repair technician column -->
-      <ng-container matColumnDef="technician">
-        <th
-          mat-header-cell
-          *matHeaderCellDef
-          mat-sort-header
-          sortActionDescription="Sort by technician"
-        >
-          Tecnico
-        </th>
-        <td mat-cell *matCellDef="let element">{{ element.technician }}</td>
-      </ng-container>
-      
-      <!-- Options column -->
-      <ng-container matColumnDef="options" stickyEnd>
-        <th
-          mat-header-cell
-          *matHeaderCellDef
-          mat-sort-header
-          sortActionDescription="Sort by options"
-        >
-          Opciones
-        </th>
-        <td mat-cell *matCellDef="let element">
-          <div class="container-fluid d-flex">
-            <!-- more info button -->
-          <div>
-            <button
-              type="button"
-              class="btn btn-primary me-1 p-0 ps-1 pe-1"
-              (click)="view(element.ticket)"
-            >
-              <img class="" src="../../../../assets/img/eye.svg">
-            </button>
-          </div>
-          <div *ngIf="labChief">
-            <!-- edit button -->
-            <button
-              type="button"
-              class="btn btn-warning me-1 p-0 ps-1 pe-1"
-              (click)="edit(element.ticket)"
-            >
-            <img class="" src="../../../../assets/img/pencil-square.svg">
-            </button>
-          </div>
-          <div *ngIf="labChief">
-            <!-- delete button -->
-            <button
-              type="button"
-              class="btn btn-danger p-0 ps-1 pe-1 me-1"
-              (click)="delete(element.ticket)"
-            >
-            <img class="" src="../../../../assets/img/bag-x.svg">
-            </button>
-          </div>
-          <div *ngIf="labChief && (element.approved === false && (element.status === 'repaired' || element.status === 'irreparable'))">
-            <!-- repair button -->
-            <button
-              type="button"
-              class="btn btn-secondary p-0  ps-1 pe-1"
-              (click)="repare(element.ticket)"
-            >
-              <img class="" src="../../../../assets/img/check-square.svg">
-            </button>
-          </div>
-          </div>
-        </td>
-      </ng-container>
-
-      <!-- Table options -->
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-    </table>
-  </section>
-  <div *ngIf="tableService.show && viewMode === 'view'">
-    <app-detail-view [incidenceToShow]="incidenceToPass"></app-detail-view>
-  </div>
-  
-  <div *ngIf="tableService.show && viewMode === 'edit'">
-    <app-edit-view [incidenceToShow]="incidenceToPass"></app-edit-view>
-  </div>
-  <div *ngIf="tableService.show && viewMode === 'auth'">
-    <app-auth-repair [incidenceToShow]="incidenceToPass"></app-auth-repair>
-  </div>
-</div>
 </app-layout-lab>
-

@@ -22,12 +22,11 @@ export class TableService {
       serial: '',
       status: '',
       approved:false,
-      client: '',
+      city: '',
       warranty: '',
       expectedOutDate: '',
       outDateCompliance: false,
       repairTimeCompliance: false,
-      technician: '',
     };
     let response: string[] = Object.keys(indices);
     response.push('options');
@@ -50,12 +49,14 @@ export class TableService {
             serial: incidence.module.serial,
             status: incidence.status,
             approved:incidence.approved,
-            client: incidence.client,
+            city: incidence.city,
             warranty: incidence.warranty,
             expectedOutDate: incidence.expectedOutDate,
             outDateCompliance: incidence.outDateCompliance,
             repairTimeCompliance: incidence.repairTimeCompliance,
-            technician: incidence.repairTechnician,
+            repairProcedure: incidence.repairProcedure || '',
+            activity: incidence.activity || ''
+            
           };
           this.loading = false;
           return newIncidence;

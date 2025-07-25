@@ -11,7 +11,7 @@ const moduleSchema = new Schema({
         required: true,
         unique: true
     },
-    instalationDate:{ // Module's instalacion date or to calculate the warranty time
+    installationDate:{ // Module's instalacion date or to calculate the warranty time
         type: String,
         required: false,
         default: ""

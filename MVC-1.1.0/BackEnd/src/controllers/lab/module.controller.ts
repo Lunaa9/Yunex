@@ -13,7 +13,7 @@ import {
  * @param param0 { module: {
  *  name: string,
  *  serial: string
- *  instalationDate: string,
+ *  installationDate: string,
  *  warrantyTime:number,
  *  estimatedRepairTime:number,
  *  estimatedOutTime:number,
@@ -38,7 +38,7 @@ export const createModule = async ({ body }: Request, res: Response) => {
  * @param param0 { module: {
  *  name: string,
  *  serial: string
- *  instalationDate: string,
+ *  installationDate: string,
  *  warrantyTime:number,
  *  estimatedRepairTime:number,
  *  estimatedOutTime:number,

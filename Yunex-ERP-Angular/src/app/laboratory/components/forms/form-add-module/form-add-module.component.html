@@ -8,22 +8,27 @@
             </div>
             <div class="card-body">
               <div class="form-floating mb-3">
-                <input 
-                    type="text" 
-                    class="form-control" 
-                    id="name"
-                    name="name" 
-                    placeholder="Module1" 
-                    [(ngModel)]="incidence.module.name"
-                    required
-                    #name="ngModel"
-                    [ngClass]="{'is-invalid': name.invalid && (name.dirty || name.touched)}"
+                <select 
+                  class="form-select" 
+                  id="module"
+                  name="module"
+                  [(ngModel)]="incidence.module"
+                  (ngModelChange)="setReparTime($event)"
+                  required
+                  #module="ngModel"
+                  [ngClass]="{'is-invalid': module.invalid && (module.dirty || module.touched)}"
                 >
-                <label for="name">Nombre del módulo</label>
-                <div *ngIf="name.invalid && (name.dirty || name.touched)" class="invalid-feedback">
-                    Ingrese el nombre del módulo
+                  <option value="" disabled>Seleccione un módulo</option>
+                  <option *ngFor="let module of moduleNames" [value]="module.module">{{ module.module}}</option>
+                </select>
+                <label for="module">Nombre del módulo</label>
+              
+                <div *ngIf="module.invalid && (module.dirty || module.touched)" class="invalid-feedback">
+                  Ingrese el nombre del módulo
                 </div>
               </div>
+            </div>
+            
               <div class="form-floating mb-3">
                 <input 
                     type="text" 
@@ -31,7 +36,7 @@
                     id="serial"
                     name="serial" 
                     placeholder="Serial" 
-                    [(ngModel)]="incidence.module.serial"
+                    [(ngModel)]="incidence.serial"
                     required
                     #serial="ngModel"
                     [ngClass]="{'is-invalid': serial.invalid && (serial.dirty || serial.touched)}"
@@ -43,18 +48,19 @@
               </div>
               <div class="form-floating mb-3">
                 <input 
-                    type="date" 
-                    class="form-control" 
-                    id="instalationDate"
-                    name="instalationDate" 
-                    placeholder="Fecha de instalación" 
-                    [(ngModel)]="incidence.module.instalationDate"
-                    required
-                    #instalationDate="ngModel"
-                    [ngClass]="{'is-invalid': instalationDate.invalid && (instalationDate.dirty || instalationDate.touched)}"
-                >
-                <label for="instalationDate">Fecha de instalación del módulo</label>
-                <div *ngIf="instalationDate.invalid && (instalationDate.dirty || instalationDate.touched)" class="invalid-feedback">
+
+                    type="date"
+                    class="form-control"
+                    id="installationDate"
+                    name="installationDate"
+                    [(ngModel)]="incidence.installationDate"
+                    placeholder="Fecha de instalación"
+                    #installationDate="ngModel"
+                    [ngClass]="{'is-invalid': installationDate.invalid && (installationDate.dirty || installationDate.touched)}"
+                />
+
+                <label for="installationDate">Fecha de instalación del módulo</label>
+                <div *ngIf="installationDate.invalid && (installationDate.dirty || installationDate.touched)" class="invalid-feedback">
                     Ingrese la fecha de instalación del módulo
                 </div>
               </div> 
@@ -65,7 +71,7 @@
                     id="warrantyTime"
                     name="warrantyTime" 
                     placeholder="Tiempo de garantía" 
-                    [(ngModel)]="incidence.module.warrantyTime"
+                    [(ngModel)]="incidence.warrantyTime"
                     required
                     #warrantyTime="ngModel"
                     [ngClass]="{'is-invalid': warrantyTime.invalid && (warrantyTime.dirty || warrantyTime.touched)}"
@@ -77,20 +83,18 @@
               </div>
               <div class="form-floating mb-3">
                 <input 
-                    type="number" 
+                    
                     class="form-control" 
                     id="estimatedRepairTime"
                     name="estimatedRepairTime" 
                     placeholder="Tiempo estimado de reparación" 
-                    [(ngModel)]="incidence.module.estimatedRepairTime"
-                    required
+                    [(ngModel)]="incidence.estimatedRepairTime"
+                    placeholder="Tiempo estimado de reparación" 
                     #estimatedRepairTime="ngModel"
-                    [ngClass]="{'is-invalid': estimatedRepairTime.invalid && (estimatedRepairTime.dirty || estimatedRepairTime.touched)}"
+                    readonly
                 >
                 <label for="estimatedRepairTime">Tiempo estimado de reparación del módulo (Horas)</label>
-                <div *ngIf="estimatedRepairTime.invalid && (estimatedRepairTime.dirty || estimatedRepairTime.touched)" class="invalid-feedback">
-                    Ingrese el tiempo estimado de reparación del módulo
-                </div>
+                
               </div>
             </div>
           </div>
@@ -108,12 +112,12 @@
                     id="estimatedOutTime"
                     name="estimatedOutTime" 
                     placeholder="Tiempo estimado de salida" 
-                    [(ngModel)]="incidence.module.estimatedOutTime"
-                    required
+                    [(ngModel)]="incidence.estimatedOutTime"
+                    
                     #estimatedOutTime="ngModel"
                     [ngClass]="{'is-invalid': estimatedOutTime.invalid && (estimatedOutTime.dirty || estimatedOutTime.touched)}"
                 >
-                <label for="estimatedOutTime">Tiempo estimado de salida del módulo (Días)</label>
+                <label for="estimatedOutTime">Tiempo estimado de salida del módulo </label>
                 <div *ngIf="estimatedOutTime.invalid && (estimatedOutTime.dirty || estimatedOutTime.touched)" class="invalid-feedback">
                     Ingrese el tiempo estimado de salida del módulo
                 </div>
@@ -285,12 +289,10 @@
             </div>
           </div>
         </div>
-      </div>
       <div class="d-grid mt-4" style="justify-content: end;">
-        <button type="button" class="btn btn-success" (click)="handleSubmit(Form.value)" [disabled]="Form.invalid">
+        <button type="button" class="btn btn-success" (click)="handleSubmit(Form.value)" [disabled]="Form.invalid"> 
           <i class="fas fa-check"></i> Aceptar
         </button>
       </div>
     </form>
   </div>
-  

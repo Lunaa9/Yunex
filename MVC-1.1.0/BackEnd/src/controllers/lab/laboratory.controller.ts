@@ -46,11 +46,12 @@ export const createLabModel = async ({body}: Request, res: Response) => {
     const { ...labModule } = body;
     if(labModule && labModule.ticket){
     const response = await createLabModelservice(labModule)
-      if(response === "repair sheet created correctly"){
-          res.status(200).send({ msg: "repair sheet created correctly" })
-        } else if (response === "Alredy repair sheet"){
-          res.status(401).send({ msg: "Already repair sheet" })
-        } 
+    if(response === "repair sheet created correctly") {
+      res.status(200).send({ msg: "repair sheet created correctly", data: labModule });
+    }
+      else if (response === "Alredy repair sheet"){
+      res.status(401).send({ msg: "Already repair sheet" })
+    } 
     } else {
       res.status(400).send({msg: "invalid labModule object"})
     }

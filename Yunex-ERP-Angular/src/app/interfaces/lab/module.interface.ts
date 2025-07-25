@@ -1,7 +1,8 @@
 export interface Module {
     name: string,
     serial: string,
-    instalationDate: string,
+    installationDate: string,
+    warrantyDate: string,
     warrantyTime:number,
     estimatedRepairTime:number,
     estimatedOutTime:number
